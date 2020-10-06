@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
   async login({commit}, payload) {
-    const response = await axiosInstance.post(`/login`, payload);
+    const response = await axiosInstance.post(`/v1.0/login`, payload);
     return response.data;
   },
   async recuperar({commit}, payload) {
@@ -24,7 +24,7 @@ const actions = {
       email: payload
     };
     console.log(jsonSend)
-    const response = await axiosInstance.put(`/user/recuperar`, jsonSend);
+    const response = await axiosInstance.put(`/v1.0/user/recuperar`, jsonSend);
     return response.data;
   }
 };
