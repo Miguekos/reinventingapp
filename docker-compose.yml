@@ -1,8 +1,7 @@
 # docker-compose.yml
 version: "2"
 services:
-  webapp_envios:
-#    image: quasarenvios:1.0
+  webappreinventing:
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,10 +12,12 @@ services:
     # - /Users/kbs/git/peladonerd/varios/1/www:/usr/share/nginx/html:ro
     # - //d/storeDocker/html:/usr/share/nginx/html:ro
     environment:
-      - VIRTUAL_HOST=tuenvioexpress.apps.com.pe,www.tuenvioexpress.apps.com.pe
-      - LETSENCRYPT_HOST=tuenvioexpress.apps.com.pe,www.tuenvioexpress.apps.com.pe
-      - LETSENCRYPT_EMAIL=kevin.silva.095@gmail.com
+      - VIRTUAL_HOST=dev.reinventing.com.pe,www.dev.reinventing.com.pe
+      - LETSENCRYPT_HOST=dev.reinventing.com.pe,www.dev.reinventing.com.pe
+      - LETSENCRYPT_EMAIL=miguekos1233@gmail.com
 networks:
   default:
     external:
       name: nginx-proxy_default
+
+
