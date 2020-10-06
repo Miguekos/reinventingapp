@@ -8,9 +8,10 @@
         <q-item-section side>
           <q-btn
             color="grey-4"
-            text-color="purple"
+            text-color="accent"
             unelevated
             icon="add_circle_outline"
+            @click="boton"
             label="Agregar"
           />
         </q-item-section>
@@ -29,6 +30,11 @@ export default {
   // name: 'ComponentName',
   data() {
     return {};
+  },
+  methods: {
+    boton() {
+      this.$emit("click");
+    }
   }
 };
 </script>

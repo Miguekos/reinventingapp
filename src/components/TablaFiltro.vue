@@ -1,9 +1,9 @@
 <template>
-  <q-page class="q-pa-sm">
+  <div class="q-pa-md">
     <q-card>
       <q-table
         title="Lista"
-        :data="data"
+        :data="info"
         :hide-header="mode === 'grid'"
         :columns="columns"
         row-key="name"
@@ -127,7 +127,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-  </q-page>
+  </div>
 </template>
 
 <script>
@@ -145,113 +145,13 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
+  props: ["info", "columns"],
   data() {
     return {
       filter: "",
       mode: "list",
       invoice: {},
       employee_dialog: false,
-      columns: [
-        {
-          name: "serial_no",
-          align: "left",
-          label: "Serial No.",
-          field: "serial_no",
-          sortable: true
-        },
-        {
-          name: "emp_id",
-          required: true,
-          label: "Employee Id",
-          align: "left",
-          field: "emp_id",
-          sortable: true
-        },
-        {
-          name: "name",
-          align: "left",
-          label: "Employee Name",
-          field: "name",
-          sortable: true
-        },
-        {
-          name: "salary_type",
-          align: "left",
-          label: "Salary Type",
-          field: "salary_type",
-          sortable: true
-        },
-        {
-          name: "basic_salary",
-          align: "left",
-          label: "Basic salary",
-          field: "basic_salary",
-          sortable: true
-        },
-        {
-          name: "overtime",
-          align: "left",
-          label: "Overtime",
-          field: "overtime",
-          sortable: true
-        },
-        {
-          name: "detail",
-          align: "left",
-          label: "Detail",
-          field: "detail",
-          sortable: true
-        },
-        {
-          name: "action",
-          align: "left",
-          label: "Action",
-          field: "action",
-          sortable: true
-        }
-      ],
-      data: [
-        {
-          serial_no: "01",
-          emp_id: "Emp 233",
-          name: "Leslie Tecklenburg",
-          basic_salary: "$ 4200",
-          salary_type: "Basic",
-          overtime: "$ 20"
-        },
-        {
-          serial_no: "02",
-          emp_id: "Emp 104",
-          name: "Lia Whitledge",
-          basic_salary: "$ 2550",
-          salary_type: "Basic",
-          overtime: "$ 40"
-        },
-        {
-          serial_no: "03",
-          emp_id: "Emp 345",
-          name: "Sam Wileman",
-          basic_salary: "$ 3800",
-          salary_type: "Basic",
-          overtime: "$ 90"
-        },
-        {
-          serial_no: "04",
-          emp_id: "Emp 345",
-          name: "Edgar Colmer",
-          basic_salary: "$ 4000",
-          salary_type: "Basic",
-          overtime: "$ 56"
-        },
-        {
-          serial_no: "05",
-          emp_id: "Emp 895",
-          name: "Kaiden Rozelle",
-          basic_salary: "$ 3200",
-          salary_type: "Basic",
-          overtime: "$ 23"
-        }
-      ],
       pagination: {
         rowsPerPage: 10
       }

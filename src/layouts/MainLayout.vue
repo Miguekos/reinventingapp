@@ -68,6 +68,22 @@
                 :key="link.title"
                 v-bind="link"
               />
+              <q-item
+                class="q-ma-sm navigation-item"
+                clickable
+                active-class="tab-active"
+                v-ripple
+                exact
+                @click="Logout()"
+              >
+                <q-item-section avatar>
+                  <q-icon name="logout" />
+                </q-item-section>
+
+                <q-item-section>
+                  <q-item-label>Salir</q-item-label>
+                </q-item-section>
+              </q-item>
             </q-list>
           </q-scroll-area>
         </div>
@@ -106,6 +122,25 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     };
+  },
+  methods: {
+    Logout() {
+      this.$q.loading.show();
+      this.$q.localStorage.clear();
+      // setTimeout(() => {
+      this.$router.push("/auth");
+      this.$q.notify({
+        // progress: true,
+        message: "Regresa pronto",
+        // icon: "favorite_border",
+        // icon: "favorite",
+        color: "white",
+        textColor: "blue-5",
+        position: "top"
+      });
+      this.$q.loading.hide();
+      // }, 2000);
+    }
   }
 };
 </script>
