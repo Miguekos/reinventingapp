@@ -2,13 +2,13 @@
   <div>
     <q-list separator>
       <q-item>
-        <q-item-section class="text-h5">
+        <q-item-section class="text-h5 text-primary">
           {{ titulo }}
         </q-item-section>
         <q-item-section side>
           <q-btn
             color="grey-4"
-            text-color="accent"
+            text-color="primary"
             unelevated
             icon="add_circle_outline"
             @click="boton"
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     boton() {
-      this.$emit("click");
+      this.$emit("click", 1);
     }
   }
 };

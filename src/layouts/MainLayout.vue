@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Reinventing App
+          Reinventing Admin
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -42,7 +42,6 @@
 
     <q-drawer
       class="left-navigation text-white"
-      show-if-above
       v-model="leftDrawerOpen"
       style="background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;"
       side="left"
@@ -111,6 +110,12 @@ const linksData = [
     caption: "github.com/quasarframework",
     icon: "directions_car",
     link: "/vehiculos"
+  },
+  {
+    title: "Personas",
+    caption: "github.com/quasarframework",
+    icon: "face",
+    link: "/personas"
   }
 ];
 
@@ -147,8 +152,8 @@ export default {
 <style>
 .q-drawer {
   /*background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;*/
-  background-image: url("../assets/images/lake.jpg") !important;
-  background-size: cover !important;
+  /*background-image: url("../assets/images/lake.jpg") !important;*/
+  /*background-size: cover !important;*/
 }
 
 .drawer_normal {

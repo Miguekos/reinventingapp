@@ -1,0 +1,230 @@
+<template>
+  <div>
+    <!--    <q-dialog v-model="$store.state.vehiculos.dialogCrear" position="top">-->
+    <q-dialog v-model="dialogCrear" persistent position="top">
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section class="row items-center">
+          <div>
+            <div class="text-h5">Agregar Vehiculos</div>
+          </div>
+        </q-card-section>
+        <q-separator />
+        <form @submit.prevent="onSubmit" @reset.prevent.stop="onReset">
+          <q-card-section class="row items-center q-gutter-sm">
+            <div class="col-12">
+              <q-input
+                dense
+                ref="placa"
+                filled
+                v-model="placa"
+                label="Placa"
+                hint="Ingresa tu DNI"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-select
+                filled
+                dense
+                @input="traerModelos"
+                v-model="marca"
+                :options="getMarcas"
+                option-label="no_marveh"
+                option-value="co_marveh"
+                emit-value
+                map-options
+                label="Marca"
+                hint="Ingresa Marca"
+              />
+            </div>
+            <div class="col-12">
+              <q-select
+                filled
+                dense
+                v-model="modelo"
+                :options="getModelosFilterMarca"
+                option-label="no_modveh"
+                option-value="co_modveh"
+                emit-value
+                map-options
+                label="Modelo"
+                hint="Ingresa tu Modelo"
+              />
+            </div>
+            <div class="col-12">
+              <q-select
+                filled
+                dense
+                v-model="versioncar"
+                :options="options"
+                label="Version"
+                hint="Ingresa tu Version"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="anio"
+                filled
+                v-model="anio"
+                label="Año *"
+                hint="Ingresa Año"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="color"
+                filled
+                v-model="color"
+                label="Color *"
+                hint="Ingresa Color"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="chasis"
+                filled
+                v-model="chasis"
+                label="Chasis *"
+                hint="Ingresa Chasis"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="motor"
+                filled
+                v-model="motor"
+                label="Motor *"
+                hint="Ingresa Motor"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn color="negative" @click="cerrarDialogCrearUser" outline
+              >Cerrar
+            </q-btn>
+            <q-btn color="warning" type="reset" outline>reset</q-btn>
+            <q-btn color="positive" type="submit" :loading="loadboton" outline
+              >Guardar</q-btn
+            >
+          </q-card-actions>
+        </form>
+      </q-card>
+    </q-dialog>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions, mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapState("vehiculos", ["dialogCrear"]),
+    ...mapGetters("marcas", ["getMarcas"]),
+    ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"])
+  },
+  name: "EditVehiculos",
+  data() {
+    return {
+      options: ["v1.1", "v1.2", "v1.3", "v1.4", "v1.4"],
+      loadboton: false,
+      placa: "",
+      marca: "",
+      modelo: "",
+      versioncar: "",
+      anio: "",
+      color: "",
+      chasis: "",
+      motor: ""
+    };
+  },
+  methods: {
+    ...mapActions("vehiculos", ["callVehiculosAdd", "callVehiculos"]),
+    ...mapActions("marcas", ["callMarcas"]),
+    ...mapActions("modelos", ["callModelosFilter", "callModelosFilterMarca"]),
+    async traerModelos(val) {
+      console.log("Buscando modelos");
+      await this.callModelosFilterMarca(val);
+    },
+    cerrarDialogCrearUser() {
+      this.$store.commit("vehiculos/dialogCrear", false);
+    },
+    async onResert() {
+      this.placa = "";
+      this.modelo = "";
+      this.anio = "";
+      this.chasis = "";
+      this.motor = "";
+      this.color = "";
+    },
+    async onSubmit() {
+      this.loadboton = true;
+      console.log("asdasdasd");
+      // this.$refs.username.validate();
+      // this.$refs.dni.validate();
+      // this.$refs.password.validate();
+      // this.$refs.nombre.validate();
+      // this.$refs.ape_pat.validate();
+      // this.$refs.ape_mat.validate();
+      //
+      // if (
+      //   this.$refs.username.hasError ||
+      //   this.$refs.dni.hasError ||
+      //   this.$refs.password.hasError
+      // ) {
+      //   this.formHasError = true;
+      //   console.log("es un error");
+      // } else {
+      try {
+        const responseAddUser = await this.callVehiculosAdd({
+          co_plaveh: this.placa,
+          co_modveh: this.modelo,
+          nu_anofab: this.anio,
+          nu_serveh: this.chasis,
+          nu_motveh: this.motor,
+          no_colveh: this.color
+        });
+        console.log("responseAddUser", responseAddUser);
+        if (responseAddUser.res == "ok") {
+          this.loadboton = false;
+          this.onResert();
+          this.$q.notify({
+            message: responseAddUser.message
+          });
+          this.callVehiculos("all");
+          this.$store.commit("vehiculos/dialogCrear", false);
+        } else if (responseAddUser.res == "ko") {
+          this.loadboton = false;
+          this.$q.notify({
+            message: `${responseAddUser.message} - verifique los campos`
+          });
+        }
+
+        // this.q$.notify({
+        //   message: responseAddUser
+        // });
+      } catch (e) {
+        this.loadboton = false;
+        this.onResert();
+        this.$q.notify({
+          message: "Error controlado"
+        });
+        console.log("se paso, en el excel");
+      }
+      // }
+    }
+  },
+  async created() {
+    await this.callMarcas("all");
+  }
+};
+</script>
+
+<style scoped></style>

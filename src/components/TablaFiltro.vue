@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-card>
       <q-table
-        title="Lista"
+        dense
         :data="info"
         :hide-header="mode === 'grid'"
         :columns="columns"
@@ -34,28 +34,31 @@
           >
             <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
               >{{
-                props.inFullscreen ? "Exit Fullscreen" : "Toggle Fullscreen"
+                props.inFullscreen
+                  ? "Sair Pantalla completa"
+                  : "Pantalla completa"
               }}
             </q-tooltip>
           </q-btn>
 
-          <q-btn
-            flat
-            round
-            dense
-            :icon="mode === 'grid' ? 'list' : 'grid_on'"
-            @click="
-              mode = mode === 'grid' ? 'list' : 'grid';
-              separator = mode === 'grid' ? 'none' : 'horizontal';
-            "
-            v-if="!props.inFullscreen"
-          >
-            <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
-              >{{ mode === "grid" ? "List" : "Grid" }}
-            </q-tooltip>
-          </q-btn>
+          <!--          <q-btn-->
+          <!--            flat-->
+          <!--            round-->
+          <!--            dense-->
+          <!--            :icon="mode === 'grid' ? 'list' : 'grid_on'"-->
+          <!--            @click="-->
+          <!--              mode = mode === 'grid' ? 'list' : 'grid';-->
+          <!--              separator = mode === 'grid' ? 'none' : 'horizontal';-->
+          <!--            "-->
+          <!--            v-if="!props.inFullscreen"-->
+          <!--          >-->
+          <!--            <q-tooltip :disable="$q.platform.is.mobile" v-close-popup-->
+          <!--              >{{ mode === "grid" ? "List" : "Grid" }}-->
+          <!--            </q-tooltip>-->
+          <!--          </q-btn>-->
 
           <q-btn
+            v-if="exportar"
             color="primary"
             icon-right="archive"
             label="Export to csv"
@@ -66,6 +69,7 @@
         <template v-slot:body-cell-detail="props">
           <q-td :props="props">
             <q-btn
+              size="sm"
               @click="employee_dialog = true"
               dense
               round
@@ -77,8 +81,14 @@
         <template v-slot:body-cell-action="props">
           <q-td :props="props">
             <div class="q-gutter-sm">
-              <q-btn dense color="primary" icon="edit" />
-              <q-btn dense color="red" icon="delete" />
+              <q-btn
+                dense
+                size="sm"
+                @click="editar(props.row)"
+                color="primary"
+                icon="edit"
+              />
+              <q-btn dense size="sm" color="red" icon="delete" />
             </div>
           </q-td>
         </template>
@@ -145,7 +155,7 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
-  props: ["info", "columns"],
+  props: ["info", "columns", "paginas", "exportar"],
   data() {
     return {
       filter: "",
@@ -153,11 +163,19 @@ export default {
       invoice: {},
       employee_dialog: false,
       pagination: {
-        rowsPerPage: 10
+        rowsPerPage: this.paginas
       }
     };
   },
   methods: {
+    editar(val) {
+      this.$store.commit("vehiculos/dataEdit", val);
+      this.$emit("click", 2);
+      console.log(val);
+      this.$q.notify({
+        message: val.co_plaveh
+      });
+    },
     exportTable() {
       // naive encoding to csv format
       const content = [this.columns.map(col => wrapCsvValue(col.label))]

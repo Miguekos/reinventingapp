@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!--    <q-dialog v-model="$store.state.usuarios.dialogCrear" position="top">-->
+    <!--    <q-dialog v-model="$store.state.vehiculos.dialogCrear" position="top">-->
     <q-dialog v-model="dialogCrear" persistent position="top">
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section class="row items-center">
           <div>
-            <div class="text-h5">Agregar Usuario</div>
+            <div class="text-h5">Agregar Vehiculos</div>
           </div>
         </q-card-section>
         <q-separator />
@@ -13,16 +13,7 @@
           <q-card-section class="row items-center q-gutter-sm">
             <div class="col-12">
               <q-input
-                ref="username"
-                filled
-                v-model="username"
-                label="Username *"
-                hint="Ingresa nombre de usuario"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col">
-              <q-input
+                dense
                 ref="dni"
                 filled
                 v-model="dni"
@@ -31,44 +22,89 @@
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
+            <div class="col-12">
               <q-input
-                ref="password"
+                dense
+                ref="nombres"
                 filled
-                type="text"
-                v-model="password"
-                label="Contraseña"
-                hint="Ingresa contraseña"
+                v-model="nombres"
+                label="Apellidos y Nombres *"
+                hint="Ingresa nombre de usuario"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
               <q-input
-                ref="nombres"
+                dense
+                ref="telefono"
                 filled
-                v-model="nombres"
-                label="Nombre Completo *"
+                v-model="telefono"
+                label="Telefono *"
                 hint="Ingresa nombre de usuario"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
+            <div class="col-12">
               <q-input
-                ref="ape_pat"
+                dense
+                ref="placa"
                 filled
-                v-model="ape_pat"
-                label="Apellido Paterno *"
-                hint="Apellido Paterno"
+                v-model="placa"
+                label="Placa *"
+                hint="Ingresa nombre de usuario"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
-              <q-input
-                ref="ape_mat"
+            <div class="col-12">
+              <q-select
                 filled
-                v-model="ape_mat"
-                label="Apellido Materno *"
-                hint="Apellido Materno"
+                dense
+                v-model="model"
+                :options="options"
+                label="Standard"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-select
+                filled
+                dense
+                v-model="model"
+                :options="options"
+                label="Standard"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="color"
+                filled
+                v-model="color"
+                label="Color *"
+                hint="Ingresa nombre de usuario"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="color"
+                filled
+                v-model="color"
+                label="Color *"
+                hint="Ingresa nombre de usuario"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                ref="color"
+                filled
+                v-model="color"
+                label="Color *"
+                hint="Ingresa nombre de usuario"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
@@ -93,11 +129,13 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState("usuarios", ["dialogCrear"])
+    ...mapState("vehiculos", ["dialogCrear"])
   },
-  name: "CrearUsuario",
+  name: "CreaVehiculos",
   data() {
     return {
+      model: null,
+      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
       loadboton: false,
       username: "",
       dni: "",
@@ -108,9 +146,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions("usuarios", ["callUsersAdd", "callUsers"]),
+    ...mapActions("vehiculos", ["callVehiculosAdd", "callVehiculos"]),
     cerrarDialogCrearUser() {
-      this.$store.commit("usuarios/dialogCrear", false);
+      this.$store.commit("vehiculos/dialogCrear", false);
     },
     async onResert() {
       this.username = "";
@@ -139,7 +177,7 @@ export default {
       //   console.log("es un error");
       // } else {
       try {
-        const responseAddUser = await this.callUsersAdd({
+        const responseAddUser = await this.callVehiculosAdd({
           codigo: null,
           id: this.username,
           password: this.password,
@@ -157,8 +195,8 @@ export default {
           this.$q.notify({
             message: responseAddUser.message
           });
-          this.callUsers("all");
-          this.$store.commit("usuarios/dialogCrear", false);
+          this.callVehiculos("all");
+          this.$store.commit("vehiculos/dialogCrear", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({

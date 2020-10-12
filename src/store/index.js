@@ -4,6 +4,10 @@ import Vuex from "vuex";
 // import example from './module-example'
 import auth from "./store-auth";
 import usuarios from "./usuarios";
+import vehiculos from "./vehiculos";
+import modelos from "./modelos";
+import marcas from "./marcas";
+import personas from "./personas";
 
 Vue.use(Vuex);
 
@@ -21,7 +25,11 @@ export default function(/* { ssrContext } */) {
     modules: {
       // example
       usuarios,
-      auth
+      auth,
+      vehiculos,
+      marcas,
+      modelos,
+      personas
     },
 
     // enable strict mode (adds overhead!)

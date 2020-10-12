@@ -1,7 +1,7 @@
 export default function() {
   return {
-    getUsers: [],
-    getUsersFilter: [],
+    getPersonas: [],
+    getPersonasFilter: [],
     dialogCrear: false
   };
 }
