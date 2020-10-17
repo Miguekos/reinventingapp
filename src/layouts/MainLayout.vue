@@ -52,7 +52,7 @@
         :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
       >
         <div style="height: calc(100% - 117px);padding:10px;">
-          <q-toolbar>
+          <q-toolbar class="cursor-pointer" @click="activarProfile">
             <q-avatar>
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
@@ -92,6 +92,40 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <q-dialog v-model="dialogPerfil">
+      <div style="width: 50%">
+        <q-card>
+          <q-card-section align="center">
+            <q-img
+              width="200px"
+              class="rounded-borders"
+              src="https://cdn.quasar.dev/img/boy-avatar.png"
+            />
+          </q-card-section>
+          <q-card-section>
+            <q-form class="q-gutter-md">
+              <q-input filled v-model="user.first_name" label="Nombres" />
+
+              <q-input
+                filled
+                v-model="user.last_name"
+                label="Apellido Paterno"
+              />
+
+              <q-input filled v-model="user.age" label="Apellido Materno" />
+
+              <q-input filled v-model="user.email" label="Usuario" />
+
+              <q-input filled v-model="user.phone" label="password" />
+
+              <div>
+                <q-btn label="Update" type="submit" color="primary" />
+              </div>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </div>
+    </q-dialog>
   </q-layout>
 </template>
 
@@ -121,14 +155,27 @@ const linksData = [
 
 export default {
   name: "MainLayout",
-  components: { EssentialLink },
+  components: { EssentialLink, Profile: () => import("pages/Profile") },
   data() {
     return {
+      user: {
+        first_name: "",
+        last_name: "",
+        age: null,
+        email: "",
+        phone: ""
+      },
+      dialogPerfil: false,
       leftDrawerOpen: false,
       essentialLinks: linksData
     };
   },
   methods: {
+    activarProfile() {
+      this.dialogPerfil = true;
+      const info = this.$q.localStorage.getAll();
+      console.log(info);
+    },
     Logout() {
       this.$q.loading.show();
       this.$q.localStorage.clear();

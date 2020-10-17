@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos @click="boton" titulo="Vehiculos" />
+      <Titulos color="green" @click="boton" titulo="Vehiculos" />
     </div>
     <q-separator color="green" />
     <!--    <div align="center">-->
@@ -9,6 +9,9 @@
     <!--    </div>-->
     <div v-if="getVehiculos" align="center">
       <TablaFiltro
+        order="co_vehicu"
+        color="green"
+        tool="vehiculos"
         @click="boton"
         :info="getVehiculos"
         :columns="columns"
@@ -17,11 +20,12 @@
         gridactivate="false"
       />
     </div>
-    <div v-if="activarCrear">
-      <DialogCrear :tipo="tipo" />
-    </div>
-    <div v-if="activarEdit">
-      <DialogCrear :tipo="tipo" />
+    <!--    <div v-if="activarCrear">-->
+    <!--    <div v-if="$store.state.vehiculos.dialogCrear">-->
+    <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
+    <!--    </div>-->
+    <div v-if="$store.state.vehiculos.dialogCrear">
+      <DialogCrear :tipo="tipo" :info="dataEdit" />
     </div>
     <!-- content -->
   </q-page>
@@ -35,7 +39,7 @@ export default {
     return {
       tipo: 1,
       dataEdit: {},
-      activarEdit: false,
+      dialogCrear: false,
       activarCrear: false,
       dialog: false,
       columns: [
@@ -100,13 +104,13 @@ export default {
       this.tipo = val;
       if (val === 1) {
         console.log("Boton en Vehiculos 1");
-        this.activarCrear = true;
+        this.dialogCrear = true;
         console.log("se preciono el boton");
         this.$store.commit("vehiculos/dialogCrear", true);
       } else if (val === 2) {
-        this.dataEdit = val;
+        this.dataEdit = this.$store.state.vehiculos.dataEdit;
         console.log("Boton en Vehiculos 2");
-        this.activarEdit = true;
+        this.dialogCrear = true;
         console.log("se preciono el boton");
         this.$store.commit("vehiculos/dialogCrear", true);
       }

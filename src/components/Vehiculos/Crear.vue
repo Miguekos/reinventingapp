@@ -1,13 +1,11 @@
 <template>
   <div>
-    <!--    <q-dialog v-model="$store.state.vehiculos.dialogCrear" position="top">-->
     <q-dialog v-model="dialogCrear" persistent position="top">
       <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw;">
         <q-card-section class="row items-center">
           <div>
             <div v-if="tipo == 1" class="text-h5">Agregar Vehiculos</div>
             <div v-else-if="tipo == 2" class="text-h5">Editar Vehiculos</div>
-            <!--            {{ dataEdit }}-->
           </div>
         </q-card-section>
         <q-separator />
@@ -20,7 +18,7 @@
                 filled
                 v-model="placa"
                 label="Placa"
-                hint="Ingresa tu DNI"
+                hint="Ingresa tu Placa"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
@@ -127,12 +125,20 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  props: ["tipo"],
+  props: ["tipo", "info"],
   computed: {
     ...mapState("vehiculos", ["dialogCrear", "dataEdit"]),
     ...mapGetters("vehiculos", ["getVehiculosFilter"]),
     ...mapGetters("marcas", ["getMarcas"]),
-    ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"])
+    ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"]),
+    foo: {
+      get() {
+        return this.dataEdit;
+      },
+      set(value) {
+        this.$store.commit("main/foo", value);
+      }
+    }
   },
   name: "CreaVehiculos",
   data() {
@@ -147,6 +153,7 @@ export default {
       anio: "",
       color: "",
       chasis: "",
+      co_vehicu: "",
       motor: ""
     };
   },
@@ -165,6 +172,7 @@ export default {
     },
     cerrarDialogCrearUser() {
       this.$store.commit("vehiculos/dialogCrear", false);
+      this.$store.commit("vehiculos/activarEdit", false);
     },
     async onResert() {
       this.placa = "";
@@ -177,7 +185,6 @@ export default {
     },
     async onSubmit() {
       this.loadboton = true;
-      console.log("asdasdasd");
       // this.$refs.username.validate();
       // this.$refs.dni.validate();
       // this.$refs.password.validate();
@@ -221,6 +228,7 @@ export default {
           }
         } else if (this.tipo == 2) {
           const responseAddUser = await this.callVehiculosUpdate({
+            co_vehicu: this.co_vehicu,
             co_plaveh: this.placa,
             co_modveh: this.modelo,
             nu_anofab: this.anio,
@@ -252,7 +260,7 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado"
+          message: `${e} - Error controlado`
         });
         console.log(e);
       }
@@ -260,25 +268,28 @@ export default {
     }
   },
   async mounted() {
-    console.log("aasdasdasd");
+    this.$q.loading.show();
+    console.log("mounted - crear - vehiculos");
     if (this.tipo == 2) {
-      console.log("estipo 2 2 2");
-      await this.callVehiculosFilter(this.dataEdit.co_plaveh);
-      console.log(this.getVehiculosFilter);
-      this.placa = this.getVehiculosFilter.co_plaveh;
-      this.marca = Number(this.getVehiculosFilter.co_marveh);
-      this.modelo = this.getVehiculosFilter.co_modveh;
-      this.anio = this.getVehiculosFilter.nu_anofab;
-      this.chasis = this.getVehiculosFilter.nu_serveh;
-      this.motor = this.getVehiculosFilter.nu_motveh;
-      this.color = this.getVehiculosFilter.no_colveh;
+      // await this.callVehiculosFilter(this.dataEdit.co_plaveh);
+      // console.log("this.getVehiculosFilter", this.dataEdit);
+      this.co_vehicu = this.dataEdit.co_vehicu;
+      this.placa = this.dataEdit.co_plaveh;
+      this.marca = Number(this.dataEdit.co_marveh);
+      this.modelo = this.dataEdit.co_modveh;
+      this.anio = this.dataEdit.nu_anofab;
+      this.chasis = this.dataEdit.nu_serveh;
+      this.motor = this.dataEdit.nu_motveh;
+      this.color = this.dataEdit.no_colveh;
       await this.callMarcas("all");
       this.mostrarFormulario = true;
+      this.$q.loading.hide();
     } else if (this.tipo == 1) {
       await this.callMarcas("all");
       this.mostrarFormulario = true;
+      this.$q.loading.hide();
     }
-
+    this.$q.loading.hide();
     // this.mostrarFormulario = true;
   }
 };

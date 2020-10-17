@@ -162,7 +162,12 @@ export default {
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddUser.message} - verifique los campos`
+            color: "bg-warning",
+            message: `${
+              responseAddUser.user.detail
+                ? responseAddUser.user.detail
+                : "Verifique los campos"
+            }`
           });
         }
 

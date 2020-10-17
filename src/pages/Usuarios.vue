@@ -1,14 +1,16 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos @click="boton" titulo="Usuarios" />
+      <Titulos color="primary" @click="boton" titulo="Usuarios" />
     </div>
-    <q-separator color="primary"/>
+    <q-separator color="primary" />
     <!--    <div align="center">-->
     <!--      <Filtros />-->
     <!--    </div>-->
-    <div align="center">
+    <div v-if="getUsers" align="center">
       <TablaFiltro
+        order="co_usuari"
+        color="primary"
         :info="getUsers"
         :columns="columns"
         paginas="15"
@@ -16,7 +18,7 @@
         gridactivate="false"
       />
     </div>
-    <div>
+    <div v-if="activarCrear">
       <DialogCrear :dialog="dialog" />
     </div>
     <!-- content -->
@@ -25,11 +27,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
 export default {
   name: "PageUsuario",
   data() {
     return {
+      activarCrear: false,
       dialog: false,
       columns: [
         {

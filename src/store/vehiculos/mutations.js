@@ -17,3 +17,7 @@ export function dialogEdit(state, payload) {
 export function dataEdit(state, payload) {
   state.dataEdit = payload;
 }
+
+export function activarEdit(state, payload) {
+  state.activarEdit = payload;
+}

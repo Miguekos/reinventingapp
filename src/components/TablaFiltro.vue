@@ -6,7 +6,7 @@
         :data="info"
         :hide-header="mode === 'grid'"
         :columns="columns"
-        row-key="name"
+        :row-key="order"
         :grid="mode == 'grid'"
         :filter="filter"
         :pagination.sync="pagination"
@@ -40,23 +40,6 @@
               }}
             </q-tooltip>
           </q-btn>
-
-          <!--          <q-btn-->
-          <!--            flat-->
-          <!--            round-->
-          <!--            dense-->
-          <!--            :icon="mode === 'grid' ? 'list' : 'grid_on'"-->
-          <!--            @click="-->
-          <!--              mode = mode === 'grid' ? 'list' : 'grid';-->
-          <!--              separator = mode === 'grid' ? 'none' : 'horizontal';-->
-          <!--            "-->
-          <!--            v-if="!props.inFullscreen"-->
-          <!--          >-->
-          <!--            <q-tooltip :disable="$q.platform.is.mobile" v-close-popup-->
-          <!--              >{{ mode === "grid" ? "List" : "Grid" }}-->
-          <!--            </q-tooltip>-->
-          <!--          </q-btn>-->
-
           <q-btn
             v-if="exportar"
             color="primary"
@@ -70,12 +53,26 @@
           <q-td :props="props">
             <q-btn
               size="sm"
-              @click="employee_dialog = true"
+              @click="employee_dialogActive(props.row)"
               dense
               round
               color="secondary"
               icon="pageview"
             />
+          </q-td>
+        </template>
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            <q-tooltip
+              v-if="tool == 'vehiculos'"
+              :content-class="`bg-${color}`"
+              content-style="font-size: 12px"
+              :offset="[10, 10]"
+            >
+              Motor: {{ props.row.nu_motveh }} <br />
+              Chasis: {{ props.row.nu_serveh }}
+            </q-tooltip>
+            {{ props.value }}
           </q-td>
         </template>
         <template v-slot:body-cell-action="props">
@@ -85,20 +82,24 @@
                 dense
                 size="sm"
                 @click="editar(props.row)"
-                color="primary"
+                color="warning"
                 icon="edit"
               />
-              <q-btn dense size="sm" color="red" icon="delete" />
             </div>
           </q-td>
         </template>
       </q-table>
     </q-card>
     <q-dialog v-model="employee_dialog">
-      <q-card class="my-card" flat bordered>
+      <q-card
+        class="my-card"
+        style="width: 100%;"
+        flat
+        bordered
+      >
         <q-card-section>
-          <div class="text-h6">
-            Employee Details
+          <div class="text-h5">
+            Detalle del Usuario
             <q-btn
               round
               flat
@@ -110,17 +111,26 @@
             ></q-btn>
           </div>
         </q-card-section>
-        <q-card-section horizontal>
+        <!--        {{ data_employee_dialog }}-->
+        <q-card-section
+          horizontal
+          class="justify-between"
+          style="height: 140px"
+        >
           <q-card-section class="q-pt-xs">
-            <div class="text-overline">US Region</div>
-            <div class="text-h5 q-mt-sm q-mb-xs">Mayank Patel</div>
+            <div class="text-h6 q-mt-sm q-mb-xs">
+              {{ data_employee_dialog.no_nombre }}
+              <span class="text-caption q-pb-md">
+                {{ data_employee_dialog.no_apepat }}
+                {{ data_employee_dialog.no_apemat }}</span
+              >
+            </div>
             <div class="text-caption text-grey">
-              Sales and Marketing Executive | Graduate and past committee |
-              Keynote speaker on Selling and Recruiting Topics
+              DNI | {{ data_employee_dialog.co_docide }} <br />
+              Usuario | {{ data_employee_dialog.no_usuari }} <br />
             </div>
           </q-card-section>
-
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section class="col-3">
             <q-img
               class="rounded-borders"
               src="https://cdn.quasar.dev/img/boy-avatar.png"
@@ -131,9 +141,7 @@
         <q-separator />
 
         <q-card-section>
-          Assessing clients needs and present suitable promoted products.
-          Liaising with and persuading targeted doctors to prescribe our
-          products utilizing effective sales skills.
+          Codigo de Usuario | {{ data_employee_dialog.co_usuari }}
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -155,21 +163,31 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
-  props: ["info", "columns", "paginas", "exportar"],
+  props: ["info", "columns", "paginas", "exportar", "color", "order", "tool"],
   data() {
     return {
       filter: "",
       mode: "list",
       invoice: {},
+      data_employee_dialog: {},
       employee_dialog: false,
       pagination: {
+        sortBy: this.order,
+        descending: true,
+        page: 1,
         rowsPerPage: this.paginas
       }
     };
   },
   methods: {
+    employee_dialogActive(val) {
+      console.log(val);
+      this.data_employee_dialog = val;
+      this.employee_dialog = true;
+    },
     editar(val) {
       this.$store.commit("vehiculos/dataEdit", val);
+      this.$store.commit("vehiculos/activarEdit", true);
       this.$emit("click", 2);
       console.log(val);
       this.$q.notify({

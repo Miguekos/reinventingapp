@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos @click="boton" titulo="Personas" />
+      <Titulos color="orange" @click="boton" titulo="Personas" />
     </div>
     <q-separator color="orange" />
     <!--    <div align="center">-->
@@ -9,6 +9,10 @@
     <!--    </div>-->
     <div v-if="getPersonas" align="center">
       <TablaFiltro
+        order="co_person"
+        color="orange"
+        tool="personas"
+        @click="boton"
         :info="getPersonas"
         :columns="columns"
         paginas="15"
@@ -16,8 +20,12 @@
         gridactivate="false"
       />
     </div>
-    <div v-if="activarCrear">
-      <DialogCrear :dialog="dialog" />
+    {{ $store.state.personas.dialogCrear }}
+    <!--    <div v-if="$store.state.personas.dialogCrear">-->
+    <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
+    <!--    </div>-->
+    <div v-if="$store.state.personas.dialogCrear">
+      <DialogCrear :tipo="tipo" :info="dataEdit" />
     </div>
     <!-- content -->
   </q-page>
@@ -29,42 +37,38 @@ export default {
   name: "PagePersonas",
   data() {
     return {
+      tipo: 1,
+      dataEdit: {},
+      dialogCrear: false,
       activarCrear: false,
       dialog: false,
       columns: [
         {
-          name: "co_vehicu",
+          name: "co_person",
           align: "left",
           label: "ID",
-          field: "co_vehicu",
+          field: "co_person",
           sortable: true
         },
         {
-          name: "no_marveh",
+          name: "no_nombre",
           align: "left",
-          label: "Marca",
-          field: "no_marveh",
+          label: "Nombre",
+          field: "no_nombre",
           sortable: true
         },
         {
-          name: "no_modveh",
+          name: "ti_docide",
           align: "left",
-          label: "Modelo",
-          field: "no_modveh",
+          label: "DNI",
+          field: "ti_docide",
           sortable: true
         },
         {
-          name: "no_colveh",
+          name: "nu_teléfo",
           align: "left",
-          label: "Color",
-          field: "no_colveh",
-          sortable: true
-        },
-        {
-          name: "co_plaveh",
-          align: "left",
-          label: "Placa",
-          field: "co_plaveh",
+          label: "Telefonos",
+          field: "nu_teléfo",
           sortable: true
         },
         {
@@ -88,10 +92,21 @@ export default {
   },
   methods: {
     ...mapActions("personas", ["callPersonas"]),
-    boton() {
-      this.activarCrear = true;
-      console.log("se preciono el boton");
-      this.$store.commit("personas/dialogCrear", true);
+    boton(val) {
+      console.log("Boton en Personas");
+      this.tipo = val;
+      if (val === 1) {
+        console.log("Boton en Personas 1");
+        this.dialogCrear = true;
+        console.log("se preciono el boton");
+        this.$store.commit("personas/dialogCrear", true);
+      } else if (val === 2) {
+        this.dataEdit = this.$store.state.personas.dataEdit;
+        console.log("Boton en Personas 2");
+        this.dialogCrear = true;
+        console.log("se preciono el boton");
+        this.$store.commit("personas/dialogCrear", true);
+      }
     }
   },
   async created() {

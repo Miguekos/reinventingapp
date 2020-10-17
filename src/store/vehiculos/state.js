@@ -4,6 +4,7 @@ export default function() {
     getVehiculosFilter: [],
     dialogCrear: false,
     dataEdit: {},
-    dialogEdit: false
+    dialogEdit: false,
+    activarEdit: false
   };
 }

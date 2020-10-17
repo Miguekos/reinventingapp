@@ -2,10 +2,11 @@
   <div>
     <!--    <q-dialog v-model="$store.state.usuarios.dialogCrear" position="top">-->
     <q-dialog v-model="dialogCrear" persistent position="top">
-      <q-card style="width: 700px; max-width: 80vw;">
+      <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw;">
         <q-card-section class="row items-center">
           <div>
-            <div class="text-h5">Agregar Usuario</div>
+            <div v-if="tipo == 1" class="text-h5">Agregar Vehiculos</div>
+            <div v-else-if="tipo == 2" class="text-h5">Editar Vehiculos</div>
           </div>
         </q-card-section>
         <q-separator />
@@ -13,62 +14,67 @@
           <q-card-section class="row items-center q-gutter-sm">
             <div class="col-12">
               <q-input
-                ref="username"
+                dense
+                ref="placa"
                 filled
-                v-model="username"
-                label="Username *"
-                hint="Ingresa nombre de usuario"
+                v-model="placa"
+                label="Placa"
+                hint="Ingresa tu Placa"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
-              <q-input
-                ref="dni"
+
+            <div class="col-12">
+              <q-select
                 filled
-                v-model="dni"
-                label="DNI"
-                hint="Ingresa tu DNI"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                dense
+                v-model="versioncar"
+                :options="options"
+                label="Version"
+                hint="Ingresa tu Version"
               />
             </div>
-            <div class="col">
+            <div class="col-12">
               <q-input
-                ref="password"
+                dense
+                ref="anio"
                 filled
-                type="text"
-                v-model="password"
-                label="Contraseña"
-                hint="Ingresa contraseña"
+                v-model="anio"
+                label="Año *"
+                hint="Ingresa Año"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
               <q-input
-                ref="nombres"
+                dense
+                ref="color"
                 filled
-                v-model="nombres"
-                label="Nombre Completo *"
-                hint="Ingresa nombre de usuario"
+                v-model="color"
+                label="Color *"
+                hint="Ingresa Color"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
+            <div class="col-12">
               <q-input
-                ref="ape_pat"
+                dense
+                ref="chasis"
                 filled
-                v-model="ape_pat"
-                label="Apellido Paterno *"
-                hint="Apellido Paterno"
+                v-model="chasis"
+                label="Chasis *"
+                hint="Ingresa Chasis"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
-            <div class="col">
+            <div class="col-12">
               <q-input
-                ref="ape_mat"
+                dense
+                ref="motor"
                 filled
-                v-model="ape_mat"
-                label="Apellido Materno *"
-                hint="Apellido Materno"
+                v-model="motor"
+                label="Motor *"
+                hint="Ingresa Motor"
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
@@ -92,13 +98,25 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
+  props: ["tipo", "info"],
   computed: {
     ...mapState("usuarios", ["dialogCrear"])
   },
   name: "CrearUsuario",
   data() {
     return {
+      options: ["v1.1", "v1.2", "v1.3", "v1.4", "v1.4"],
+      mostrarFormulario: false,
       loadboton: false,
+      placa: "",
+      marca: "",
+      modelo: "",
+      versioncar: "",
+      anio: "",
+      color: "",
+      chasis: "",
+      co_vehicu: "",
+      motor: "",
       username: "",
       dni: "",
       password: "",
@@ -162,7 +180,7 @@ export default {
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddUser.message} - verifique los campos`
+            message: `${responseAddUser.user.detail} - verifique los campos`
           });
         }
 
@@ -180,8 +198,30 @@ export default {
       // }
     }
   },
-  created() {
-    (this.username = ""), (this.dni = ""), (this.password = "");
+  async mounted() {
+    this.$q.loading.show();
+    console.log("mounted - crear - personas");
+    if (this.tipo == 2) {
+      // await this.callVehiculosFilter(this.dataEdit.co_plaveh);
+      // console.log("this.getVehiculosFilter", this.dataEdit);
+      // this.co_vehicu = this.dataEdit.co_vehicu;
+      // this.placa = this.dataEdit.co_plaveh;
+      // this.marca = Number(this.dataEdit.co_marveh);
+      // this.modelo = this.dataEdit.co_modveh;
+      // this.anio = this.dataEdit.nu_anofab;
+      // this.chasis = this.dataEdit.nu_serveh;
+      // this.motor = this.dataEdit.nu_motveh;
+      // this.color = this.dataEdit.no_colveh;
+      // await this.callMarcas("all");
+      this.mostrarFormulario = true;
+      this.$q.loading.hide();
+    } else if (this.tipo == 1) {
+      // await this.callMarcas("all");
+      this.mostrarFormulario = true;
+      this.$q.loading.hide();
+    }
+    this.$q.loading.hide();
+    // this.mostrarFormulario = true;
   }
 };
 </script>
