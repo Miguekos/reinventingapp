@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos color="green" @click="boton" titulo="Vehiculos" />
+      <Titulos icon="directions_car" color="green" @click="boton" titulo="Vehiculos" />
     </div>
     <q-separator color="green" />
     <!--    <div align="center">-->
@@ -51,6 +51,13 @@ export default {
           sortable: true
         },
         {
+          name: "co_plaveh",
+          align: "left",
+          label: "Placa",
+          field: "co_plaveh",
+          sortable: true
+        },
+        {
           name: "no_marveh",
           align: "left",
           label: "Marca",
@@ -65,6 +72,13 @@ export default {
           sortable: true
         },
         {
+          name: "nu_anofab",
+          align: "left",
+          label: "Año",
+          field: "nu_anofab",
+          sortable: true
+        },
+        {
           name: "no_colveh",
           align: "left",
           label: "Color",
@@ -72,16 +86,9 @@ export default {
           sortable: true
         },
         {
-          name: "co_plaveh",
-          align: "left",
-          label: "Placa",
-          field: "co_plaveh",
-          sortable: true
-        },
-        {
           name: "action",
           align: "right",
-          label: "Action",
+          label: "Acciones",
           field: "action",
           sortable: true
         }

@@ -12,9 +12,7 @@
           </q-card-section>
           <q-card-section>
             <div class="text-center q-pt-lg">
-              <div class="col text-h6 ellipsis">
-                Iniciar sesión
-              </div>
+              <div class="col text-h6 ellipsis">Iniciar sesión</div>
             </div>
           </q-card-section>
           <form @submit.prevent="submitForm">
@@ -109,8 +107,8 @@ export default {
       loading: false,
       form: {
         username: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   methods: {
@@ -123,18 +121,18 @@ export default {
             "¡Un correo será enviado con la contraseña generada, no olvides verificar tu bandeja de spam!",
           prompt: {
             model: "",
-            isValid: val => val.length > 2, // << here is the magic
+            isValid: (val) => val.length > 2, // << here is the magic
             type: "text", // optional
             label: "Correo",
-            outlined: true
+            outlined: true,
           },
           color: "blue-5",
           cancel: true,
           persistent: true,
           transitionShow: "slide-down",
-          transitionHide: "slide-up"
+          transitionHide: "slide-up",
         })
-        .onOk(async data => {
+        .onOk(async (data) => {
           console.log(">>>> OK, received", data);
           const res = await this.recuperar(data);
           console.log(res);
@@ -146,7 +144,7 @@ export default {
               icon: "username",
               color: "white",
               textColor: "green-5",
-              position: "top"
+              position: "top",
             });
           } else if (res.codRes == "01") {
             this.$q.notify({
@@ -156,7 +154,7 @@ export default {
               icon: "unsubscribe",
               color: "white",
               textColor: "blue-5",
-              position: "top"
+              position: "top",
             });
           } else {
             this.$q.notify({
@@ -166,7 +164,7 @@ export default {
               icon: "cancel_presentation",
               color: "white",
               textColor: "blue-5",
-              position: "top"
+              position: "top",
             });
           }
         })
@@ -185,56 +183,70 @@ export default {
         // console.log();
         this.login({
           username: this.form.username,
-          password: this.form.password
+          password: this.form.password,
         })
-          .then(resp => {
+          .then((resp) => {
             if (resp.res == "ok") {
-              // console.log("resp", resp);
-              LocalStorage.set("loggin", true);
-              // LocalStorage.set("role", resp.rol);
-              // LocalStorage.set("idUser", resp.id_);
-              // LocalStorage.set("prove", resp.proveedor);
-              this.$store.commit("auth/setAuth", true);
-              // this.$store.commit("auth/setRole", resprol);
-              this.$q.notify({
-                // progress: true,
-                message: `${resp.message}`,
-                // icon: "favorite_border",
-                icon: "insert_emoticon",
-                color: "white",
-                textColor: "blue-5",
-                position: "top"
-              });
-              LocalStorage.set("UserDetalle", resp.user);
-              // console.log("loguerado Correctamente");
-              this.loadlogin = false;
-              this.$router.push("/");
+              // console.log("resp", resp.user.il_activo);
+              if (!resp.user.il_activo) {
+                this.$q.notify({
+                  // progress: true,
+                  message: `Tu cuenta esta inabilitada por el momento`,
+                  // icon: "favorite_border",
+                  icon: "insert_emoticon",
+                  color: "white",
+                  textColor: "blue-5",
+                  position: "top",
+                });
+                this.loadlogin = false;
+              } else {
+                LocalStorage.set("loggin", true);
+                // LocalStorage.set("role", resp.rol);
+                // LocalStorage.set("idUser", resp.id_);
+                // LocalStorage.set("prove", resp.proveedor);
+                this.$store.commit("auth/setAuth", true);
+                // this.$store.commit("auth/setRole", resprol);
+                this.$q.notify({
+                  // progress: true,
+                  message: `${resp.message}`,
+                  // icon: "favorite_border",
+                  icon: "insert_emoticon",
+                  color: "white",
+                  textColor: "blue-5",
+                  position: "top",
+                });
+                LocalStorage.set("UserDetalle", resp.user);
+                // console.log("loguerado Correctamente");
+                this.loadlogin = false;
+                this.$router.push("/");
+              }
             } else if (resp.res == "ko") {
               // console.log("Email o Contraseña incorrecta");
               this.$q.notify({
                 message: `${resp.message}`,
                 color: "white",
                 textColor: "amber-5",
-                position: "top"
+                position: "top",
               });
               this.loadlogin = false;
             } else {
+              console.log("else");
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             this.loadlogin = false;
             this.$q.notify({
               message: "Error en la red",
               color: "white",
               textColor: "blue-5",
-              position: "top"
+              position: "top",
             });
           });
         // console.log("login the user");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -88,15 +88,17 @@
             </div>
           </q-td>
         </template>
+        <template v-slot:no-data="{ icon, message, filter }">
+          <div class="full-width row flex-center text-accent q-gutter-sm">
+            <q-icon size="2em" name="sentiment_dissatisfied" />
+            <span> Nada que mostrar... </span>
+            <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+          </div>
+        </template>
       </q-table>
     </q-card>
     <q-dialog v-model="employee_dialog">
-      <q-card
-        class="my-card"
-        style="width: 100%;"
-        flat
-        bordered
-      >
+      <q-card class="my-card" style="width: 100%;" flat bordered>
         <q-card-section>
           <div class="text-h5">
             Detalle del Usuario

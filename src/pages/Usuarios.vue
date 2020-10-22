@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos color="primary" @click="boton" titulo="Usuarios" />
+      <Titulos icon="group" color="primary" @click="boton" titulo="Usuarios" />
     </div>
     <q-separator color="primary" />
     <!--    <div align="center">-->
@@ -18,8 +18,15 @@
         gridactivate="false"
       />
     </div>
-    <div v-if="activarCrear">
-      <DialogCrear :dialog="dialog" />
+    <div align="center">
+      <q-dialog
+        persistent
+        v-model="dialogCrear"
+        style="width: 700px; max-width: 80vw"
+        position="top"
+      >
+        <DialogCrear :tipo="tipo" :info="dataEdit" />
+      </q-dialog>
     </div>
     <!-- content -->
   </q-page>
@@ -31,6 +38,9 @@ export default {
   name: "PageUsuario",
   data() {
     return {
+      tipo: 1,
+      dataEdit: {},
+      dialogCrear: false,
       activarCrear: false,
       dialog: false,
       columns: [
@@ -39,59 +49,71 @@ export default {
           align: "left",
           label: "ID",
           field: "co_usuari",
-          sortable: true
+          sortable: true,
         },
         {
           name: "no_usuari",
           align: "left",
           label: "Nombre",
           field: "no_usuari",
-          sortable: true
+          sortable: true,
         },
         {
           name: "il_activo",
           align: "left",
           label: "Activo",
-          field: row => (row.il_activo ? "Activo" : "Inactivo"),
-          sortable: true
+          field: (row) => (row.il_activo ? "Activo" : "Inactivo"),
+          sortable: true,
         },
         {
           name: "detail",
           align: "left",
           label: "Detail",
           field: "detail",
-          sortable: true
+          sortable: true,
         },
         {
           name: "action",
           align: "right",
-          label: "Action",
+          label: "Acciones",
           field: "action",
-          sortable: true
-        }
-      ]
+          sortable: true,
+        },
+      ],
     };
   },
   computed: {
-    ...mapGetters("usuarios", ["getUsers"])
+    ...mapGetters("usuarios", ["getUsers"]),
   },
   components: {
     Filtros: () => import("../components/Filtros"),
     Titulos: () => import("../components/Titulos"),
     TablaFiltro: () => import("../components/TablaFiltro"),
-    DialogCrear: () => import("../components/Usuarios/CrearUsuario")
+    DialogCrear: () => import("../components/Usuarios/CrearUsuario"),
   },
   methods: {
     ...mapActions("usuarios", ["callUsers"]),
-    boton() {
-      console.log("se preciono el boton");
-      this.$store.commit("usuarios/dialogCrear", true);
-    }
+    boton(val) {
+      console.log("Boton en Personas");
+      this.tipo = val;
+      if (val === 1) {
+        console.log("Boton en Personas 1");
+        this.dialogCrear = true;
+        console.log("se preciono el boton");
+        this.$store.commit("usuarios/dialogCrear", true);
+      } else if (val === 2) {
+        this.dataEdit = this.$store.state.usuarios.dataEdit;
+        console.log("Boton en Personas 2");
+        this.dialogCrear = true;
+        console.log("se preciono el boton");
+        this.$store.commit("usuarios/dialogCrear", true);
+      }
+    },
   },
   async created() {
     this.$q.loading.show();
     await this.callUsers("all");
     this.$q.loading.hide();
-  }
+  },
 };
 </script>

@@ -11,39 +11,17 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Reinventing Admin
-        </q-toolbar-title>
+        <q-toolbar-title> Reinventing Admin </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
-    <!--        <q-drawer-->
-    <!--          v-model="leftDrawerOpen"-->
-    <!--          show-if-above-->
-    <!--          bordered-->
-    <!--          content-class="bg-grey-1"-->
-    <!--        >-->
-    <!--          <q-list>-->
-    <!--            <q-item-label-->
-    <!--              header-->
-    <!--              class="text-grey-8"-->
-    <!--            >-->
-    <!--              Essential Links-->
-    <!--            </q-item-label>-->
-    <!--            <EssentialLink-->
-    <!--              v-for="link in essentialLinks"-->
-    <!--              :key="link.title"-->
-    <!--              v-bind="link"-->
-    <!--            />-->
-    <!--          </q-list>-->
-    <!--        </q-drawer>-->
-
     <q-drawer
       class="left-navigation text-white"
       v-model="leftDrawerOpen"
-      style="background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;"
+      style="
+        background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;
+      "
       side="left"
       elevated
     >
@@ -51,7 +29,7 @@
         class="full-height"
         :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
       >
-        <div style="height: calc(100% - 117px);padding:10px;">
+        <div style="height: calc(100% - 117px); padding: 10px">
           <q-toolbar class="cursor-pointer" @click="activarProfile">
             <q-avatar>
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
@@ -60,7 +38,7 @@
             <q-toolbar-title>Miguel Rodriguez</q-toolbar-title>
           </q-toolbar>
           <hr />
-          <q-scroll-area style="height:100%;">
+          <q-scroll-area style="height: 100%">
             <q-list padding>
               <EssentialLink
                 v-for="link in essentialLinks"
@@ -137,20 +115,26 @@ const linksData = [
     title: "Usuarios",
     caption: "quasar.dev",
     icon: "group",
-    link: "/usuarios"
+    link: "/usuarios",
   },
   {
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
-    link: "/vehiculos"
+    link: "/vehiculos",
   },
   {
     title: "Personas",
     caption: "github.com/quasarframework",
     icon: "face",
-    link: "/personas"
-  }
+    link: "/personas",
+  },
+  {
+    title: "Citas",
+    caption: "github.com/quasarframework",
+    icon: "event",
+    link: "/citas",
+  },
 ];
 
 export default {
@@ -163,11 +147,11 @@ export default {
         last_name: "",
         age: null,
         email: "",
-        phone: ""
+        phone: "",
       },
       dialogPerfil: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
     };
   },
   methods: {
@@ -188,12 +172,12 @@ export default {
         // icon: "favorite",
         color: "white",
         textColor: "blue-5",
-        position: "top"
+        position: "top",
       });
       this.$q.loading.hide();
       // }, 2000);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

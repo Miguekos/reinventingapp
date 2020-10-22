@@ -3,7 +3,15 @@
     <q-list separator>
       <q-item>
         <q-item-section class="text-h5" :class="`text-${color}`">
-          {{ titulo }}
+          <div>
+            <q-icon
+              :name="`${icon}`"
+              :class="`text-${color}`"
+              size="sm"
+              style="font-size: 24px; margin-bottom: 4px"
+            />
+            {{ titulo }}
+          </div>
         </q-item-section>
         <q-item-section side>
           <q-btn
@@ -24,11 +32,14 @@
 export default {
   props: {
     titulo: {
-      type: String
+      type: String,
     },
     color: {
-      type: String
-    }
+      type: String,
+    },
+    icon: {
+      type: String,
+    },
   },
   // name: 'ComponentName',
   data() {
@@ -38,7 +49,7 @@ export default {
     boton() {
       // this.$store.commit(`vehiculos/activarEdit`, true);
       this.$emit("click", 1);
-    }
-  }
+    },
+  },
 };
 </script>

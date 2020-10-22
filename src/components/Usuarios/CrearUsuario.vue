@@ -1,90 +1,86 @@
 <template>
   <div>
     <!--    <q-dialog v-model="$store.state.usuarios.dialogCrear" position="top">-->
-    <q-dialog v-model="dialogCrear" persistent position="top">
-      <q-card style="width: 700px; max-width: 80vw;">
-        <q-card-section class="row items-center">
-          <div>
-            <div class="text-h5">Agregar Usuario</div>
+    <q-card v-if="mostrarFormulario">
+      <q-card-section class="row items-center">
+        <div>
+          <div class="text-h5">Agregar Usuario</div>
+        </div>
+      </q-card-section>
+      <q-separator />
+      <form @submit.prevent="onSubmit" @reset.prevent.stop="onReset">
+        <q-card-section class="row items-center q-gutter-sm">
+          <div class="col-12">
+            <q-input
+              ref="username"
+              filled
+              v-model="username"
+              label="Username *"
+              hint="Ingresa nombre de usuario"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
+          </div>
+          <div class="col">
+            <q-input
+              ref="dni"
+              filled
+              v-model="dni"
+              label="DNI"
+              hint="Ingresa tu DNI"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
+          </div>
+          <div class="col">
+            <q-input
+              ref="password"
+              filled
+              type="text"
+              v-model="password"
+              label="Contraseña"
+              hint="Ingresa contraseña"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
+          </div>
+          <div class="col-12">
+            <q-input
+              ref="nombres"
+              filled
+              v-model="nombres"
+              label="Nombre Completo *"
+              hint="Ingresa nombre de usuario"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
+          </div>
+          <div class="col">
+            <q-input
+              ref="ape_pat"
+              filled
+              v-model="ape_pat"
+              label="Apellido Paterno *"
+              hint="Apellido Paterno"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
+          </div>
+          <div class="col">
+            <q-input
+              ref="ape_mat"
+              filled
+              v-model="ape_mat"
+              label="Apellido Materno *"
+              hint="Apellido Materno"
+              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
+            />
           </div>
         </q-card-section>
-        <q-separator />
-        <form @submit.prevent="onSubmit" @reset.prevent.stop="onReset">
-          <q-card-section class="row items-center q-gutter-sm">
-            <div class="col-12">
-              <q-input
-                ref="username"
-                filled
-                v-model="username"
-                label="Username *"
-                hint="Ingresa nombre de usuario"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                ref="dni"
-                filled
-                v-model="dni"
-                label="DNI"
-                hint="Ingresa tu DNI"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                ref="password"
-                filled
-                type="text"
-                v-model="password"
-                label="Contraseña"
-                hint="Ingresa contraseña"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                ref="nombres"
-                filled
-                v-model="nombres"
-                label="Nombre Completo *"
-                hint="Ingresa nombre de usuario"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                ref="ape_pat"
-                filled
-                v-model="ape_pat"
-                label="Apellido Paterno *"
-                hint="Apellido Paterno"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                ref="ape_mat"
-                filled
-                v-model="ape_mat"
-                label="Apellido Materno *"
-                hint="Apellido Materno"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-          </q-card-section>
-          <q-card-actions align="right">
-            <q-btn color="negative" @click="cerrarDialogCrearUser" outline
-              >Cerrar
-            </q-btn>
-            <q-btn color="warning" type="reset" outline>reset</q-btn>
-            <q-btn color="positive" type="submit" :loading="loadboton" outline
-              >Guardar</q-btn
-            >
-          </q-card-actions>
-        </form>
-      </q-card>
-    </q-dialog>
+        <q-card-actions align="right">
+          <q-btn color="negative" v-close-popup outline>Cerrar </q-btn>
+          <q-btn color="warning" type="reset" outline>reset</q-btn>
+          <q-btn color="positive" type="submit" :loading="loadboton" outline
+            >Guardar</q-btn
+          >
+        </q-card-actions>
+      </form>
+    </q-card>
   </div>
 </template>
 
@@ -93,18 +89,19 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState("usuarios", ["dialogCrear"])
+    ...mapState("usuarios", ["dialogCrear"]),
   },
   name: "CrearUsuario",
   data() {
     return {
+      mostrarFormulario: true,
       loadboton: false,
       username: "",
       dni: "",
       password: "",
       nombres: "",
       ape_pat: "",
-      ape_mat: ""
+      ape_mat: "",
     };
   },
   methods: {
@@ -148,14 +145,14 @@ export default {
           ape_mat: this.ape_mat,
           nombres: this.nombres,
           swt_emp: true,
-          swt_act: true
+          swt_act: true,
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddUser.message
+            message: responseAddUser.message,
           });
           this.callUsers("all");
           this.$store.commit("usuarios/dialogCrear", false);
@@ -167,7 +164,7 @@ export default {
               responseAddUser.user.detail
                 ? responseAddUser.user.detail
                 : "Verifique los campos"
-            }`
+            }`,
           });
         }
 
@@ -178,16 +175,38 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado"
+          message: "Error controlado",
         });
         console.log("se paso, en el excel");
       }
       // }
-    }
+    },
   },
-  created() {
-    (this.username = ""), (this.dni = ""), (this.password = "");
-  }
+  async mounted() {
+    this.$q.loading.show();
+    console.log("mounted - crear - usuarios");
+    if (this.tipo == 2) {
+      // await this.callPersonasFilter(this.dataEdit.co_plaveh);
+      // console.log("this.getPersonasFilter", this.dataEdit);
+      // this.co_vehicu = this.dataEdit.co_vehicu;
+      // this.placa = this.dataEdit.co_plaveh;
+      // this.marca = Number(this.dataEdit.co_marveh);
+      // this.modelo = this.dataEdit.co_modveh;
+      // this.anio = this.dataEdit.nu_anofab;
+      // this.chasis = this.dataEdit.nu_serveh;
+      // this.motor = this.dataEdit.nu_motveh;
+      // this.color = this.dataEdit.no_colveh;
+      // await this.callMarcas("all");
+      this.mostrarFormulario = true;
+      this.$q.loading.hide();
+    } else if (this.tipo == 1) {
+      // await this.callMarcas("all");
+      this.mostrarFormulario = true;
+      this.$q.loading.hide();
+    }
+    this.$q.loading.hide();
+    // this.mostrarFormulario = true;
+  },
 };
 </script>
 

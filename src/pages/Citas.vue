@@ -1,16 +1,16 @@
 <template>
   <q-page padding>
     <div>
-      <Titulos color="orange" @click="boton" titulo="Citas" />
+      <Titulos icon="event" color="red" @click="boton" titulo="Citas" />
     </div>
-    <q-separator color="orange" />
+    <q-separator color="red" />
     <!--    <div align="center">-->
     <!--      <Filtros />-->
     <!--    </div>-->
     <div v-if="getCitas" align="center">
       <TablaFiltro
         order="co_person"
-        color="orange"
+        color="red"
         tool="citas"
         @click="boton"
         :info="getCitas"

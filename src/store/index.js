@@ -8,6 +8,7 @@ import vehiculos from "./vehiculos";
 import modelos from "./modelos";
 import marcas from "./marcas";
 import personas from "./personas";
+import citas from "./citas";
 
 Vue.use(Vuex);
 
@@ -20,7 +21,7 @@ Vue.use(Vuex);
  * with the Store instance.
  */
 
-export default function(/* { ssrContext } */) {
+export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
@@ -29,7 +30,8 @@ export default function(/* { ssrContext } */) {
       vehiculos,
       marcas,
       modelos,
-      personas
+      personas,
+      citas
     },
 
     // enable strict mode (adds overhead!)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-model="dialogCrear" persistent position="top">
-      <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw;">
+      <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center">
           <div>
             <div v-if="tipo == 1" class="text-h5">Agregar Vehiculos</div>
@@ -9,7 +9,7 @@
           </div>
         </q-card-section>
         <q-separator />
-        <form @submit.prevent="onSubmit" @reset.prevent.stop="onReset">
+        <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
           <q-card-section class="row items-center q-gutter-sm">
             <div class="col-12">
               <q-input
@@ -19,7 +19,12 @@
                 v-model="placa"
                 label="Placa"
                 hint="Ingresa tu Placa"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                maxlength="6"
+                counter
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Campo obligatorio',
+                ]"
               />
             </div>
             <div class="col-12">
@@ -59,6 +64,10 @@
                 :options="options"
                 label="Version"
                 hint="Ingresa tu Version"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Campo obligatorio',
+                ]"
               />
             </div>
             <div class="col-12">
@@ -69,7 +78,10 @@
                 v-model="anio"
                 label="Año *"
                 hint="Ingresa Año"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Campo obligatorio',
+                ]"
               />
             </div>
             <div class="col-12">
@@ -80,7 +92,10 @@
                 v-model="color"
                 label="Color *"
                 hint="Ingresa Color"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Campo obligatorio',
+                ]"
               />
             </div>
             <div class="col-12">
@@ -91,7 +106,12 @@
                 v-model="chasis"
                 label="Chasis *"
                 hint="Ingresa Chasis"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                maxlength="20"
+                counter
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length == 20) || 'Campo obligatorio y debe ser igual a 20',
+                ]"
               />
             </div>
             <div class="col-12">
@@ -102,7 +122,12 @@
                 v-model="motor"
                 label="Motor *"
                 hint="Ingresa Motor"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                maxlength="12"
+                counter
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length == 12) || 'Campo obligatorio y debe ser igual a 12',
+                ]"
               />
             </div>
           </q-card-section>
@@ -115,7 +140,7 @@
               >Guardar</q-btn
             >
           </q-card-actions>
-        </form>
+        </q-form>
       </q-card>
     </q-dialog>
   </div>
@@ -137,8 +162,8 @@ export default {
       },
       set(value) {
         this.$store.commit("main/foo", value);
-      }
-    }
+      },
+    },
   },
   name: "CreaVehiculos",
   data() {
@@ -154,7 +179,7 @@ export default {
       color: "",
       chasis: "",
       co_vehicu: "",
-      motor: ""
+      motor: "",
     };
   },
   methods: {
@@ -162,7 +187,7 @@ export default {
       "callVehiculosAdd",
       "callVehiculos",
       "callVehiculosFilter",
-      "callVehiculosUpdate"
+      "callVehiculosUpdate",
     ]),
     ...mapActions("marcas", ["callMarcas"]),
     ...mapActions("modelos", ["callModelosFilter", "callModelosFilterMarca"]),
@@ -209,21 +234,21 @@ export default {
             nu_anofab: this.anio,
             nu_serveh: this.chasis,
             nu_motveh: this.motor,
-            no_colveh: this.color
+            no_colveh: this.color,
           });
           console.log("responseAddUser", responseAddUser);
           if (responseAddUser.res == "ok") {
             this.loadboton = false;
             this.onResert();
             this.$q.notify({
-              message: responseAddUser.message
+              message: responseAddUser.message,
             });
             this.callVehiculos("all");
             this.$store.commit("vehiculos/dialogCrear", false);
           } else if (responseAddUser.res == "ko") {
             this.loadboton = false;
             this.$q.notify({
-              message: `${responseAddUser.message} - verifique los campos`
+              message: `${responseAddUser.message} - verifique los campos`,
             });
           }
         } else if (this.tipo == 2) {
@@ -234,21 +259,21 @@ export default {
             nu_anofab: this.anio,
             nu_serveh: this.chasis,
             nu_motveh: this.motor,
-            no_colveh: this.color
+            no_colveh: this.color,
           });
           console.log("responseAddUser", responseAddUser);
           if (responseAddUser.res == "ok") {
             this.loadboton = false;
             this.onResert();
             this.$q.notify({
-              message: responseAddUser.message
+              message: responseAddUser.message,
             });
             this.callVehiculos("all");
             this.$store.commit("vehiculos/dialogCrear", false);
           } else if (responseAddUser.res == "ko") {
             this.loadboton = false;
             this.$q.notify({
-              message: `${responseAddUser.message} - verifique los campos`
+              message: `${responseAddUser.message} - verifique los campos`,
             });
           }
         }
@@ -260,12 +285,12 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: `${e} - Error controlado`
+          message: `${e} - Error controlado`,
         });
         console.log(e);
       }
       // }
-    }
+    },
   },
   async mounted() {
     this.$q.loading.show();
@@ -291,7 +316,7 @@ export default {
     }
     this.$q.loading.hide();
     // this.mostrarFormulario = true;
-  }
+  },
 };
 </script>
 
