@@ -8,17 +8,18 @@
     <!--      <Filtros />-->
     <!--    </div>-->
     <div v-if="getCitas" align="center">
-      <TablaFiltro
-        order="co_person"
-        color="red"
-        tool="citas"
-        @click="boton"
-        :info="getCitas"
-        :columns="columns"
-        paginas="15"
-        :exportar="false"
-        gridactivate="false"
-      />
+      <!--      <TablaFiltro-->
+      <!--        order="co_person"-->
+      <!--        color="red"-->
+      <!--        tool="citas"-->
+      <!--        @click="boton"-->
+      <!--        :info="getCitas"-->
+      <!--        :columns="columns"-->
+      <!--        paginas="15"-->
+      <!--        :exportar="false"-->
+      <!--        gridactivate="false"-->
+      <!--      />-->
+      <Calendario />
     </div>
     <!--    {{ $store.state.citas.dialogCrear }}-->
     <!--    <div v-if="$store.state.citas.dialogCrear">-->
@@ -43,6 +44,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "PageCitas",
   data() {
@@ -105,7 +107,8 @@ export default {
     Filtros: () => import("../components/Filtros"),
     Titulos: () => import("../components/Titulos"),
     TablaFiltro: () => import("../components/TablaFiltro"),
-    DialogCrear: () => import("../components/Citas/Crear")
+    DialogCrear: () => import("../components/Citas/Crear"),
+    Calendario: () => import("../components/Citas/Calendario")
   },
   methods: {
     ...mapActions("citas", ["callCitas"]),
