@@ -9,6 +9,7 @@
         :row-key="order"
         :grid="mode == 'grid'"
         :filter="filter"
+        :loading="loadtable"
         :pagination.sync="pagination"
       >
         <template v-slot:top-right="props">
@@ -165,7 +166,16 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
-  props: ["info", "columns", "paginas", "exportar", "color", "order", "tool"],
+  props: [
+    "info",
+    "columns",
+    "paginas",
+    "exportar",
+    "color",
+    "order",
+    "tool",
+    "loadtable"
+  ],
   data() {
     return {
       filter: "",
