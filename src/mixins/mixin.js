@@ -66,7 +66,8 @@ const storagelocal = {
   created: function () {
     const todo = this.$q.localStorage.getAll();
     this.idLocal = todo.co_usuari;
-    this.userLocal = todo.no_usuari;
+    this.userLocal = todo.UserDetalle;
+    console.log("todo.UserDetalle", todo.UserDetalle);
   },
   methods: {}
 };

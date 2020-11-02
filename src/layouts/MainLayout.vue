@@ -66,7 +66,6 @@
         </div>
       </div>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -108,6 +107,7 @@
 </template>
 
 <script>
+import { MixinDefault } from "../mixins/mixin";
 import EssentialLink from "components/EssentialLink.vue";
 
 const linksData = [
@@ -139,9 +139,11 @@ const linksData = [
 
 export default {
   name: "MainLayout",
+  // mixins: [MixinDefault],
   components: { EssentialLink, Profile: () => import("pages/Profile") },
   data() {
     return {
+      info: null,
       user: {
         first_name: "",
         last_name: "",
@@ -158,6 +160,7 @@ export default {
     activarProfile() {
       this.dialogPerfil = true;
       const info = this.$q.localStorage.getAll();
+      this.info = info;
       console.log(info);
     },
     Logout() {
