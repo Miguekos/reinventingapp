@@ -18,15 +18,8 @@
         gridactivate="false"
       />
     </div>
-    <div align="center">
-      <q-dialog
-        persistent
-        v-model="dialogCrear"
-        style="width: 700px; max-width: 80vw"
-        position="top"
-      >
-        <DialogCrear :tipo="tipo" :info="dataEdit" />
-      </q-dialog>
+    <div>
+      <DialogCrear :tipo="tipo" :info="dataEdit" />
     </div>
     <!-- content -->
   </q-page>
@@ -98,13 +91,13 @@ export default {
       this.tipo = val;
       if (val === 1) {
         console.log("Boton en Personas 1");
-        this.dialogCrear = true;
+        // this.dialogCrear = true;
         console.log("se preciono el boton");
         this.$store.commit("usuarios/dialogCrear", true);
       } else if (val === 2) {
         this.dataEdit = this.$store.state.usuarios.dataEdit;
         console.log("Boton en Personas 2");
-        this.dialogCrear = true;
+        // this.dialogCrear = true;
         console.log("se preciono el boton");
         this.$store.commit("usuarios/dialogCrear", true);
       }

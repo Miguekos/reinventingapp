@@ -110,7 +110,9 @@
                 counter
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length == 20) || 'Campo obligatorio y debe ser igual a 20',
+                  (val) =>
+                    (val && val.length == 20) ||
+                    'Campo obligatorio y debe ser igual a 20',
                 ]"
               />
             </div>
@@ -126,7 +128,9 @@
                 counter
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length == 12) || 'Campo obligatorio y debe ser igual a 12',
+                  (val) =>
+                    (val && val.length == 12) ||
+                    'Campo obligatorio y debe ser igual a 12',
                 ]"
               />
             </div>
@@ -210,21 +214,6 @@ export default {
     },
     async onSubmit() {
       this.loadboton = true;
-      // this.$refs.username.validate();
-      // this.$refs.dni.validate();
-      // this.$refs.password.validate();
-      // this.$refs.nombre.validate();
-      // this.$refs.ape_pat.validate();
-      // this.$refs.ape_mat.validate();
-      //
-      // if (
-      //   this.$refs.username.hasError ||
-      //   this.$refs.dni.hasError ||
-      //   this.$refs.password.hasError
-      // ) {
-      //   this.formHasError = true;
-      //   console.log("es un error");
-      // } else {
       try {
         if (this.tipo == 1) {
           const responseAddUser = await this.callVehiculosAdd({

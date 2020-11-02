@@ -1,33 +1,37 @@
 <template>
   <div>
-    <!--    <q-dialog v-model="$store.state.usuarios.dialogCrear" position="top">-->
-    <!--    <q-dialog v-model="dialogCrear" persistent position="top">-->
-    <q-card v-if="mostrarFormulario">
-      <q-card>
-        <q-tabs
-          v-model="tab"
-          dense
-          class="bg-grey-3 text-grey-7"
-          active-color="primary"
-          indicator-color="purple"
-          align="justify"
-        >
-          <q-tab name="mails" label="Persona Natural" />
-          <q-tab name="alarms" label="Persona Juridica" />
-        </q-tabs>
+    <q-dialog
+      persistent
+      v-model="$store.state.personas.dialogCrear"
+      position="top"
+    >
+      <!-- <q-dialog v-model="dialogCrear" persistent position="top"> -->
+      <q-card v-if="mostrarFormulario">
+        <q-card>
+          <q-tabs
+            v-model="tab"
+            dense
+            class="bg-grey-3 text-grey-7"
+            active-color="primary"
+            indicator-color="purple"
+            align="justify"
+          >
+            <q-tab name="mails" label="Persona Natural" />
+            <q-tab name="alarms" label="Persona Juridica" />
+          </q-tabs>
 
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="mails">
-            <Natural @click="cerrarDialogCrearUser" />
-          </q-tab-panel>
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="mails">
+              <Natural @click="cerrarDialogCrearUser" />
+            </q-tab-panel>
 
-          <q-tab-panel name="alarms">
-            <Juridica />
-          </q-tab-panel>
-        </q-tab-panels>
+            <q-tab-panel name="alarms">
+              <Juridica />
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
       </q-card>
-    </q-card>
-    <!--    </q-dialog>-->
+    </q-dialog>
   </div>
 </template>
 

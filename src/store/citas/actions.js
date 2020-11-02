@@ -1,7 +1,7 @@
 import { axiosInstance } from "boot/axios";
 
 export async function callCitas({ commit }) {
-  const response = await axiosInstance.get(`/citas/all`);
+  const response = await axiosInstance.get(`/citas`);
   console.log(response.data);
   commit("getCitas", response.data.citas);
 }

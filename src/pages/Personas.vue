@@ -26,15 +26,10 @@
     <!--    </div>-->
     <!--    <div v-if="$store.state.personas.dialogCrear">-->
     <!--    <div v-if="dialogCrear">-->
-    <div align="center">
-      <q-dialog
-        persistent
-        v-model="$store.state.personas.dialogCrear"
-        style="width: 700px; max-width: 80vw"
-        position="top"
-      >
+    <div>
+      
         <DialogCrear :tipo="tipo" :info="dataEdit" />
-      </q-dialog>
+      
     </div>
     <!--    </div>-->
     <!-- content -->

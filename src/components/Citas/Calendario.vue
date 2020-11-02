@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <DaykeepCalendar
-      :event-array="eventArray"
+      :event-array="info"
       :tab-labels="labelsCalendar"
       :sunday-first-day-of-week="true"
       calendar-locale="es"
@@ -32,15 +32,16 @@ import {
   DaykeepCalendar,
   DaykeepCalendarMonth,
   DaykeepCalendarAgenda,
-  DaykeepCalendarMultiDay
+  DaykeepCalendarMultiDay,
 } from "@daykeep/calendar-quasar";
 export default {
+  props: ["info"],
   name: "Calendario",
   components: {
     DaykeepCalendar,
     DaykeepCalendarMonth,
     DaykeepCalendarAgenda,
-    DaykeepCalendarMultiDay
+    DaykeepCalendarMultiDay,
   },
   data() {
     return {
@@ -50,7 +51,7 @@ export default {
         week: "SEMANA",
         threeDay: "3 DIAS",
         day: "DIA",
-        agenda: "AGENDA"
+        agenda: "AGENDA",
       },
       eventArray: [
         {
@@ -60,11 +61,11 @@ export default {
           location: "Oficina de los olivos",
           start: {
             dateTime: "2020-10-16T14:00:00",
-            timeZone: "America/Lima"
+            timeZone: "America/Lima",
           },
           end: {
             dateTime: "2020-10-16T14:00:00",
-            timeZone: "America/Lima"
+            timeZone: "America/Lima",
           },
           color: "positive",
           attendees: [
@@ -74,9 +75,9 @@ export default {
               displayName: "Benjamin Baldeon",
               organizer: false,
               self: false,
-              resource: false
-            }
-          ]
+              resource: false,
+            },
+          ],
         },
         {
           id: 2,
@@ -85,12 +86,12 @@ export default {
           color: "orange",
           start: {
             dateTime: "2020-10-31T18:51:00",
-            timeZone: "America/Lima"
+            timeZone: "America/Lima",
           },
           end: {
             dateTime: "2020-10-31T18:55:00",
-            timeZone: "America/Lima"
-          }
+            timeZone: "America/Lima",
+          },
         },
         {
           id: 3,
@@ -98,32 +99,32 @@ export default {
           description: "Rompio el motor",
           start: {
             dateTime: "2020-10-16T17:30:00",
-            timeZone: "America/Lima"
+            timeZone: "America/Lima",
           },
           end: {
             dateTime: "2020-10-16T17:30:00",
-            timeZone: "America/Lima"
-          }
-        }
-      ]
+            timeZone: "America/Lima",
+          },
+        },
+      ],
     };
   },
 
   methods: {},
   async created() {
-    this.$q.$on("click-day-MYCALENDAR", function(day) {
-      // do something here
-      console.log("Evento DAY");
-    });
-    this.$root.$on("click-event-MYCALENDAR", function(eventDetailObject) {
-      // do something here
-      console.log("Evento DAY eventDetailObject");
-    });
-    this.q.$on("click-event-MYCALENDAR", function(eventDetailObject) {
-      // do something here
-      console.log("Evento DAY eventDetailObject");
-    });
-  }
+    // this.$q.$on("click-day-MYCALENDAR", function(day) {
+    //   // do something here
+    //   console.log("Evento DAY");
+    // });
+    // this.$root.$on("click-event-MYCALENDAR", function(eventDetailObject) {
+    //   // do something here
+    //   console.log("Evento DAY eventDetailObject");
+    // });
+    // this.q.$on("click-event-MYCALENDAR", function(eventDetailObject) {
+    //   // do something here
+    //   console.log("Evento DAY eventDetailObject");
+    // });
+  },
 };
 </script>
 

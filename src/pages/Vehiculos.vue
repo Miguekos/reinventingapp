@@ -94,8 +94,8 @@
     <!--    <div v-if="$store.state.vehiculos.dialogCrear">-->
     <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
     <!--    </div>-->
-    <div v-if="$store.state.vehiculos.dialogCrear">
-      <DialogCrear :tipo="tipo" :info="dataEdit" />
+    <div>
+        <DialogCrear :tipo="tipo" :info="dataEdit" />
     </div>
     <!-- content -->
   </q-page>
@@ -120,67 +120,67 @@ export default {
           align: "left",
           label: "ID",
           field: "co_vehicu",
-          sortable: true
+          sortable: true,
         },
         {
           name: "co_plaveh",
           align: "left",
           label: "Placa",
           field: "co_plaveh",
-          sortable: true
+          sortable: true,
         },
         {
           name: "no_marveh",
           align: "left",
           label: "Marca",
           field: "no_marveh",
-          sortable: true
+          sortable: true,
         },
         {
           name: "no_modveh",
           align: "left",
           label: "Modelo",
           field: "no_modveh",
-          sortable: true
+          sortable: true,
         },
         {
           name: "nu_anofab",
           align: "left",
           label: "Año",
           field: "nu_anofab",
-          sortable: true
+          sortable: true,
         },
         {
           name: "no_colveh",
           align: "left",
           label: "Color",
           field: "no_colveh",
-          sortable: true
+          sortable: true,
         },
         {
           name: "action",
           align: "right",
           label: "Acciones",
           field: "action",
-          sortable: true
-        }
-      ]
+          sortable: true,
+        },
+      ],
     };
   },
   computed: {
-    ...mapGetters("vehiculos", ["getVehiculos"])
+    ...mapGetters("vehiculos", ["getVehiculos"]),
   },
   components: {
     Filtros: () => import("../components/Filtros"),
     Titulos: () => import("../components/Titulos"),
     TablaFiltro: () => import("../components/TablaFiltro"),
-    DialogCrear: () => import("../components/Vehiculos/Crear")
+    DialogCrear: () => import("../components/Vehiculos/Crear"),
   },
   methods: {
     ...mapActions("vehiculos", ["callVehiculos"]),
     exportarData() {
       this.$q.notify({
-        message: "Por definir :)"
+        message: "Por definir :)",
       });
     },
     boton(val) {
@@ -188,22 +188,22 @@ export default {
       this.tipo = val;
       if (val === 1) {
         // console.log("Boton en Vehiculos 1");
-        this.dialogCrear = true;
+        // this.dialogCrear = true;
         // console.log("se preciono el boton");
         this.$store.commit("vehiculos/dialogCrear", true);
       } else if (val === 2) {
         this.dataEdit = this.$store.state.vehiculos.dataEdit;
         // console.log("Boton en Vehiculos 2");
-        this.dialogCrear = true;
+        // this.dialogCrear = true;
         // console.log("se preciono el boton");
         this.$store.commit("vehiculos/dialogCrear", true);
       }
-    }
+    },
   },
   async created() {
     this.$q.loading.show();
     await this.callVehiculos("all");
     this.$q.loading.hide();
-  }
+  },
 };
 </script>
