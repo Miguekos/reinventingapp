@@ -8,22 +8,75 @@
       calendar-timezone="America/Lima"
       :allow-editing="false"
       :render-html="true"
+      event-ref="MYCALENDAR"
+      :prevent-event-detail="true"
     />
-    <!--    <div class="q-gutter-md">-->
-    <!--      <q-date-->
-    <!--        class="full-width"-->
-    <!--        v-model="date"-->
-    <!--        :events="events"-->
-    <!--        :event-color="date => (date[9] % 2 === 0 ? 'teal' : 'orange')"-->
-    <!--      />-->
+    <q-dialog v-if="fixed" v-model="fixed">
+      <q-card>
+        <q-card-section>
+          <div class="text-h4 text-center">
+            <div>
+              {{ dataCita.attendees[0].displayName }}
+            </div>
+            <div class="text-h6">
+              {{ dataCita.placa }}
+            </div>
+          </div>
+        </q-card-section>
 
-    <!--      <q-date-->
-    <!--        class="full-width"-->
-    <!--        v-model="date"-->
-    <!--        :events="eventsFn"-->
-    <!--        :event-color="date => (date[9] % 2 === 0 ? 'teal' : 'orange')"-->
-    <!--      />-->
-    <!--    </div>-->
+        <q-separator />
+
+        <q-card-section style="max-height: 50vh" class="scroll">
+          <q-list bordered>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="arrow_right_alt" />
+              </q-item-section>
+              <q-item-section>{{ dataCita.summary }}</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="room" />
+              </q-item-section>
+              <q-item-section>{{ dataCita.location }}</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="face" />
+              </q-item-section>
+              <q-item-section>{{
+                dataCita.attendees[0].displayName
+              }}</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="assignment" />
+              </q-item-section>
+              <q-item-section>{{ dataCita.description }}</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="schedule" />
+              </q-item-section>
+              <q-item-section>{{ dataCita.start.dateTime }}</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon color="primary" name="schedule" />
+              </q-item-section>
+              <q-item-section>{{ dataCita.end.dateTime }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="center">
+          <q-btn flat label="Cerrar" color="negative" v-close-popup />
+          <q-btn flat label="Aceptar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -45,6 +98,8 @@ export default {
   },
   data() {
     return {
+      dataCita: null,
+      fixed: false,
       date: "2019/02/01",
       labelsCalendar: {
         month: "MES",
@@ -110,8 +165,25 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    activar(val) {
+      // console.log(val);
+      this.dataCita = val;
+      this.fixed = true;
+    },
+  },
   async created() {
+    this.$on();
+    this.$root.$on("click-event-MYCALENDAR", this.activar);
+    // {
+    //   // do something here
+    //   console.log("CLICK", eventDetailObject);
+    //   this.$emit("iniciar")
+    // });
+    this.$root.$on("update-event-MYCALENDAR", function (eventDetailObject) {
+      // do something here
+      console.log("UPDATE", eventDetailObject);
+    });
     // this.$q.$on("click-day-MYCALENDAR", function(day) {
     //   // do something here
     //   console.log("Evento DAY");

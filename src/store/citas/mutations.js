@@ -9,3 +9,7 @@ export function getCitasFilter(state, payload) {
 export function dialogCrear(state, payload) {
   state.dialogCrear = payload;
 }
+
+export function getCitasTipos(state, payload) {
+  state.CitasTipos = payload;
+}

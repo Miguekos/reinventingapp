@@ -12,7 +12,7 @@
           </div>
         </q-card-section>
         <q-separator />
-        <form @submit.prevent="onSubmit" @reset.prevent.stop="onResert">
+        <q-form @submit.prevent="onSubmit" @reset.prevent.stop="onResert">
           <q-card-section class="row items-center q-gutter-sm">
             <div class="col-12">
               <q-input
@@ -103,6 +103,7 @@
                 v-model="color"
                 label="Color *"
                 hint="Ingresa nombre de usuario"
+                lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Campo obligatorio',
                 ]"
@@ -127,26 +128,30 @@
               </div>
             </div>
             <div class="col-12">
+              <!-- {{ getCitasTipos }} -->
               <q-select
                 filled
                 dense
                 v-model="tipodetrabajo"
-                :options="options"
+                :options="getCitasTipos"
+                option-label="no_tipope"
+                option-value="co_tipope"
+                emit-value
+                map-options
                 label="Tipo de Trabajo"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
               />
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn color="negative" @click="cerrarDialogCrear" outline>Cerrar</q-btn>
+            <q-btn color="negative" @click="cerrarDialogCrear" outline
+              >Cerrar</q-btn
+            >
             <q-btn color="warning" type="reset" outline>reset</q-btn>
             <q-btn color="positive" type="submit" :loading="loadboton" outline
               >Guardar
             </q-btn>
           </q-card-actions>
-        </form>
+        </q-form>
       </q-card>
     </q-dialog>
   </div>
@@ -154,20 +159,21 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { date } from 'quasar'
-let timeStamp = Date.now()
+import { date } from "quasar";
+let timeStamp = Date.now();
 // let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss')
 export default {
   computed: {
     ...mapState("citas", ["dialogCrear"]),
     ...mapGetters("marcas", ["getMarcas"]),
+    ...mapGetters("citas", ["getCitasTipos"]),
     ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"]),
   },
   name: "CreaCitas",
   data() {
     return {
       mostrarFormulario: true,
-      fechaCita: date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm'),
+      fechaCita: date.formatDate(timeStamp, "YYYY-MM-DD HH:mm"),
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
       loadboton: false,
       username: "",
@@ -187,7 +193,7 @@ export default {
   methods: {
     ...mapActions("marcas", ["callMarcas"]),
     ...mapActions("modelos", ["callModelosFilter", "callModelosFilterMarca"]),
-    ...mapActions("citas", ["callCitasAdd", "callCitas"]),
+    ...mapActions("citas", ["callCitasAdd", "callCitas", "callCitasTipoCitas"]),
     cerrarDialogCrear() {
       this.$store.commit("citas/dialogCrear", false);
     },
@@ -202,8 +208,8 @@ export default {
       this.placa = "";
       this.modelo = "";
       this.color = "";
-      this.marca= "";
-      this.fechaCita = date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm');
+      this.marca = "";
+      this.fechaCita = date.formatDate(timeStamp, "YYYY-MM-DD HH:mm");
     },
     async onSubmit() {
       this.loadboton = true;
@@ -217,7 +223,7 @@ export default {
           co_modveh: this.modelo,
           no_colveh: this.color,
           fe_progra: this.fechaCita,
-          co_tipope: 1,
+          co_tipope: this.tipodetrabajo,
         });
         console.log("responseAddCitas", responseAddCitas);
         if (responseAddCitas.res == "ok") {
@@ -264,13 +270,16 @@ export default {
       // this.motor = this.dataEdit.nu_motveh;
       // this.color = this.dataEdit.no_colveh;
       await this.callMarcas("all");
+      await this.callCitasTipoCitas();
       this.mostrarFormulario = true;
       this.$q.loading.hide();
     } else if (this.tipo == 1) {
+      await this.callCitasTipoCitas();
       await this.callMarcas("all");
       this.mostrarFormulario = true;
       this.$q.loading.hide();
     }
+    await this.callCitasTipoCitas();
     await this.callMarcas("all");
     this.$q.loading.hide();
     // this.mostrarFormulario = true;

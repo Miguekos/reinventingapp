@@ -17,3 +17,10 @@ export async function callCitasAdd({ commit }, payload) {
   console.log(response.data);
   return response.data;
 }
+
+
+export async function callCitasTipoCitas({ commit }) {
+  const response = await axiosInstance.get(`/tipocita`);
+  console.log(response.data);
+  commit("getCitasTipos", response.data.marcas);
+}

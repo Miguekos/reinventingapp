@@ -106,13 +106,13 @@
                 v-model="chasis"
                 label="Chasis *"
                 hint="Ingresa Chasis"
-                maxlength="20"
+                maxlength="17"
                 counter
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length == 20) ||
-                    'Campo obligatorio y debe ser igual a 20',
+                    (val && val.length == 17) ||
+                    'Campo obligatorio y debe ser igual a 17',
                 ]"
               />
             </div>

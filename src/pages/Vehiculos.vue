@@ -36,8 +36,8 @@
             filled
             clearable
             dense
-            v-model="citys"
-            :options="filtro2_unique"
+            v-model="statuss"
+            :options="filtro1_unique"
             label="Marca"
           >
           </q-select>
@@ -48,8 +48,8 @@
             filled
             clearable
             dense
-            v-model="statuss"
-            :options="filtro1_unique"
+            v-model="citys"
+            :options="filtro2_unique"
             label="Modelo"
           >
           </q-select>
@@ -95,7 +95,7 @@
     <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
     <!--    </div>-->
     <div>
-        <DialogCrear :tipo="tipo" :info="dataEdit" />
+      <DialogCrear :tipo="tipo" :info="dataEdit" />
     </div>
     <!-- content -->
   </q-page>
@@ -200,10 +200,15 @@ export default {
       }
     },
   },
+
   async created() {
     this.$q.loading.show();
     await this.callVehiculos("all");
     this.$q.loading.hide();
+
+    console.log("qwe");
+
+    console.log("asd");
   },
 };
 </script>

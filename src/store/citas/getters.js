@@ -22,30 +22,45 @@ export function getCitas(state) {
   // console.log(formattedString);
   for (let index = 0; index < state.getCitas.length; index++) {
     const element = state.getCitas[index];
+    const fechaNueva = date.formatDate(element.fe_progra, 'YYYY-MM-DDTHH:mm:ss');
+    // console.log(fechaNueva);
+    const fechaFin = date.addToDate(element.fe_progra, { hours: 1 })
+    const fechaFinF = date.formatDate(fechaFin, 'YYYY-MM-DDTHH:mm:ss');
+    // console.log(fechaFinF);
+
     // console.log(element);
     const json = {
       id: index,
-      summary: `${element.no_tipope}`,
+      status: "asdasd",
+      placa: `${element.co_plaveh}`,
+      summary: `${element.co_plaveh} - ${element.no_tipope}`,
       description: element.no_tipope,
-      location: "Oficina de los olivos",
+      location: "Sede Gregorio Paredes",
+      creator: {
+        id: "2",
+        email: "miguekos1233@gmail.com",
+        displayName: "Miguel Rodriguez",
+        self: true
+      },
       start: {
-        dateTime: date.formatDate(element.fe_progra, 'YYYY-MM-DDTHH:mm:ss'),
+        dateTime: fechaNueva,
         timeZone: "America/Lima"
       },
       end: {
-        dateTime: date.formatDate(element.fe_progra, 'YYYY-MM-DDTHH:mm:ss'),
+        // dateTime: date.formatDate(element.fe_progra, 'YYYY-MM-DDTHH:mm:ss'),
+        dateTime: fechaFinF,
         timeZone: "America/Lima"
       },
       color: "orange",
       attendees: [
         {
           id: index,
-          auto: element.no_marveh,
-          // email: "baldeonbenja@reinventing.com.pe",
+          email: "baldeonbenja@reinventing.com.pe",
           displayName: element.no_person,
-          organizer: false,
-          self: false,
-          resource: false
+          organizer: true,
+          self: true,
+          resource: false,
+          comment: "adasfasasfasf",
         }
       ]
     }
@@ -63,4 +78,8 @@ export function getCitasFilter(state) {
 
 export function callAddCitas(state) {
   return state.getCitas;
+}
+
+export function getCitasTipos(state) {
+  return state.CitasTipos;
 }

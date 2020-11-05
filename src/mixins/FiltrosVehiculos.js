@@ -10,7 +10,7 @@ const FiltrosVehioculos = {
       this.$q.loading.show();
       for (let index = 0; index < array.length; index++) {
         const element = array[index];
-        console.log(element.no_marveh);
+        // console.log(element.no_marveh);
         this.status.push(element.no_marveh);
         this.city.push(element.no_modveh);
         this.mobil.push(element.nu_anofab);
