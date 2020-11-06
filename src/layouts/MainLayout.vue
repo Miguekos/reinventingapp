@@ -1,19 +1,42 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar class="bg-secondary">
         <q-btn
           flat
           dense
           round
           icon="menu"
+          color="white"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title> Reinventing Admin </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title>
+          <q-img src="logo2.png" spinner-color="white" width="100px" />
+          <!--          Reinventing Admin-->
+        </q-toolbar-title>
+        <!--        <div>Quasar v{{ $q.version }}</div>-->
+        <q-btn
+          flat
+          dense
+          round
+          size="sm"
+          color="black"
+          aria-label="Menu"
+          @click="activarProfile"
+        >
+          <q-avatar>
+            <img
+              width="50px"
+              src="http://207.244.232.99:9500/fileserver/myfiles/getfile/FotoPerfil.png"
+            />
+            <q-badge color="negative" floating>
+              4
+              <!--              {{ $store.state.utils.Alertas.length }}-->
+            </q-badge>
+          </q-avatar>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -30,13 +53,18 @@
         :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
       >
         <div style="height: calc(100% - 117px); padding: 10px">
-          <q-toolbar class="cursor-pointer" @click="activarProfile">
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
+          <!--          <q-toolbar>-->
+          <div class="text-center">
+            <span>
+              MENU
+            </span>
+          </div>
+          <!--            <q-avatar>-->
+          <!--              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />-->
+          <!--            </q-avatar>-->
 
-            <q-toolbar-title>Miguel Rodriguez</q-toolbar-title>
-          </q-toolbar>
+          <!--            <q-toolbar-title>MENU</q-toolbar-title>-->
+          <!--          </q-toolbar>-->
           <hr />
           <q-scroll-area style="height: 100%">
             <q-list padding>
@@ -72,7 +100,7 @@
     <q-dialog v-model="dialogPerfil">
       <div style="width: 50%">
         <q-card>
-          <q-card-section align="center">
+          <q-card-section @click="alert = true" align="center">
             <q-img
               width="200px"
               class="rounded-borders"
@@ -102,6 +130,11 @@
           </q-card-section>
         </q-card>
       </div>
+      <q-dialog v-model="alert">
+        <q-card>
+          <Test />
+        </q-card>
+      </q-dialog>
     </q-dialog>
   </q-layout>
 </template>
@@ -115,45 +148,50 @@ const linksData = [
     title: "Usuarios",
     caption: "quasar.dev",
     icon: "group",
-    link: "/usuarios",
+    link: "/usuarios"
   },
   {
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
-    link: "/vehiculos",
+    link: "/vehiculos"
   },
   {
     title: "Personas",
     caption: "github.com/quasarframework",
     icon: "face",
-    link: "/personas",
+    link: "/personas"
   },
   {
     title: "Citas",
     caption: "github.com/quasarframework",
     icon: "event",
-    link: "/citas",
-  },
+    link: "/citas"
+  }
 ];
 
 export default {
   name: "MainLayout",
   // mixins: [MixinDefault],
-  components: { EssentialLink, Profile: () => import("pages/Profile") },
+  components: {
+    EssentialLink,
+    Profile: () => import("pages/Profile"),
+    Test: () => import("pages/Test")
+  },
   data() {
     return {
+      alert: false,
       info: null,
       user: {
         first_name: "",
         last_name: "",
         age: null,
         email: "",
-        phone: "",
+        phone: ""
       },
       dialogPerfil: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData,
+      essentialLinks: linksData
     };
   },
   methods: {
@@ -175,18 +213,18 @@ export default {
         // icon: "favorite",
         color: "white",
         textColor: "blue-5",
-        position: "top",
+        position: "top"
       });
       this.$q.loading.hide();
       // }, 2000);
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
 .q-drawer {
   /*background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;*/
-  /*background-image: url("../assets/images/lake.jpg") !important;*/
+  background-image: url("../assets/images/lake.jpg") !important;
   /*background-size: cover !important;*/
 }
 
