@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--    <q-uploader-->
-    <!--      url="http://207.244.232.99:9500/fileserver/myfiles/upload"-->
+    <!--      url="https://api.reinventing.com.pe/fileserver/myfiles/upload"-->
     <!--      method="POST"-->
     <!--      field-name="file"-->
     <!--    />-->
@@ -37,7 +37,7 @@ export default {
       console.log(files[0]);
       return {
         // url: 'http://192.168.0.30:9776/envios//upload',
-        url: () => `http://207.244.232.99:9500/fileserver/myfiles/uploadfiles/`,
+        url: () => `https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/`,
         method: "POST",
         // headers: () => [{name: 'Content-Type', value: 'multipart/form-data'}],
         fieldName: "files"
@@ -77,7 +77,7 @@ export default {
         // simulating a delay of 2 seconds
         // setTimeout(() => {
         resolve({
-          url: "http://207.244.232.99:9500/fileserver/myfiles/uploadfiles/",
+          url: "https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/",
           method: "POST",
           fieldName: "files"
         });
