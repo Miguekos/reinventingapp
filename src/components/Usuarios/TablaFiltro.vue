@@ -145,11 +145,15 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <div v-if="dialogEdit">
+      <DialogEdit :tipo="tipo" :info="dataEdit" />
+    </div>
   </div>
 </template>
 
 <script>
 import { exportFile } from "quasar";
+import { mapState } from "vuex";
 
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
@@ -173,7 +177,11 @@ export default {
     "tool",
     "loadtable"
   ],
+  components: {
+    DialogEdit: () => import("./EditarUsuario")
+  },
   computed: {
+    ...mapState("usuarios", ["dialogEdit"]),
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.data_employee_dialog.co_fotper) {
@@ -185,6 +193,8 @@ export default {
   },
   data() {
     return {
+      tipo: 2,
+      dataEdit: {},
       filter: "",
       mode: "list",
       invoice: {},
@@ -205,12 +215,15 @@ export default {
       this.employee_dialog = true;
     },
     editar(val) {
-      this.$store.commit("vehiculos/dataEdit", val);
-      this.$store.commit("vehiculos/activarEdit", true);
-      this.$emit("click", 2);
+      this.dataEdit = val;
+      this.$store.commit("usuarios/dialogEdit", true);
+      console.log("Se preciono en la table de usuarios", val);
+      // this.$store.commit("usuarios/dataEdit", val);
+      // this.$emit("click", 2);
+      // this.$store.commit("usuarios/activarEdit", true);
       console.log(val);
       this.$q.notify({
-        message: val.co_plaveh
+        message: val.no_nombre
       });
     },
     exportTable() {

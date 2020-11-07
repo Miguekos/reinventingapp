@@ -13,7 +13,25 @@ export async function callUsersFilter({ commit }, payload) {
 }
 
 export async function callUsersAdd({ commit }, payload) {
-  const response = await axiosInstance.post(`/users`, payload);
+  const response = await axiosInstance.post(`/users/`, payload);
+  console.log(response.data);
+  return response.data;
+}
+
+export async function callUsersId({ commit }, payload) {
+  const response = await axiosInstance.get(`/users/id/${payload}`);
+  console.log(response.data);
+  return response.data.user;
+}
+
+export async function callCambioFotper({ commit }, payload) {
+  const response = await axiosInstance.post(`/users/cambio_fotper`, payload);
+  console.log(response.data);
+  return response.data;
+}
+
+export async function callCambioContra({ commit }, payload) {
+  const response = await axiosInstance.post(`/users/cambio_contra`, payload);
   console.log(response.data);
   return response.data;
 }

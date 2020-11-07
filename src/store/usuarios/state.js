@@ -2,6 +2,9 @@ export default function() {
   return {
     getUsers: [],
     getUsersFilter: [],
-    dialogCrear: false
+    dialogCrear: false,
+    dataEdit: {},
+    dialogEdit: false,
+    activarEdit: false
   };
 }

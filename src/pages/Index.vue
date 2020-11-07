@@ -26,10 +26,7 @@
         </q-card-section>
 
         <q-card-section class="col-5 flex flex-center">
-          <q-img
-            class="rounded-borders"
-            src="https://cdn.quasar.dev/img/boy-avatar.png"
-          />
+          <q-img class="rounded-borders" :src="fotoPerfil" />
         </q-card-section>
       </q-card-section>
 
@@ -43,8 +40,20 @@
 </template>
 
 <script>
+import { storagelocal } from "../mixins/mixin";
 export default {
   name: "PageIndex",
+  mixins: [storagelocal],
+  computed: {
+    fotoPerfil() {
+      // https://cdn.quasar.dev/img/boy-avatar.png
+      if (this.userLocal.co_fotper) {
+        return `http://207.244.232.99:9500/fileserver/myfiles/getfile/${this.userLocal.co_fotper}`;
+      } else {
+        return `https://cdn.quasar.dev/img/boy-avatar.png`;
+      }
+    }
+  },
   date() {
     return {
       employee_dialog: true

@@ -4,6 +4,7 @@
       <Titulos icon="group" color="primary" @click="boton" titulo="Usuarios" />
     </div>
     <q-separator color="primary" />
+    <!--    {{ $store.state.usuarios.dataEdit }}-->
     <!--    <div align="center">-->
     <!--      <Filtros />-->
     <!--    </div>-->
@@ -13,6 +14,8 @@
         color="primary"
         :info="getUsers"
         :columns="columns"
+        tool="usuarios"
+        @click="boton"
         paginas="15"
         :exportar="false"
         gridactivate="false"
@@ -42,47 +45,47 @@ export default {
           align: "left",
           label: "ID",
           field: "co_usuari",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_usuari",
           align: "left",
           label: "Nombre",
           field: "no_usuari",
-          sortable: true,
+          sortable: true
         },
         {
           name: "il_activo",
           align: "left",
           label: "Activo",
-          field: (row) => (row.il_activo ? "Activo" : "Inactivo"),
-          sortable: true,
+          field: row => (row.il_activo ? "Activo" : "Inactivo"),
+          sortable: true
         },
         {
           name: "detail",
           align: "left",
           label: "Detail",
           field: "detail",
-          sortable: true,
+          sortable: true
         },
         {
           name: "action",
           align: "right",
           label: "Acciones",
           field: "action",
-          sortable: true,
-        },
-      ],
+          sortable: true
+        }
+      ]
     };
   },
   computed: {
-    ...mapGetters("usuarios", ["getUsers"]),
+    ...mapGetters("usuarios", ["getUsers"])
   },
   components: {
     Filtros: () => import("../components/Filtros"),
     Titulos: () => import("../components/Titulos"),
-    TablaFiltro: () => import("../components/TablaFiltro"),
-    DialogCrear: () => import("../components/Usuarios/CrearUsuario"),
+    TablaFiltro: () => import("../components/Usuarios/TablaFiltro"),
+    DialogCrear: () => import("../components/Usuarios/CrearUsuario")
   },
   methods: {
     ...mapActions("usuarios", ["callUsers"]),
@@ -99,14 +102,14 @@ export default {
         console.log("Boton en Personas 2");
         // this.dialogCrear = true;
         console.log("se preciono el boton");
-        this.$store.commit("usuarios/dialogCrear", true);
+        // this.$store.commit("usuarios/dialogEdit", true);
       }
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
     await this.callUsers("all");
     this.$q.loading.hide();
-  },
+  }
 };
 </script>

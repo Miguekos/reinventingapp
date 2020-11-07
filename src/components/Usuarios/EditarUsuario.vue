@@ -1,10 +1,10 @@
 <template>
   <div>
-    <q-dialog v-model="dialogCrear" position="top" persistent>
-      <q-card v-if="dialogCrear">
+    <q-dialog v-model="dialogEdit" persistent position="top">
+      <q-card v-if="dialogEdit">
         <q-card-section class="row items-center">
           <div>
-            <div class="text-h5">Agregar Usuario</div>
+            <div class="text-h5">Editar Usuario</div>
           </div>
         </q-card-section>
         <q-separator />
@@ -17,9 +17,7 @@
                 v-model="username"
                 label="Username *"
                 hint="Ingresa nombre de usuario"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col">
@@ -29,9 +27,7 @@
                 v-model="dni"
                 label="DNI"
                 hint="Ingresa tu DNI"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col">
@@ -42,9 +38,7 @@
                 v-model="password"
                 label="Contraseña"
                 hint="Ingresa contraseña"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -54,9 +48,7 @@
                 v-model="nombres"
                 label="Nombre Completo *"
                 hint="Ingresa nombre de usuario"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col">
@@ -66,9 +58,7 @@
                 v-model="ape_pat"
                 label="Apellido Paterno *"
                 hint="Apellido Paterno"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col">
@@ -78,9 +68,7 @@
                 v-model="ape_mat"
                 label="Apellido Materno *"
                 hint="Apellido Materno"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
           </q-card-section>
@@ -103,8 +91,9 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
+  props: ["info", "tipo"],
   computed: {
-    ...mapState("usuarios", ["dialogCrear"]),
+    ...mapState("usuarios", ["dialogEdit"])
   },
   name: "CrearUsuario",
   data() {
@@ -116,14 +105,16 @@ export default {
       password: "",
       nombres: "",
       ape_pat: "",
-      ape_mat: "",
+      ape_mat: ""
     };
   },
   methods: {
     ...mapActions("usuarios", ["callUsersAdd", "callUsers"]),
     cerrarDialogCrearUser() {
-      // console.log("cerrarDialogCrearUser");
-      this.$store.commit("usuarios/dialogCrear", false);
+      console.log("cerrarDialogCrearUser");
+      this.$store.commit("usuarios/dialogEdit", false);
+      // this.$store.commit("usuarios/dataEdit", []);
+      // this.$store.commit("usuarios/activarEdit", false);
     },
     async onResert() {
       this.username = "";
@@ -145,17 +136,17 @@ export default {
           ape_mat: this.ape_mat,
           nombres: this.nombres,
           swt_emp: true,
-          swt_act: true,
+          swt_act: true
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddUser.message,
+            message: responseAddUser.message
           });
           this.callUsers("all");
-          this.$store.commit("usuarios/dialogCrear", false);
+          this.$store.commit("usuarios/dialogEdit", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
@@ -164,7 +155,7 @@ export default {
               responseAddUser.user.detail
                 ? responseAddUser.user.detail
                 : "Verifique los campos"
-            }`,
+            }`
           });
         }
 
@@ -175,27 +166,35 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado",
+          message: "Error controlado"
         });
         console.log("se paso, en el excel");
       }
       // }
-    },
+    }
   },
   async mounted() {
     this.$q.loading.show();
-    console.log("mounted - crear - usuarios");
-    if (this.tipo == 2) {
-      this.mostrarFormulario = true;
-      this.$q.loading.hide();
-    } else if (this.tipo == 1) {
-      // await this.callMarcas("all");
-      this.mostrarFormulario = true;
-      this.$q.loading.hide();
-    }
+    console.log("this.info", this.info);
+    this.username = this.info.no_usuari;
+    this.dni = this.info.co_docide;
+    this.nombres = this.info.no_nombre;
+    this.ape_pat = this.info.no_apepat;
+    this.ape_mat = this.info.no_apemat;
     this.$q.loading.hide();
     // this.mostrarFormulario = true;
-  },
+    //   co_docide: "001811517"
+    //   co_emplea: "37"
+    //   co_fotper: "117756683_1223139824698678_6098735303685865101_n.jpg"
+    //   co_person: "92"
+    //   co_usuari: 105
+    //   il_activo: "1"
+    //   no_apemat: "Aguilera"
+    //   no_apepat: "Rodriguez"
+    //   no_nombre: "Miguel Angel"
+    //   no_usuari: "Miguekos"
+    //   ti_docide: "Carné de Extranjería"
+  }
 };
 </script>
 

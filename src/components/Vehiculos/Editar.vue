@@ -1,11 +1,12 @@
 <template>
   <div>
     <!--    <q-dialog v-model="$store.state.vehiculos.dialogCrear" position="top">-->
-    <q-dialog v-model="dialogCrear" persistent position="top">
+    <q-dialog v-model="dialogEdit" persistent position="top">
       <q-card style="width: 700px; max-width: 80vw;">
+        <!--        {{ info }}-->
         <q-card-section class="row items-center">
           <div>
-            <div class="text-h5">Agregar Vehiculos</div>
+            <div class="text-h5">Editar Vehiculos</div>
           </div>
         </q-card-section>
         <q-separator />
@@ -125,8 +126,9 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
+  props: ["info"],
   computed: {
-    ...mapState("vehiculos", ["dialogCrear"]),
+    ...mapState("vehiculos", ["dialogEdit"]),
     ...mapGetters("marcas", ["getMarcas"]),
     ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"])
   },
@@ -154,7 +156,7 @@ export default {
       await this.callModelosFilterMarca(val);
     },
     cerrarDialogCrearUser() {
-      this.$store.commit("vehiculos/dialogCrear", false);
+      this.$store.commit("vehiculos/dialogEdit", false);
     },
     async onResert() {
       this.placa = "";
@@ -221,8 +223,31 @@ export default {
       // }
     }
   },
-  async created() {
+  async mounted() {
     await this.callMarcas("all");
+    console.log(this.info);
+    this.placa = this.info.co_plaveh;
+    this.marca = this.info.co_marveh;
+    this.modelo = this.info.co_modveh;
+    this.versioncar = "";
+    this.anio = this.info.nu_anofab;
+    this.color = this.info.no_colveh;
+    this.chasis = this.info.nu_motveh;
+    this.motor = this.info.nu_serveh;
+    // co_marveh: "80"
+    // co_modveh: "1011"
+    // co_plaveh: "F3J632"
+    // co_vehicu: 1002
+    // co_verveh: "8"
+    // no_colveh: "NEGRO"
+    // no_marveh: "BYD"
+    // no_modveh: "F3"
+    // no_verveh: "GLI"
+    // nu_anofab: "2013"
+    // nu_anomod: "2013"
+    // nu_asiveh: "5"
+    // nu_motveh: "BYD473QD713300172"
+    // nu_serveh: "LGXC16AF6D0073589"
   }
 };
 </script>

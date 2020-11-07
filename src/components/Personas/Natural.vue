@@ -10,6 +10,8 @@
             v-model="natural.doc_ide"
             label="DNI"
             hint="Ingresa DNI"
+            maxlength="8"
+            counter
             lazy-rules
             :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
           />
@@ -58,6 +60,8 @@
             v-model="natural.telefo"
             label="Numero de Telefono *"
             hint="Ingresa Numero de Telefono"
+            maxlength="9"
+            counter
             lazy-rules
             :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
           />

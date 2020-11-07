@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header>
+    <q-header elevated>
       <q-toolbar class="bg-secondary">
         <q-btn
           flat
@@ -27,10 +27,7 @@
           @click="activarProfile"
         >
           <q-avatar>
-            <img
-              width="50px"
-              src="http://207.244.232.99:9500/fileserver/myfiles/getfile/FotoPerfil.png"
-            />
+            <img width="50px" :src="fotoPerfil" />
             <q-badge color="negative" floating>
               4
               <!--              {{ $store.state.utils.Alertas.length }}-->
@@ -101,38 +98,38 @@
       <div style="width: 50%">
         <q-card>
           <q-card-section @click="alert = true" align="center">
-            <q-img
-              width="200px"
-              class="rounded-borders"
-              src="https://cdn.quasar.dev/img/boy-avatar.png"
-            />
+            <q-img width="200px" class="rounded-borders" :src="fotoPerfil" />
           </q-card-section>
           <q-card-section>
             <q-form class="q-gutter-md">
-              <q-input filled v-model="user.first_name" label="Nombres" />
+              <q-input filled v-model="userLocal.no_nombre" label="Nombres" />
 
               <q-input
                 filled
-                v-model="user.last_name"
+                v-model="userLocal.no_apepat"
                 label="Apellido Paterno"
               />
 
-              <q-input filled v-model="user.age" label="Apellido Materno" />
+              <q-input
+                filled
+                v-model="userLocal.no_apemat"
+                label="Apellido Materno"
+              />
 
-              <q-input filled v-model="user.email" label="Usuario" />
+              <q-input filled v-model="userLocal.no_usuari" label="Usuario" />
 
-              <q-input filled v-model="user.phone" label="password" />
+              <!--              <q-input filled v-model="userLocal.phone" label="password" />-->
 
-              <div>
-                <q-btn label="Update" type="submit" color="primary" />
-              </div>
+              <!--              <div>-->
+              <!--                <q-btn label="Update" type="submit" color="primary" />-->
+              <!--              </div>-->
             </q-form>
           </q-card-section>
         </q-card>
       </div>
       <q-dialog v-model="alert">
         <q-card>
-          <Test />
+          <Test @click="cerrarDialog" />
         </q-card>
       </q-dialog>
     </q-dialog>
@@ -140,7 +137,7 @@
 </template>
 
 <script>
-import { MixinDefault } from "../mixins/mixin";
+import { storagelocal } from "../mixins/mixin";
 import EssentialLink from "components/EssentialLink.vue";
 
 const linksData = [
@@ -172,7 +169,17 @@ const linksData = [
 
 export default {
   name: "MainLayout",
-  // mixins: [MixinDefault],
+  mixins: [storagelocal],
+  computed: {
+    fotoPerfil() {
+      // https://cdn.quasar.dev/img/boy-avatar.png
+      if (this.userLocal.co_fotper) {
+        return `http://207.244.232.99:9500/fileserver/myfiles/getfile/${this.userLocal.co_fotper}`;
+      } else {
+        return `https://cdn.quasar.dev/img/boy-avatar.png`;
+      }
+    }
+  },
   components: {
     EssentialLink,
     Profile: () => import("pages/Profile"),
@@ -195,6 +202,10 @@ export default {
     };
   },
   methods: {
+    cerrarDialog() {
+      this.alert = false;
+      this.dialogPerfil = false;
+    },
     activarProfile() {
       this.dialogPerfil = true;
       const info = this.$q.localStorage.getAll();

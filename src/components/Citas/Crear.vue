@@ -22,9 +22,9 @@
                 v-model="dni"
                 label="DNI"
                 hint="Ingresa tu DNI"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                maxlength="8"
+                counter
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -35,9 +35,7 @@
                 v-model="nombres"
                 label="Apellidos y Nombres *"
                 hint="Ingresa nombre de usuario"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -48,9 +46,9 @@
                 v-model="telefono"
                 label="Telefono *"
                 hint="Ingresa nombre de usuario"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                maxlength="9"
+                counter
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -61,9 +59,9 @@
                 v-model="placa"
                 label="Placa *"
                 hint="Ingresa nombre de usuario"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                maxlength="4"
+                counter
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -104,10 +102,57 @@
                 label="Color *"
                 hint="Ingresa nombre de usuario"
                 lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
+            </div>
+            <div class="col-12">
+              <div class="">
+                <q-input filled v-model="date">
+                  <template v-slot:prepend>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="date" mask="YYYY-MM-DD HH:mm">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+
+                  <template v-slot:append>
+                    <q-icon name="access_time" class="cursor-pointer">
+                      <q-popup-proxy
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-time
+                          v-model="date"
+                          mask="YYYY-MM-DD HH:mm"
+                          format24h
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
             </div>
             <div class="col-12">
               <div class="row">
@@ -115,14 +160,14 @@
                   <q-date
                     v-model="fechaCita"
                     mask="YYYY-MM-DD HH:mm"
-                    color="purple"
+                    color="negative"
                   />
                 </div>
                 <div class="col-12 col-md-6">
                   <q-time
                     v-model="fechaCita"
                     mask="YYYY-MM-DD HH:mm"
-                    color="purple"
+                    color="negative"
                   />
                 </div>
               </div>
@@ -167,11 +212,12 @@ export default {
     ...mapState("citas", ["dialogCrear"]),
     ...mapGetters("marcas", ["getMarcas"]),
     ...mapGetters("citas", ["getCitasTipos"]),
-    ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"]),
+    ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"])
   },
   name: "CreaCitas",
   data() {
     return {
+      date: "2019-02-01 12:44",
       mostrarFormulario: true,
       fechaCita: date.formatDate(timeStamp, "YYYY-MM-DD HH:mm"),
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
@@ -187,7 +233,7 @@ export default {
       placa: "",
       telefono: "",
       color: "",
-      tipodetrabajo: "",
+      tipodetrabajo: ""
     };
   },
   methods: {
@@ -223,21 +269,21 @@ export default {
           co_modveh: this.modelo,
           no_colveh: this.color,
           fe_progra: this.fechaCita,
-          co_tipope: this.tipodetrabajo,
+          co_tipope: this.tipodetrabajo
         });
         console.log("responseAddCitas", responseAddCitas);
         if (responseAddCitas.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddCitas.message,
+            message: responseAddCitas.message
           });
           this.callCitas("all");
           this.$store.commit("citas/dialogCrear", false);
         } else if (responseAddCitas.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddCitas.message} - verifique los campos`,
+            message: `${responseAddCitas.message} - verifique los campos`
           });
         }
 
@@ -248,12 +294,12 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado",
+          message: "Error controlado"
         });
         console.log("se paso, en el excel");
       }
       // }
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
@@ -283,7 +329,7 @@ export default {
     await this.callMarcas("all");
     this.$q.loading.hide();
     // this.mostrarFormulario = true;
-  },
+  }
 };
 </script>
 

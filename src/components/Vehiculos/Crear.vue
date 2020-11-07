@@ -78,7 +78,9 @@
                 v-model="anio"
                 label="Año *"
                 hint="Ingresa Año"
+                maxlength="4"
                 lazy-rules
+                counter
                 :rules="[
                   (val) => (val && val.length > 0) || 'Campo obligatorio',
                 ]"

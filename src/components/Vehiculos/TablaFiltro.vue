@@ -145,11 +145,15 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <div v-if="dialogEdit">
+      <DialogEdit :tipo="tipo" :info="dataEdit" />
+    </div>
   </div>
 </template>
 
 <script>
 import { exportFile } from "quasar";
+import { mapState } from "vuex";
 
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
@@ -173,7 +177,11 @@ export default {
     "tool",
     "loadtable"
   ],
+  components: {
+    DialogEdit: () => import("./Editar")
+  },
   computed: {
+    ...mapState("vehiculos", ["dialogEdit"]),
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.data_employee_dialog.co_fotper) {
@@ -185,6 +193,8 @@ export default {
   },
   data() {
     return {
+      tipo: 2,
+      dataEdit: {},
       filter: "",
       mode: "list",
       invoice: {},
@@ -205,10 +215,11 @@ export default {
       this.employee_dialog = true;
     },
     editar(val) {
-      this.$store.commit("vehiculos/dataEdit", val);
-      this.$store.commit("vehiculos/activarEdit", true);
-      this.$emit("click", 2);
-      console.log(val);
+      this.dataEdit = val;
+      // this.$store.commit("vehiculos/dataEdit", val);
+      this.$store.commit("vehiculos/dialogEdit", true);
+      // this.$emit("click", 2);
+      // console.log(val);
       this.$q.notify({
         message: val.co_plaveh
       });

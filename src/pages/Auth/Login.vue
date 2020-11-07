@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page class="flex bg-image flex-center">
         <q-card
-          v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '30%' }"
+          v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '400px' }"
         >
           <q-card-section>
             <q-avatar size="103px" class="absolute-center shadow-10">
@@ -74,7 +74,8 @@
               <q-item-section></q-item-section>
             </q-item>
           </q-list>
-        </q-card>
+        </q-card
+          v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '400px' }">
       </q-page>
     </q-page-container>
   </q-layout>
@@ -107,12 +108,13 @@ export default {
       loading: false,
       form: {
         username: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
   methods: {
     ...mapActions("auth", ["login", "recuperar"]),
+    ...mapActions("usuarios", ["callUsersId"]),
     modalRecoverPass() {
       this.$q
         .dialog({
@@ -121,18 +123,18 @@ export default {
             "¡Un correo será enviado con la contraseña generada, no olvides verificar tu bandeja de spam!",
           prompt: {
             model: "",
-            isValid: (val) => val.length > 2, // << here is the magic
+            isValid: val => val.length > 2, // << here is the magic
             type: "text", // optional
             label: "Correo",
-            outlined: true,
+            outlined: true
           },
           color: "blue-5",
           cancel: true,
           persistent: true,
           transitionShow: "slide-down",
-          transitionHide: "slide-up",
+          transitionHide: "slide-up"
         })
-        .onOk(async (data) => {
+        .onOk(async data => {
           console.log(">>>> OK, received", data);
           const res = await this.recuperar(data);
           console.log(res);
@@ -144,7 +146,7 @@ export default {
               icon: "username",
               color: "white",
               textColor: "green-5",
-              position: "top",
+              position: "top"
             });
           } else if (res.codRes == "01") {
             this.$q.notify({
@@ -154,7 +156,7 @@ export default {
               icon: "unsubscribe",
               color: "white",
               textColor: "blue-5",
-              position: "top",
+              position: "top"
             });
           } else {
             this.$q.notify({
@@ -164,7 +166,7 @@ export default {
               icon: "cancel_presentation",
               color: "white",
               textColor: "blue-5",
-              position: "top",
+              position: "top"
             });
           }
         })
@@ -183,9 +185,9 @@ export default {
         // console.log();
         this.login({
           username: this.form.username,
-          password: this.form.password,
+          password: this.form.password
         })
-          .then((resp) => {
+          .then(async resp => {
             if (resp.res == "ok") {
               // console.log("resp", resp.user.il_activo);
               if (!resp.user.il_activo) {
@@ -196,10 +198,12 @@ export default {
                   icon: "insert_emoticon",
                   color: "white",
                   textColor: "blue-5",
-                  position: "top",
+                  position: "top"
                 });
                 this.loadlogin = false;
               } else {
+                const dataUser = await this.callUsersId(resp.user.co_usuari);
+                console.log("dataUser", dataUser);
                 LocalStorage.set("loggin", true);
                 // LocalStorage.set("role", resp.rol);
                 // LocalStorage.set("idUser", resp.id_);
@@ -213,9 +217,12 @@ export default {
                   icon: "insert_emoticon",
                   color: "white",
                   textColor: "blue-5",
-                  position: "top",
+                  position: "top"
                 });
-                LocalStorage.set("UserDetalle", resp.user);
+                LocalStorage.set("UserDetalle", {
+                  ...dataUser[0],
+                  ...resp.user
+                });
                 // console.log("loguerado Correctamente");
                 this.loadlogin = false;
                 this.$router.push("/");
@@ -226,33 +233,37 @@ export default {
                 message: `${resp.message}`,
                 color: "white",
                 textColor: "amber-5",
-                position: "top",
+                position: "top"
               });
               this.loadlogin = false;
             } else {
               console.log("else");
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             this.loadlogin = false;
             this.$q.notify({
               message: "Error en la red",
               color: "white",
               textColor: "blue-5",
-              position: "top",
+              position: "top"
             });
           });
         // console.log("login the user");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style>
 .bg-image {
-  background-image: linear-gradient(135deg, #7028e4 0%, #e5b2ca 100%);
+  /*background-image: linear-gradient(135deg, #7028e4 0%, #e5b2ca 100%);*/
+  background-image: url("../../assets/images/car3.jpg") !important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
