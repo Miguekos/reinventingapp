@@ -59,7 +59,7 @@
                 v-model="placa"
                 label="Placa *"
                 hint="Ingresa nombre de usuario"
-                maxlength="4"
+                maxlength="6"
                 counter
                 :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
