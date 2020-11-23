@@ -9,9 +9,10 @@ const routes = [
       { path: "personas", component: () => import("pages/Personas.vue") },
       { path: "perfil", component: () => import("pages/Profile.vue") },
       { path: "citas", component: () => import("pages/Citas.vue") },
-      { path: "test", component: () => import("pages/Test.vue") }
+      { path: "test", component: () => import("pages/Test.vue") },
+      { path: "materiales", component: () => import("pages/Material.vue") },
+      { path: "operaciones", component: () => import("pages/Operaciones.vue") }
     ]
-
   },
   {
     path: "/auth",
