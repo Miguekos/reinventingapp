@@ -9,6 +9,7 @@ export async function callOperacionesAbrir_operacion({ commit }, payload) {
   commit("getOperacionesAbrir_operacion", response.data);
 }
 
+
 export async function callOperacionesFilter({ commit }, payload) {
   const response = await axiosInstance.get(`/operaciones/${payload}`);
   console.log(response.data);
@@ -25,4 +26,10 @@ export async function callOperacionesAdd({ commit }, payload) {
   const response = await axiosInstance.post(`/operaciones`, payload);
   console.log(response.data);
   return response.data;
+}
+
+export async function call_serv_mater_mostrar_buscar({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/serv_mater_mostrar_buscar`, payload);
+  console.log(response.data);
+  commit("get_serv_mater_mostrar_buscar", response.data)
 }

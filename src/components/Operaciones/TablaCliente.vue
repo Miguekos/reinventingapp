@@ -31,6 +31,7 @@
         </tr>
       </tbody>
     </q-markup-table>
+    
   </div>
 </template>
 
@@ -40,7 +41,7 @@ export default {
     info: {
       type: Array,
       default: [
-        function() {
+        function () {
           return [
             {
               co_operac: "",
@@ -53,23 +54,33 @@ export default {
               im_serint: "",
               im_serext: "",
               im_totmat: "",
-              im_totser: ""
-            }
+              im_totser: "",
+            },
           ];
-        }
-      ]
+        },
+      ],
     },
     titulo: {
-      type: String
+      type: String,
     },
     hideheader: {
-      type: Boolean
+      type: Boolean,
     },
     hidebottom: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
-  name: "Tabla"
+  name: "Tabla",
+  methods: {
+    agregarServiciosMateriales() {
+      console.log("Se preciono agregarServiciosMateriales");
+      this.$emit("click");
+    },
+    agregarServiciosMateriales() {
+      console.log("Se preciono agregarServiciosMateriales");
+      this.$emit("click");
+    }
+  }
 };
 </script>
 

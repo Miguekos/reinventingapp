@@ -1,46 +1,64 @@
 <template>
   <q-page>
     <div>
-      <!--      <Titulos-->
-      <!--        icon="list_alt"-->
-      <!--        color="indigo"-->
-      <!--        @click="boton"-->
-      <!--        titulo="Operaciones - Abrir Operaciones"-->
-      <!--      />-->
-      <q-tabs
-        align="justify"
-        v-model="tab"
-        indicator-color="transparent"
-        active-color="white"
-        class="bg-teal text-grey-5 shadow-2"
-      >
-        <q-route-tab
-          alert="yellow"
-          name="mails"
+      <q-tabs v-model="tab" align="justify" class="">
+        <q-tab
+          class="text-purple"
+          name="nuevaoperacion"
           label="1. Nueva Operación"
-          to="/operaciones"
-        >
-          <q-badge color="primary" text-color="white" floating>2</q-badge>
-        </q-route-tab>
-        <q-route-tab label="2. Abrir Operación" name="alarms" to="/materiales">
-          <q-badge color="primary" text-color="white" floating>3</q-badge>
-        </q-route-tab>
-        <q-route-tab
-          alert="orange"
+        />
+        <q-tab
+          class="text-orange"
+          name="abriroperacion"
+          label="2. Abrir Operación"
+        />
+        <q-tab
+          class="text-teal"
           name="movies"
           label="3. Pendientes de Evaluación"
-          to=""
-        >
-          <q-badge color="primary" text-color="white" floating>5</q-badge>
-        </q-route-tab>
+        />
+        <q-tab
+          class="text-teal"
+          name="movies"
+          label="4. Pendientes de Asignación de Servicios"
+        />
+        <q-tab
+          class="text-teal"
+          name="movies"
+          label="5. Pendientes de Ejecución de Servicio"
+        />
+        <q-tab
+          class="text-teal"
+          name="movies"
+          label="6. Pendiente de Finalizar Servicio"
+        />
       </q-tabs>
-    </div>
-    <!--    <q-separator color="indigo" />-->
-    <div class="row">
-      <div class="col">
-        <AbrirOperacion />
+      <div class="q-gutter-y-sm">
+        <q-tab-panels
+          v-model="tab"
+          animated
+          transition-prev="fade"
+          transition-next="fade"
+        >
+          <q-tab-panel name="nuevaoperacion"> </q-tab-panel>
+
+          <q-tab-panel name="abriroperacion">
+            <div class="row">
+              <div class="col">
+                <AbrirOperacion />
+              </div>
+            </div>
+          </q-tab-panel>
+
+          <q-tab-panel name="movies">
+            <div class="text-h6">Movies</div>
+            Nostrum necessitatibus expedita dolores? Voluptatem repudiandae
+            magni ea.
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
     </div>
+    <!--    <q-separator color="indigo" />-->
   </q-page>
 </template>
 
@@ -49,12 +67,12 @@ export default {
   name: "PageOperaciones",
   data() {
     return {
-      tab: "mails"
+      tab: "nuevaoperacion",
     };
   },
   components: {
     AbrirOperacion: () => import("components/Operaciones/AbrirOperacion"),
-    Titulos: () => import("components/Titulos")
+    Titulos: () => import("components/Titulos"),
   },
   methods: {
     boton(val) {
@@ -72,7 +90,7 @@ export default {
         // console.log("se preciono el boton");
         this.$store.commit("materiales/dialogCrear", true);
       }
-    }
-  }
+    },
+  },
 };
 </script>

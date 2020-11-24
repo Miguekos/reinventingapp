@@ -13,3 +13,7 @@ export function getModelosFilterMarca(state) {
 export function callAddModelos(state) {
   return state.getModelos;
 }
+
+export function get_serv_mater_mostrar_buscar(state) {
+  return state.get_serv_mater_mostrar_buscar
+}

@@ -13,3 +13,11 @@ export function getModelosFilterMarca(state, payload) {
 export function dialogCrear(state, payload) {
   state.dialogCrear = payload;
 }
+
+export function get_serv_mater_mostrar_buscar(state, payload) {
+  state.get_serv_mater_mostrar_buscar = payload
+}
+
+export function numeroDeOperacion(state, payload) {
+  state.numeroDeOperacion = payload
+}

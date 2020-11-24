@@ -24,10 +24,9 @@
       <div class="col-4"></div>
     </div>
     <!--    Datos - Vehiculos - Cliente-->
-    <!--    {{ getOperacionesAbrir_operacion }}-->
     <div v-if="getOperacionesAbrir_operacion.res === 'ok'">
       <div class="row">
-        <div class="col">
+        <div class="col-xs-12 col-md-4">
           <TablaDVC
             v-if="getOperacionesAbrir_operacion.operac.length > 0"
             :info="getOperacionesAbrir_operacion.operac"
@@ -36,7 +35,7 @@
             :hidebottom="true"
           />
         </div>
-        <div class="col">
+        <div class="col-xs-12 col-md-4">
           <TablaV
             v-if="getOperacionesAbrir_operacion.vehicu.length > 0"
             :info="getOperacionesAbrir_operacion.vehicu"
@@ -45,7 +44,7 @@
             :hidebottom="true"
           />
         </div>
-        <div class="col">
+        <div class="col-xs-12 col-md-4">
           <TablaC
             v-if="getOperacionesAbrir_operacion.client.length > 0"
             :info="getOperacionesAbrir_operacion.client"
@@ -53,6 +52,15 @@
             :hideheader="true"
             :hidebottom="true"
           />
+          <div class="text-center q-pa-md q-gutter-md">
+            <q-btn
+              size="sm"
+              color="primary"
+              icon-right="add"
+              label="Agregar Servicios y Materiales"
+              @click="agregarServicios = true"
+            />
+          </div>
         </div>
       </div>
       <!-- TablaServicios -->
@@ -64,7 +72,6 @@
             titulo="Servicios"
             :hideheader="false"
             :hidebottom="true"
-            @click="agregarServicios = true"
           />
         </div>
       </div>
@@ -77,16 +84,9 @@
             titulo="Materiales"
             :hideheader="false"
             :hidebottom="true"
-            @click="agregarMateriales = true"
           />
         </div>
       </div>
-      <q-dialog v-model="agregarServicios" persistent position="top">
-        <DialogAddServicios />
-      </q-dialog>
-      <q-dialog v-model="agregarMateriales" persistent position="top">
-        <DialogAddMateriales />
-      </q-dialog>
     </div>
     <div v-if="getOperacionesAbrir_operacion.res === 'ko'">
       <q-banner dense inline-actions class="text-white bg-red">
@@ -96,6 +96,17 @@
         </template>
       </q-banner>
     </div>
+    <q-dialog
+      v-model="agregarServicios"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      full-height
+      full-width
+    >
+      <DialogAddServicios />
+    </q-dialog>
   </div>
 </template>
 
@@ -103,15 +114,16 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("operaciones", ["getOperacionesAbrir_operacion"])
+    ...mapGetters("operaciones", ["getOperacionesAbrir_operacion"]),
   },
   name: "AbrirOperacion",
   data() {
     return {
+      maximizedToggle: false,
       buscarServiciosMateriales: "",
       agregarServicios: false,
       agregarMateriales: false,
-      buscar: ""
+      buscar: "",
     };
   },
   components: {
@@ -122,17 +134,22 @@ export default {
     TablaServicios: () => import("./TablaServiciosAbrirOperaciones"),
     TablaMateriales: () => import("./TablaMaterialesAbrirOperaciones"),
     DialogAddServicios: () => import("./DialogAddServicios"),
-    DialogAddMateriales: () => import("./DialogAddMateriales")
+    DialogAddMateriales: () => import("./DialogAddMateriales"),
   },
   methods: {
     ...mapActions("operaciones", ["callOperacionesAbrir_operacion"]),
     async buscarOperaciones() {
       this.$q.loading.show();
+      this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
       await this.callOperacionesAbrir_operacion(this.buscar);
       this.$q.loading.hide();
-    }
+    },
   },
-  async created() {}
+  async created() {
+    this.$q.notify({
+      message: "2. Abrir Operación",
+    });
+  },
 };
 </script>
 
