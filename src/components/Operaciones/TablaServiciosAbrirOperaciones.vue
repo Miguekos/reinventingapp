@@ -8,6 +8,7 @@
       dense
       :title="titulo"
       :data="info"
+      :columns="columns"
       row-key="name"
       :pagination="pagination"
       :hide-header="hideheader"
@@ -45,8 +46,10 @@ export default {
       type: Boolean,
     },
   },
+  computed: {},
   data() {
     return {
+      data: [],
       pagination: {
         sortBy: "desc",
         descending: false,
@@ -58,30 +61,137 @@ export default {
         {
           name: "name",
           required: true,
-          label: "Dessert (100g serving)",
+          label: "Vehículo",
           align: "left",
-          field: (row) => row.name,
+          field: (row) => row.co_plaveh,
           format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "co_opeser",
+          align: "right",
+          label: "Código",
+          field: "co_opeser",
+          sortable: true,
+        },
+        {
+          name: "no_servic",
+          align: "right",
+          label: "Descripción",
+          field: "no_servic",
+          sortable: true,
+        },
+        {
+          name: "no_unimed",
+          align: "right",
+          label: "Unidad Medida",
+          field: "no_unimed",
+          sortable: true,
+        },
+        {
+          name: "no_grafam",
+          align: "right",
+          label: "Gran Familia",
+          field: "no_grafam",
           sortable: true,
         },
         {
           name: "calories",
           align: "right",
-          label: "Calories",
+          label: "Cantidad",
           field: "calories",
           sortable: true,
         },
-      ],
-      data: [
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
+          name: "im_preori",
+          align: "right",
+          label: "P.U.",
+          field: "im_preori",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "P.T",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "H.H	",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "H.M",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "C.P",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "Cantidad",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "P.U",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "P.T",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "H.H",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "H.M",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "calories",
+          align: "right",
+          label: "C.P",
+          field: "calories",
+          sortable: true,
+        },
+        {
+          name: "co_estado",
+          align: "right",
+          label: "Estado",
+          field: "co_estado",
+          sortable: true,
+        },
+        {
+          name: "no_tipser",
+          align: "right",
+          label: "Tipo de Servicio",
+          field: "no_tipser",
+          sortable: true,
         },
       ],
     };
@@ -92,6 +202,7 @@ export default {
       this.$emit("click");
     },
   },
+  created() {},
 };
 </script>
 

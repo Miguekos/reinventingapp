@@ -11,7 +11,8 @@ const routes = [
       { path: "citas", component: () => import("pages/Citas.vue") },
       { path: "test", component: () => import("pages/Test.vue") },
       { path: "materiales", component: () => import("pages/Material.vue") },
-      { path: "operaciones", component: () => import("pages/Operaciones.vue") }
+      { path: "operaciones", component: () => import("pages/Operaciones.vue") },
+      // { path: "operacionesstep/:id", component: () => import("pages/Operaciones.vue") }
     ]
   },
   {

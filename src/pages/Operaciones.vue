@@ -2,35 +2,23 @@
   <q-page>
     <div>
       <q-tabs v-model="tab" align="justify" class="">
+        <q-tab class="text-purple" name="1" label="1. Nueva Operación" />
+        <q-tab class="text-orange" name="2" label="2. Abrir Operación" />
+        <q-tab class="text-teal" name="3" label="3. Pendientes de Evaluación" />
         <q-tab
-          class="text-purple"
-          name="nuevaoperacion"
-          label="1. Nueva Operación"
-        />
-        <q-tab
-          class="text-orange"
-          name="abriroperacion"
-          label="2. Abrir Operación"
-        />
-        <q-tab
-          class="text-teal"
-          name="movies"
-          label="3. Pendientes de Evaluación"
-        />
-        <q-tab
-          class="text-teal"
-          name="movies"
+          class="text-indigo"
+          name="4"
           label="4. Pendientes de Asignación de Servicios"
         />
         <q-tab
-          class="text-teal"
-          name="movies"
+          class="text-info"
+          name="5"
           label="5. Pendientes de Ejecución de Servicio"
         />
         <q-tab
           class="text-teal"
-          name="movies"
-          label="6. Pendiente de Finalizar Servicio"
+          name="6"
+          label="6. PendientedeFinalizarServicio"
         />
       </q-tabs>
       <div class="q-gutter-y-sm">
@@ -40,9 +28,11 @@
           transition-prev="fade"
           transition-next="fade"
         >
-          <q-tab-panel name="nuevaoperacion"> </q-tab-panel>
+          <q-tab-panel name="1">
+            <NuevaOperacion />
+          </q-tab-panel>
 
-          <q-tab-panel name="abriroperacion">
+          <q-tab-panel name="2">
             <div class="row">
               <div class="col">
                 <AbrirOperacion />
@@ -50,7 +40,7 @@
             </div>
           </q-tab-panel>
 
-          <q-tab-panel name="movies">
+          <q-tab-panel name="3">
             <div class="text-h6">Movies</div>
             Nostrum necessitatibus expedita dolores? Voluptatem repudiandae
             magni ea.
@@ -67,11 +57,13 @@ export default {
   name: "PageOperaciones",
   data() {
     return {
-      tab: "nuevaoperacion",
+      tab: "1",
     };
   },
   components: {
     AbrirOperacion: () => import("components/Operaciones/AbrirOperacion"),
+    NuevaOperacion: () =>
+      import("components/Operaciones/NuevaOperacion/NuevaOperacion"),
     Titulos: () => import("components/Titulos"),
   },
   methods: {
@@ -91,6 +83,11 @@ export default {
         this.$store.commit("materiales/dialogCrear", true);
       }
     },
+  },
+  async created() {
+    if (this.$route.query.id != undefined) {
+      this.tab = `${this.$route.query.id}`;
+    }
   },
 };
 </script>

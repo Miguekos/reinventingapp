@@ -17,3 +17,15 @@ export function callAddModelos(state) {
 export function get_serv_mater_mostrar_buscar(state) {
   return state.get_serv_mater_mostrar_buscar
 }
+
+export function get_mostrar_ingreso(state) {
+  return state.get_mostrar_ingreso
+}
+
+export function get_combo_cliente(state) {
+  return state.get_combo_cliente
+}
+
+export function get_lista_vehiculo_ingreso(state) {
+  return state.get_lista_vehiculo_ingreso
+}

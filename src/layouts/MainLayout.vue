@@ -52,9 +52,7 @@
         <div style="height: calc(100% - 117px); padding: 10px">
           <!--          <q-toolbar>-->
           <div class="text-center">
-            <span>
-              MENU
-            </span>
+            <span> MENU </span>
           </div>
           <!--            <q-avatar>-->
           <!--              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />-->
@@ -145,38 +143,38 @@ const linksData = [
     title: "Usuarios",
     caption: "quasar.dev",
     icon: "group",
-    link: "/usuarios"
+    link: "/usuarios",
   },
   {
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
-    link: "/vehiculos"
+    link: "/vehiculos",
   },
   {
     title: "Personas",
     caption: "github.com/quasarframework",
     icon: "face",
-    link: "/personas"
+    link: "/personas",
   },
   {
     title: "Citas",
     caption: "github.com/quasarframework",
     icon: "event",
-    link: "/citas"
+    link: "/citas",
   },
   {
     title: "Materiales",
     caption: "github.com/quasarframework",
     icon: "list_alt",
-    link: "/materiales"
+    link: "/materiales",
   },
   {
     title: "operaciones",
     caption: "github.com/quasarframework",
     icon: "list_alt",
-    link: "/operaciones"
-  }
+    link: "/operaciones",
+  },
 ];
 
 export default {
@@ -190,12 +188,12 @@ export default {
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
-    }
+    },
   },
   components: {
     EssentialLink,
     Profile: () => import("pages/Profile"),
-    Test: () => import("pages/Test")
+    Test: () => import("pages/Test"),
   },
   data() {
     return {
@@ -206,11 +204,11 @@ export default {
         last_name: "",
         age: null,
         email: "",
-        phone: ""
+        phone: "",
       },
       dialogPerfil: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
     };
   },
   methods: {
@@ -236,12 +234,12 @@ export default {
         // icon: "favorite",
         color: "white",
         textColor: "blue-5",
-        position: "top"
+        position: "top",
       });
       this.$q.loading.hide();
       // }, 2000);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

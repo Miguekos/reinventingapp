@@ -1,13 +1,53 @@
 // Define un objeto _mixin_
-import {Fechas} from "../directives/formatFecha";
+import { Fechas } from "../directives/formatFecha";
 
 const MixinDefault = {
   data() {
     return {};
   },
   created: function () {
+    // console.log("this.info", this.info[0]);
+    // const labels = {
+    //   co_operac: "Codigo",
+    //   co_vehicu: "Codigo Vehiculo",
+    //   codigoProducto: "CodigoProducto",
+    //   numDocumento: "NumDocumento",
+    //   descDocumento: "DescDocumento",
+    //   fechaVencimiento: "FechaVencimiento",
+    //   fechaEmision: "FechaEmision",
+    //   deuda: "Deuda",
+    //   mora: "Mora",
+    //   gastosAdm: "GastosAdm",
+    //   pagoMinimo: "PagoMinimo",
+    //   periodo: "Periodo",
+    //   anio: "Anio",
+    //   cuota: "Cuota",
+    //   monedaDoc: "MonedaDoc",
+    // };
+    // for (let index = 0; index < this.info.length; index++) {
+    //   const element = this.info[index];
+    //   this.data.push(this.ObjKeyRename(element, labels));
+    // }
+    // console.log("asdasdasd", this.data);
   },
   methods: {
+    ObjKeyRename(src, map) {
+      var dst = {};
+      for (var key in src) {
+        if (key in map) {
+          // rename key
+          if (src[key] instanceof Array) {
+            dst[map[key]] = src[key].map((i) => ObjKeyRename(i, map));
+          } else {
+            dst[map[key]] = src[key];
+          }
+        } else {
+          // same key
+          dst[key] = src[key];
+        }
+      }
+      return dst;
+    },
     noti(val) {
       if (val === 1) {
         this.$q.notify({
@@ -72,4 +112,4 @@ const storagelocal = {
   methods: {}
 };
 
-export {MixinDefault, storagelocal};
+export { MixinDefault, storagelocal };

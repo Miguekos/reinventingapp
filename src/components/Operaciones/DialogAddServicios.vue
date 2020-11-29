@@ -133,7 +133,7 @@
                     color="positive"
                     icon="check"
                     label="agregar"
-                    @click="agregar(props.value)"
+                    @click="agregar(props.row)"
                   />
                 </div>
                 <!-- <div class="my-table-details">
@@ -267,11 +267,30 @@ export default {
     };
   },
   methods: {
-    ...mapActions("operaciones", ["call_serv_mater_mostrar_buscar"]),
+    ...mapActions("operaciones", [
+      "call_serv_mater_mostrar_buscar",
+      "call_add_servic_opera",
+    ]),
     async agregarServicios(val) {
-      this.$q.notify({
-        massage: val,
-      });
+      try {
+        console.log(val);
+        const responseServiciosAdd = await this.call_add_servic_opera({
+          ope_veh: `${val.co_opeveh}`,
+          cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+          tip_tra: `${val.ti_tratal}`,
+          cod_ser: `${val.co_servic}`,
+          imp_uni: `${val.im_preuni}`,
+          tip_ser: `${val.ti_servic}`,
+        });
+        this.$q.notify({
+          massage: val.no_servic,
+        });
+        this.buscarSM();
+      } catch (error) {
+        this.$q.notify({
+          massage: error,
+        });
+      }
     },
     async buscarSM() {
       this.$q.loading.show();

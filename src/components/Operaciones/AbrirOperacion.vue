@@ -146,9 +146,24 @@ export default {
     },
   },
   async created() {
+    this.$q.loading.show();
+    console.log("2. Abrir Operación");
+    console.log(this.$store.state.operaciones.numeroDeOperacion);
+    console.log(this.$route.query.op);
+    console.log("2. Abrir Operación");
+    if (this.$route.query.op != undefined) {
+      console.log("entro al if");
+      this.buscar = this.$route.query.op;
+      this.$store.commit("operaciones/numeroDeOperacion", this.$route.query.op);
+      await this.callOperacionesAbrir_operacion(this.$route.query.op);
+      this.$router.replace("/operaciones?id=2");
+    } else {
+      this.$router.replace("/operaciones?id=2");
+    }
     this.$q.notify({
       message: "2. Abrir Operación",
     });
+    this.$q.loading.hide();
   },
 };
 </script>
