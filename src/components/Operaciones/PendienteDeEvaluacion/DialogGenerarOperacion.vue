@@ -66,8 +66,13 @@ export default {
     return {};
   },
   methods: {
-    cerrar() {
+    ...mapActions("operaciones", ["call_lista_operaci_evalua"]),
+    async cerrar() {
       this.$store.commit("operaciones/operacionesid3", false);
+      await this.call_lista_operaci_evalua({
+        nom_cli: "",
+        pla_veh: "",
+      });
     },
   },
 };

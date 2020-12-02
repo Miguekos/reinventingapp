@@ -2,35 +2,19 @@
   <q-page>
     <div>
       <q-tabs
-        class="bg-primary text-green"
+        class="text-grey-5"
         active-color="primary"
-        indicator-color="green"
+        indicator-color="primary"
         v-model="tab"
-         narrow-indicator
+        narrow-indicator
         align="justify"
       >
-        <q-tab class="text-white" name="1" label="1. Nueva Operación" />
-        <q-tab class="text-white" name="2" label="2. Abrir Operación" />
-        <q-tab
-          class="text-white"
-          name="3"
-          label="3. Pendientes de Evaluación"
-        />
-        <q-tab
-          class="text-white"
-          name="4"
-          label="4. Pendientes de Asignación de Servicios"
-        />
-        <q-tab
-          class="text-white"
-          name="5"
-          label="5. Pendientes de Ejecución de Servicio"
-        />
-        <q-tab
-          class="text-white"
-          name="6"
-          label="6. Pendiente de Finalizar Servicio"
-        />
+        <q-tab name="1" label="1. Nueva Operación" />
+        <q-tab name="2" label="2. Abrir Operación" />
+        <q-tab name="3" label="3. Pendientes de Evaluación" />
+        <q-tab name="4" label="4. Pendientes de Asignación de Servicios" />
+        <q-tab name="5" label="5. Pendientes de Ejecución de Servicio" />
+        <q-tab name="6" label="6. Pendiente de Finalizar Servicio" />
       </q-tabs>
       <div class="q-gutter-y-sm">
         <q-tab-panels

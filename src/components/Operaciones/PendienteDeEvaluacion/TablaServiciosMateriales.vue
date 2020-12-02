@@ -126,7 +126,12 @@ export default {
           label: "Descripcion",
           field: "no_servic",
         },
-        { name: "no_tipser", align: "left", label: "Familia", field: "no_tipser" },
+        {
+          name: "no_tipser",
+          align: "left",
+          label: "Familia",
+          field: "no_tipser",
+        },
         {
           name: "ca_uniaju",
           align: "center",
@@ -176,6 +181,7 @@ export default {
       "call_evalua_item_sermat",
       "call_recalcula_sermat",
       "call_lista_sermat_evalua",
+      "call_lista_operaci_evalua",
     ]),
     async confirmar() {
       this.$q.loading.show();
@@ -194,9 +200,13 @@ export default {
           cod_per: "92",
         });
       }
-      await this.call_lista_sermat_evalua(
-        this.get_lista_sermat_evalua.sermat[0].co_operac
-      );
+      // await this.call_lista_sermat_evalua(
+      //   this.get_lista_sermat_evalua.sermat[0].co_operac
+      // );
+      await this.call_lista_operaci_evalua({
+        nom_cli: "",
+        pla_veh: "",
+      });
       this.$q.loading.hide();
       this.$store.commit("operaciones/operacionesid3", false);
     },
