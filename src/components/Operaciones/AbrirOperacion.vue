@@ -105,7 +105,7 @@
       full-height
       full-width
     >
-      <DialogAddServicios />
+      <DialogAddServicios @click="cerrarDialogAddServicios" />
     </q-dialog>
   </div>
 </template>
@@ -143,6 +143,10 @@ export default {
       this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
       await this.callOperacionesAbrir_operacion(this.buscar);
       this.$q.loading.hide();
+    },
+    async cerrarDialogAddServicios() {
+      this.agregarServicios = false;
+      await this.buscarOperaciones();
     },
   },
   async created() {

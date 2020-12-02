@@ -4,7 +4,7 @@
       <q-bar class="bg-primary text-white">
         Datos de Operación
         <q-space />
-        <q-btn dense flat icon="close" v-close-popup>
+        <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
@@ -146,6 +146,9 @@ export default {
       "call_lista_vehiculo_ingreso",
       "call_nueva_operacion",
     ]),
+    cerrar() {
+      this.$store.commit("operaciones/agregarServicios", false);
+    },
     async registrarNuevaOperacion() {
       this.loadboton = true;
       try {

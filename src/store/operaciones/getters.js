@@ -29,3 +29,11 @@ export function get_combo_cliente(state) {
 export function get_lista_vehiculo_ingreso(state) {
   return state.get_lista_vehiculo_ingreso
 }
+
+export function get_lista_sermat_evalua(state) {
+  return state.get_lista_sermat_evalua
+}
+
+export function get_lista_operaci_evalua(state) {
+  return state.get_lista_operaci_evalua
+}

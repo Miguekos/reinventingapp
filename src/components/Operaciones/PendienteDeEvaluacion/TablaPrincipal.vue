@@ -1,37 +1,46 @@
 <template>
   <div>
+    <!-- {{info}} -->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
-      title="Lista de Ingreso Vehicular"
+      title="Listado"
       :data="info"
       dense
+      :filter="filter"
       :columns="columns"
       row-key="name"
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
     >
+      <template v-slot:top-right>
+        <q-input dense debounce="300" v-model="filter" placeholder="Buscar">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
       <template v-slot:body-cell="props">
         <q-td :props="props">
           {{ props.value }}
         </q-td>
       </template>
-      <template v-slot:body-cell-accion="props">
+      <template v-slot:body-cell-no_operac="props">
         <q-td :props="props">
           <q-btn
             size="xs"
             color="primary"
-            label="Generar Operacion"
+            :label="`${props.row.no_operac}`"
             @click="generarOperacion(props.row)"
           />
         </q-td>
       </template>
     </q-table>
     <q-dialog
-      v-model="agregarServicios"
+      v-model="operacionesid3"
       persistent
       :maximized="maximizedToggle"
       transition-show="slide-up"
@@ -52,13 +61,15 @@ export default {
     },
   },
   computed: {
-    ...mapState("operaciones", ["agregarServicios"]),
+    ...mapState("operaciones", ["operacionesid3"]),
+    ...mapGetters("operaciones", ["get_lista_sermat_evalua"]),
   },
   components: {
     DialogGenerarOperacion: () => import("./DialogGenerarOperacion"),
   },
   data() {
     return {
+      filter: "",
       maximizedToggle: false,
       initialPagination: {
         sortBy: "desc",
@@ -71,70 +82,64 @@ export default {
         {
           name: "name",
           required: true,
-          label: "N°",
+          label: "Fecha de Registro",
           align: "left",
-          field: (row) => row.co_aduana,
+          field: (row) => row.fe_regist,
           format: (val) => `${val}`,
           sortable: true,
         },
         {
-          name: "co_plaveh",
+          name: "no_usuari",
           align: "center",
-          label: "Placa",
-          field: "co_plaveh",
+          label: "Usuario",
+          field: "no_usuari",
           sortable: true,
         },
         {
-          name: "no_marveh",
-          label: "Marca",
-          field: "no_marveh",
+          name: "no_operac",
+          label: "Operacion",
+          field: "no_operac",
           sortable: true,
         },
-        { name: "no_modveh", label: "Modelo", field: "no_modveh" },
-        { name: "nu_anomod", label: "Año", field: "nu_anomod" },
-        { name: "no_colveh", label: "Color", field: "no_colveh" },
+        { name: "no_client", label: "Cliente", field: "no_client" },
+        { name: "no_placas", label: "Placa", field: "no_placas" },
+        { name: "no_marveh", label: "Marca", field: "no_marveh" },
         {
-          name: "no_entsal",
-          label: "Tipo de Movimiento",
-          field: "no_entsal",
-          sortable: true,
-        },
-        {
-          name: "fe_regist",
-          label: "Fecha de Registro",
-          field: "fe_regist",
+          name: "no_modveh",
+          label: "Modelo",
+          field: "no_modveh",
           sortable: true,
         },
         {
-          name: "ho_regist",
-          label: "Hora de Registro",
-          field: "ho_regist",
+          name: "no_verveh",
+          label: "Version",
+          field: "no_verveh",
           sortable: true,
         },
         {
-          name: "no_chofer",
-          label: "Conductor",
-          field: "no_chofer",
+          name: "no_anoveh",
+          label: "Año",
+          field: "no_anoveh",
           sortable: true,
         },
         {
-          name: "no_cenope",
-          label: "Centro de Operaciones",
-          field: "no_cenope",
+          name: "no_colveh",
+          label: "Color",
+          field: "no_colveh",
           sortable: true,
         },
         {
-          name: "de_ingsal",
-          label: "Descripción",
-          field: "de_ingsal",
+          name: "no_estado",
+          label: "Estado",
+          field: "no_estado",
           sortable: true,
         },
-        {
-          name: "accion",
-          label: "Accion",
-          field: "accionm",
-          sortable: true,
-        },
+        // {
+        //   name: "accion",
+        //   label: "Accion",
+        //   field: "accion",
+        //   sortable: true,
+        // },
       ],
     };
   },
@@ -143,37 +148,20 @@ export default {
       "call_combo_cliente",
       "call_lista_vehiculo_ingreso",
       "call_nueva_operacion",
+      "call_lista_sermat_evalua",
     ]),
     async generarOperacion(val) {
       this.$q.loading.show();
-      await this.call_combo_cliente();
-      await this.call_lista_vehiculo_ingreso(val.co_aduana);
+      await this.call_lista_sermat_evalua(val.co_operac);
+      // await this.call_combo_cliente();
+      // await this.call_lista_vehiculo_ingreso(val.co_aduana);
       console.log(val);
-      this.$store.commit("operaciones/agregarServicios", true);
+      this.$q.notify({
+        message: `${val.co_operac}`,
+      });
+      this.$store.commit("operaciones/operacionesid3", true);
       this.$q.loading.hide();
     },
   },
 };
 </script>
-<style lang="sass">
-.my-sticky-header-table
-  /* height or max-height is important */
-  max-height: 70vh
-
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th
-    /* bg color is important for th; just specify one */
-    background-color: #fff
-
-  thead tr th
-    position: sticky
-    z-index: 1
-  thead tr:first-child th
-    top: 0
-
-  /* this is when the loading indicator appears */
-  &.q-table--loading thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-</style>

@@ -62,12 +62,6 @@ export async function call_nueva_operacion({ commit }, payload) {
 export async function call_add_servic_opera({ commit }, payload) {
   console.log("payload", payload);
   const response = await axiosInstance.post(`/operacflujo/add_servic_opera`, payload);
-  // var ope_veh = req.body.ope_veh;
-  // var cod_ope = req.body.cod_ope;
-  // var tip_tra = req.body.tip_tra;
-  // var cod_ser = req.body.cod_ser;
-  // var imp_uni = req.body.imp_uni;
-  // var tip_ser = req.body.tip_ser;
   console.log(response.data);
   return response.data
 }
@@ -75,11 +69,32 @@ export async function call_add_servic_opera({ commit }, payload) {
 export async function call_add_materi_opera({ commit }, payload) {
   console.log("payload", payload);
   const response = await axiosInstance.post(`/operacflujo/add_materi_opera`, payload);
-  // var cod_ope = req.body.cod_ope;
-  // var cod_mat = req.body.cod_mat;
-  // var cantida = req.body.cantida;
-  // var imp_uni = req.body.imp_uni;
-  // var cos_ven = req.body.cos_ven;
   console.log(response.data);
   return response.data
+}
+
+export async function call_lista_sermat_evalua({ commit }, payload) {
+  const response = await axiosInstance.get(`/operacflujo/lista_sermat_evalua/${payload}`);
+  console.log(response.data);
+  commit("get_lista_sermat_evalua", response.data)
+}
+
+export async function call_lista_operaci_evalua({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/lista_operaci_evalua`, payload);
+  console.log(response.data);
+  commit("get_lista_operaci_evalua", response.data)
+}
+
+export async function call_evalua_item_sermat({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/evalua_item_sermat`, payload);
+  console.log(response.data);
+  return response.data
+  // commit("get_evalua_item_sermat", response.data)
+}
+
+export async function call_recalcula_sermat({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/recalcula_sermat`, payload);
+  console.log(response.data);
+  return response.data
+  // commit("get_recalcula_sermat", response.data)
 }

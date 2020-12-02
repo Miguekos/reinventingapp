@@ -1,24 +1,35 @@
 <template>
   <q-page>
     <div>
-      <q-tabs v-model="tab" align="justify" class="">
-        <q-tab class="text-purple" name="1" label="1. Nueva Operación" />
-        <q-tab class="text-orange" name="2" label="2. Abrir Operación" />
-        <q-tab class="text-teal" name="3" label="3. Pendientes de Evaluación" />
+      <q-tabs
+        class="bg-primary text-green"
+        active-color="primary"
+        indicator-color="green"
+        v-model="tab"
+         narrow-indicator
+        align="justify"
+      >
+        <q-tab class="text-white" name="1" label="1. Nueva Operación" />
+        <q-tab class="text-white" name="2" label="2. Abrir Operación" />
         <q-tab
-          class="text-indigo"
+          class="text-white"
+          name="3"
+          label="3. Pendientes de Evaluación"
+        />
+        <q-tab
+          class="text-white"
           name="4"
           label="4. Pendientes de Asignación de Servicios"
         />
         <q-tab
-          class="text-info"
+          class="text-white"
           name="5"
           label="5. Pendientes de Ejecución de Servicio"
         />
         <q-tab
-          class="text-teal"
+          class="text-white"
           name="6"
-          label="6. PendientedeFinalizarServicio"
+          label="6. Pendiente de Finalizar Servicio"
         />
       </q-tabs>
       <div class="q-gutter-y-sm">
@@ -41,9 +52,11 @@
           </q-tab-panel>
 
           <q-tab-panel name="3">
-            <div class="text-h6">Movies</div>
-            Nostrum necessitatibus expedita dolores? Voluptatem repudiandae
-            magni ea.
+            <div class="row">
+              <div class="col">
+                <PendienteDeEvaluacion />
+              </div>
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -64,6 +77,10 @@ export default {
     AbrirOperacion: () => import("components/Operaciones/AbrirOperacion"),
     NuevaOperacion: () =>
       import("components/Operaciones/NuevaOperacion/NuevaOperacion"),
+    PendienteDeEvaluacion: () =>
+      import(
+        "components/Operaciones/PendienteDeEvaluacion/PendienteDeEvaluacion"
+      ),
     Titulos: () => import("components/Titulos"),
   },
   methods: {

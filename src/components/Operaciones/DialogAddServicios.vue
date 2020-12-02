@@ -1,52 +1,55 @@
 <template>
   <div>
     <q-card class="full-height" square>
-      <q-bar class="bg-primary">
+      <q-bar class="bg-primary text-white">
+        Agregar Servicios y Materiales
         <q-space />
-        <q-btn dense flat icon="close" v-close-popup>
+        <q-btn dense flat icon="close" @click="$emit('click')">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
-        <div class="row">
-          <div class="col-xs-12 col-sm-5 q-px-sm">
-            <q-select
-              autofocus
-              v-model="tipodebusqueda"
-              :options="options"
-              option-label="name"
-              option-value="value"
-              emit-value
-              map-options
-              label="Tipo de busqueda"
-            />
+        <q-form @submit="buscarSM" class="q-gutter-md">
+          <div class="row">
+            <div class="col-xs-12 col-sm-5 q-px-sm">
+              <q-select
+                autofocus
+                v-model="tipodebusqueda"
+                :options="options"
+                option-label="name"
+                option-value="value"
+                emit-value
+                map-options
+                label="Tipo de busqueda"
+              />
+            </div>
+            <div class="col-xs-12 col-sm-5 q-px-sm">
+              <q-input
+                v-model="buscarServiciosMateriales"
+                type="text"
+                label="Escriba lo que desea buscar"
+              />
+            </div>
+            <div
+              class="col-xs-12 col-sm-2 q-px-sm text-center"
+              style="align-self: center"
+            >
+              <q-btn
+                size="md"
+                color="primary"
+                type="submit"
+                icon="search"
+                label="Buscar"
+              />
+            </div>
           </div>
-          <div class="col-xs-12 col-sm-5 q-px-sm">
-            <q-input
-              v-model="buscarServiciosMateriales"
-              type="text"
-              label="Escriba lo que desea buscar"
-            />
-          </div>
-          <div
-            class="col-xs-12 col-sm-2 q-px-sm text-center"
-            style="align-self: center"
-          >
-            <q-btn
-              size="md"
-              color="primary"
-              @click="buscarSM()"
-              icon="search"
-              label="Buscar"
-            />
-          </div>
-        </div>
+        </q-form>
       </q-card-section>
 
       <q-separator />
 
       <q-card-section class="scroll">
-        <div v-if="tipodebusqueda == 1" class="q-pa-xs">
+        <div v-if="tipodebusqueda == 'S'" class="q-pa-xs">
           <q-table
             dense
             :grid="$q.screen.xs"
@@ -87,7 +90,7 @@
             </template>
           </q-table>
         </div>
-        <div v-if="tipodebusqueda == 2" class="q-pa-xs">
+        <div v-if="tipodebusqueda == 'M'" class="q-pa-xs">
           <q-table
             dense
             :grid="$q.screen.xs"
@@ -97,43 +100,64 @@
             row-key="name"
             :filter="filter"
           >
-            <template v-slot:body-cell-calories="props">
-              <q-td :props="props">
+            <template v-slot:body-cell-precioUnitario="props">
+              <q-td class="campoeditartd" :props="props">
                 <div>
                   <q-input
+                    dense
+                    filled
                     style="height: 10px"
-                    dense
-                    borderless
-                    v-model="cantidad"
-                    type="text"
-                    label="Cantidad"
+                    v-model="props.row.precioUnitario"
+                    mask="#.##"
+                    fill-mask="0"
+                    reverse-fill-mask
+                    value="props.row.precioUnitario"
                   />
                 </div>
               </q-td>
             </template>
-            <template v-slot:body-cell-fat="props">
-              <q-td :props="props">
+            <template v-slot:body-cell-cantidad="props">
+              <q-td class="campoeditartd" :props="props">
                 <div>
                   <q-input
                     dense
-                    borderless
-                    v-model="precioUnitario"
-                    type="text"
-                    label="Precio Unitario"
+                    filled
+                    class="campoeditar"
+                    v-model="props.row.cantidad"
+                    mask="#"
+                    fill-mask="0"
+                    reverse-fill-mask
                   />
                 </div>
               </q-td>
             </template>
-            <template v-slot:body-cell-carbs="props">
+            <template v-slot:body-cell-opciones="props">
+              <q-td class="campoeditartd" :props="props">
+                <div>
+                  <q-select
+                    dense
+                    class="campoeditar"
+                    v-model="props.row.opciones"
+                    :options="optionsCV"
+                    option-label="name"
+                    option-value="value"
+                    emit-value
+                    map-options
+                    label="Seleccionar"
+                    filled
+                  />
+                </div>
+              </q-td>
+            </template>
+            <template v-slot:body-cell-acciones="props">
               <q-td :props="props">
                 <div>
                   <!-- <q-badge color="purple" :label="props.value" /> -->
                   <q-btn
                     size="sm"
                     color="positive"
-                    icon="check"
-                    label="agregar"
-                    @click="agregar(props.row)"
+                    icon="add"
+                    @click="agregarMateriales(props.row)"
                   />
                 </div>
                 <!-- <div class="my-table-details">
@@ -206,14 +230,24 @@ export default {
       cantidad: null,
       maximizedToggle: true,
       tipodebusqueda: null,
+      optionsCV: [
+        {
+          name: "Costo",
+          value: "C",
+        },
+        {
+          name: "Venta",
+          value: "V",
+        },
+      ],
       options: [
         {
           name: "Servicios",
-          value: 1,
+          value: "S",
         },
         {
           name: "Materiales",
-          value: 2,
+          value: "M",
         },
       ],
       buscarServiciosMateriales: "",
@@ -247,21 +281,52 @@ export default {
         {
           name: "desc",
           required: true,
-          label: "Dessert (100g serving)",
+          label: "Operación",
           align: "left",
-          field: (row) => row.name,
+          field: (row) => row.co_articu,
           format: (val) => `${val}`,
           sortable: true,
         },
         {
-          name: "calories",
-          align: "center",
-          label: "Calories",
-          field: "calories",
+          name: "co_barras",
+          align: "left",
+          label: "Código",
+          field: "co_barras",
           sortable: true,
         },
-        { name: "fat", label: "Fat (g)", field: "fat", sortable: true },
-        { name: "carbs", label: "Carbs (g)", field: "carbs" },
+        {
+          name: "no_catpad",
+          label: "Categoría",
+          align: "left",
+          field: "no_catpad",
+          sortable: true,
+        },
+        {
+          name: "no_articu",
+          align: "left",
+          label: "Descripción",
+          field: "no_articu",
+        },
+        {
+          name: "co_vehicu",
+          align: "left",
+          label: "Vehículo",
+          field: "co_vehicu",
+        },
+        {
+          name: "precioUnitario",
+          label: "Precio Unitario",
+          align: "left",
+          field: "precioUnitario",
+        },
+        {
+          name: "cantidad",
+          align: "left",
+          label: "Cantidad",
+          field: "cantidad",
+        },
+        { name: "opciones", align: "left", label: "Opción", field: "opciones" },
+        { name: "acciones", align: "left", label: "Accion", field: "acciones" },
       ],
       data: [],
     };
@@ -270,6 +335,7 @@ export default {
     ...mapActions("operaciones", [
       "call_serv_mater_mostrar_buscar",
       "call_add_servic_opera",
+      "call_add_materi_opera",
     ]),
     async agregarServicios(val) {
       try {
@@ -296,15 +362,35 @@ export default {
       this.$q.loading.show();
       await this.call_serv_mater_mostrar_buscar({
         cod_ope: this.$store.state.operaciones.numeroDeOperacion,
-        tip_fil: this.tip_fil ? this.tipodebusqueda : "S",
-        descrip: this.descrip ? this.buscarServiciosMateriales : "",
+        tip_fil: this.tipodebusqueda ? this.tipodebusqueda : "S",
+        descrip: this.buscarServiciosMateriales
+          ? this.buscarServiciosMateriales
+          : "",
       });
       this.$q.loading.hide();
     },
-    agregar(val) {
+    async agregarMateriales(val) {
       console.log("agregar");
       console.log(val);
-      this.infoMateriales.push(val);
+      try {
+        const responseMaterialesAdd = await this.call_add_materi_opera({
+          cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+          cod_mat: `${val.co_articu}`,
+          cantida: val.cantidad,
+          imp_uni: parseFloat(val.precioUnitario),
+          cos_ven: val.opciones,
+        });
+        this.$q.notify({
+          massage: responseMaterialesAdd.message,
+        });
+        this.buscarSM();
+      } catch (error) {
+        console.log(error);
+        this.$q.notify({
+          massage: error,
+        });
+      }
+      // this.infoMateriales.push(val);
     },
   },
   async created() {
@@ -317,7 +403,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* .my-table-details {
   font-size: 0.85em;
   font-style: italic;
@@ -326,4 +412,20 @@ export default {
   color: #555;
   margin-top: 4px;
 } */
+/* .q-field--dense .q-field__control,
+.q-field--dense .q-field__marginal {
+  height: 15px;
+  border-bottom: 1px solid black;
+  width: 50px;
+} */
+.campoeditartd {
+  text-align: -webkit-center;
+  /* text-align: center; */
+}
+
+.campoeditar {
+  height: 15px;
+  /* border-bottom: 1px solid black; */
+  width: 100px;
+}
 </style>

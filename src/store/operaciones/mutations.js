@@ -37,3 +37,17 @@ export function get_combo_cliente(state, payload) {
 export function get_lista_vehiculo_ingreso(state, payload) {
   state.get_lista_vehiculo_ingreso = payload
 }
+
+
+export function get_lista_sermat_evalua(state, payload) {
+  state.get_lista_sermat_evalua = payload
+}
+
+export function get_lista_operaci_evalua(state, payload) {
+  state.get_lista_operaci_evalua = payload
+}
+
+
+export function operacionesid3(state, payload) {
+  state.operacionesid3 = payload
+}

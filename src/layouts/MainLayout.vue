@@ -170,9 +170,9 @@ const linksData = [
     link: "/materiales",
   },
   {
-    title: "operaciones",
+    title: "Operaciones",
     caption: "github.com/quasarframework",
-    icon: "list_alt",
+    icon: "rule",
     link: "/operaciones",
   },
 ];
