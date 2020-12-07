@@ -12,6 +12,7 @@
               <q-input
                 autofocus
                 dense
+                filled
                 v-model="buscar_cliente"
                 label="Buscar por Cliente"
               />
@@ -20,6 +21,7 @@
               <q-input
                 autofocus
                 dense
+                filled
                 v-model="buscar_placa"
                 label="Buscar por Placa"
               />

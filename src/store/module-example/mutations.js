@@ -1,2 +1,3 @@
-export function someMutation (/* state */) {
+export function location(state, payload) {
+  state.location = payload
 }

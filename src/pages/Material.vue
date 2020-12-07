@@ -132,12 +132,9 @@ export default {
 
   async created() {
     this.$q.loading.show();
+    this.$store.commit("example/location", "Materiales");
     await this.callMateriales("all");
     this.$q.loading.hide();
-
-    console.log("qwe");
-
-    console.log("asd");
   }
 };
 </script>

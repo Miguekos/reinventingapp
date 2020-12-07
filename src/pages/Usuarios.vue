@@ -30,6 +30,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "PageUsuario",
   data() {
@@ -108,6 +109,7 @@ export default {
   },
   async created() {
     this.$q.loading.show();
+    this.$store.commit("example/location", "Usuarios");
     await this.callUsers("all");
     this.$q.loading.hide();
   }

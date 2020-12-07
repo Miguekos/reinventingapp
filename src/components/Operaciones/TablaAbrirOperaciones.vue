@@ -5,6 +5,7 @@
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
+      class="my-sticky-header-table"
       dense
       :title="titulo"
       :data="info"
@@ -21,19 +22,19 @@ export default {
   props: {
     info: {
       type: Array,
-      default: function() {
+      default: function () {
         return [];
-      }
+      },
     },
     titulo: {
-      type: String
+      type: String,
     },
     hideheader: {
-      type: Boolean
+      type: Boolean,
     },
     hidebottom: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -41,7 +42,7 @@ export default {
         sortBy: "desc",
         descending: false,
         page: 1,
-        rowsPerPage: 8
+        rowsPerPage: 8,
         // rowsNumber: xx if getting data from a server
       },
       columns: [
@@ -50,17 +51,17 @@ export default {
           required: true,
           label: "Dessert (100g serving)",
           align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
+          field: (row) => row.name,
+          format: (val) => `${val}`,
+          sortable: true,
         },
         {
           name: "calories",
           align: "right",
           label: "Calories",
           field: "calories",
-          sortable: true
-        }
+          sortable: true,
+        },
       ],
       data: [
         {
@@ -71,7 +72,7 @@ export default {
           protein: 4.0,
           sodium: 87,
           calcium: "14%",
-          iron: "1%"
+          iron: "1%",
         },
         {
           name: "Ice cream sandwich",
@@ -81,7 +82,7 @@ export default {
           protein: 4.3,
           sodium: 129,
           calcium: "8%",
-          iron: "1%"
+          iron: "1%",
         },
         {
           name: "Eclair",
@@ -91,7 +92,7 @@ export default {
           protein: 6.0,
           sodium: 337,
           calcium: "6%",
-          iron: "7%"
+          iron: "7%",
         },
         {
           name: "Cupcake",
@@ -101,7 +102,7 @@ export default {
           protein: 4.3,
           sodium: 413,
           calcium: "3%",
-          iron: "8%"
+          iron: "8%",
         },
         {
           name: "Gingerbread",
@@ -111,7 +112,7 @@ export default {
           protein: 3.9,
           sodium: 327,
           calcium: "7%",
-          iron: "16%"
+          iron: "16%",
         },
         {
           name: "Jelly bean",
@@ -121,7 +122,7 @@ export default {
           protein: 0.0,
           sodium: 50,
           calcium: "0%",
-          iron: "0%"
+          iron: "0%",
         },
         {
           name: "Lollipop",
@@ -131,7 +132,7 @@ export default {
           protein: 0,
           sodium: 38,
           calcium: "0%",
-          iron: "2%"
+          iron: "2%",
         },
         {
           name: "Honeycomb",
@@ -141,11 +142,11 @@ export default {
           protein: 6.5,
           sodium: 562,
           calcium: "0%",
-          iron: "45%"
-        }
-      ]
+          iron: "45%",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 

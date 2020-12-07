@@ -21,7 +21,7 @@
             placeholder="Buscar"
           >
             <template v-slot:append>
-              <q-icon name="search" />
+              <q-icon name="search"/>
             </template>
           </q-input>
 
@@ -34,10 +34,10 @@
             v-if="mode === 'list'"
           >
             <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
-              >{{
-                props.inFullscreen
-                  ? "Sair Pantalla completa"
-                  : "Pantalla completa"
+            >{{
+              props.inFullscreen
+              ? "Sair Pantalla completa"
+              : "Pantalla completa"
               }}
             </q-tooltip>
           </q-btn>
@@ -70,7 +70,7 @@
               content-style="font-size: 12px"
               :offset="[10, 10]"
             >
-              Motor: {{ props.row.nu_motveh }} <br />
+              Motor: {{ props.row.nu_motveh }} <br/>
               Chasis: {{ props.row.nu_serveh }}
             </q-tooltip>
             {{ props.value }}
@@ -91,9 +91,9 @@
         </template>
         <template v-slot:no-data="{ icon, message, filter }">
           <div class="full-width row flex-center text-accent q-gutter-sm">
-            <q-icon size="2em" name="sentiment_dissatisfied" />
+            <q-icon size="2em" name="sentiment_dissatisfied"/>
             <span> Nada que mostrar... </span>
-            <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+            <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon"/>
           </div>
         </template>
       </q-table>
@@ -129,16 +129,16 @@
               >
             </div>
             <div class="text-caption text-grey">
-              DNI | {{ data_employee_dialog.co_docide }} <br />
-              Usuario | {{ data_employee_dialog.no_usuari }} <br />
+              DNI | {{ data_employee_dialog.co_docide }} <br/>
+              Usuario | {{ data_employee_dialog.no_usuari }} <br/>
             </div>
           </q-card-section>
           <q-card-section class="col-3">
-            <q-img class="rounded-borders" :src="fotoPerfil" />
+            <q-img class="rounded-borders" :src="fotoPerfil"/>
           </q-card-section>
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-section>
           Codigo de Usuario | {{ data_employee_dialog.co_usuari }}
@@ -149,109 +149,112 @@
 </template>
 
 <script>
-import { exportFile } from "quasar";
+    import {exportFile} from "quasar";
 
-function wrapCsvValue(val, formatFn) {
-  let formatted = formatFn !== void 0 ? formatFn(val) : val;
+    function wrapCsvValue(val, formatFn) {
+        let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
-  formatted =
-    formatted === void 0 || formatted === null ? "" : String(formatted);
+        formatted =
+            formatted === void 0 || formatted === null ? "" : String(formatted);
 
-  formatted = formatted.split('"').join('""');
+        formatted = formatted.split('"').join('""');
 
-  return `"${formatted}"`;
-}
-
-export default {
-  props: [
-    "info",
-    "columns",
-    "paginas",
-    "exportar",
-    "color",
-    "order",
-    "tool",
-    "loadtable"
-  ],
-  computed: {
-    fotoPerfil() {
-      // https://cdn.quasar.dev/img/boy-avatar.png
-      if (this.data_employee_dialog.co_fotper) {
-        return `https://api.reinventing.com.pe/fileserver/myfiles/getfile/${this.data_employee_dialog.co_fotper}`;
-      } else {
-        return `https://cdn.quasar.dev/img/boy-avatar.png`;
-      }
+        return `"${formatted}"`;
     }
-  },
-  data() {
-    return {
-      filter: "",
-      mode: "list",
-      invoice: {},
-      data_employee_dialog: {},
-      employee_dialog: false,
-      pagination: {
-        sortBy: this.order,
-        descending: true,
-        page: 1,
-        rowsPerPage: this.paginas
-      }
+
+    export default {
+        props: [
+            "info",
+            "columns",
+            "paginas",
+            "exportar",
+            "color",
+            "order",
+            "tool",
+            "loadtable"
+        ],
+        computed: {
+            fotoPerfil() {
+                // https://cdn.quasar.dev/img/boy-avatar.png
+                if (this.data_employee_dialog.co_fotper) {
+                    return `https://api.reinventing.com.pe/fileserver/myfiles/getfile/${this.data_employee_dialog.co_fotper}`;
+                } else {
+                    return `https://cdn.quasar.dev/img/boy-avatar.png`;
+                }
+            }
+        },
+        data() {
+            return {
+                filter: "",
+                mode: "list",
+                invoice: {},
+                data_employee_dialog: {},
+                employee_dialog: false,
+                pagination: {
+                    sortBy: this.order,
+                    descending: true,
+                    page: 1,
+                    rowsPerPage: this.paginas
+                }
+            };
+        },
+        methods: {
+            employee_dialogActive(val) {
+                console.log(val);
+                this.data_employee_dialog = val;
+                this.employee_dialog = true;
+            },
+            editar(val) {
+                this.$store.commit("vehiculos/dataEdit", val);
+                this.$store.commit("vehiculos/activarEdit", true);
+                this.$emit("click", 2);
+                console.log(val);
+                this.$q.notify({
+                    message: val.co_plaveh
+                });
+            },
+            exportTable() {
+                // naive encoding to csv format
+                const content = [this.columns.map(col => wrapCsvValue(col.label))]
+                    .concat(
+                        this.data.map(row =>
+                            this.columns
+                                .map(col =>
+                                    wrapCsvValue(
+                                        typeof col.field === "function"
+                                            ? col.field(row)
+                                            : row[col.field === void 0 ? col.name : col.field],
+                                        col.format
+                                    )
+                                )
+                                .join(",")
+                        )
+                    )
+                    .join("\r\n");
+
+                const status = exportFile(
+                    "employee_salary_list.csv",
+                    content,
+                    "text/csv"
+                );
+
+                if (status !== true) {
+                    this.$q.notify({
+                        message: "Browser denied file download...",
+                        color: "negative",
+                        icon: "warning"
+                    });
+                }
+            }
+        },
+        async created() {
+            this.$q.loading.show()
+        }
     };
-  },
-  methods: {
-    employee_dialogActive(val) {
-      console.log(val);
-      this.data_employee_dialog = val;
-      this.employee_dialog = true;
-    },
-    editar(val) {
-      this.$store.commit("vehiculos/dataEdit", val);
-      this.$store.commit("vehiculos/activarEdit", true);
-      this.$emit("click", 2);
-      console.log(val);
-      this.$q.notify({
-        message: val.co_plaveh
-      });
-    },
-    exportTable() {
-      // naive encoding to csv format
-      const content = [this.columns.map(col => wrapCsvValue(col.label))]
-        .concat(
-          this.data.map(row =>
-            this.columns
-              .map(col =>
-                wrapCsvValue(
-                  typeof col.field === "function"
-                    ? col.field(row)
-                    : row[col.field === void 0 ? col.name : col.field],
-                  col.format
-                )
-              )
-              .join(",")
-          )
-        )
-        .join("\r\n");
-
-      const status = exportFile(
-        "employee_salary_list.csv",
-        content,
-        "text/csv"
-      );
-
-      if (status !== true) {
-        this.$q.notify({
-          message: "Browser denied file download...",
-          color: "negative",
-          icon: "warning"
-        });
-      }
-    }
-  }
-};
 </script>
 <style>
-.q-chip__content {
-  display: block;
-  text-align: center;
-}
+  .q-chip__content {
+    display: block;
+    text-align: center;
+  }
 </style>

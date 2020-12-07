@@ -1,6 +1,11 @@
 <template>
   <div class="">
     <q-table
+      color="primary"
+      card-class="bg-amber-1 text-brown"
+      table-class="text-grey-8"
+      table-header-class="text-brown"
+      class="my-sticky-header-table"
       title="Vehiculos"
       :data="get_lista_vehiculo_ingreso.vehic"
       :columns="columns"
@@ -70,8 +75,7 @@ export default {
         },
       ],
 
-      data: [
-      ],
+      data: [],
     };
   },
 };

@@ -10,8 +10,34 @@
       </q-bar>
       <q-card-section>
         <div class="row">
+          <!-- {{ get_combo_cliente.client }} -->
+          <!-- {{ clienteSelect }} -->
           <div class="col-xs-12 col-sm-9 q-px-sm">
             <q-select
+              filled
+              v-model="clienteSelect"
+              clearable
+              use-input
+              hide-selected
+              fill-input
+              input-debounce="0"
+              label="Cliente o Propietario"
+              :options="options"
+              option-value="co_person"
+              option-label="no_person"
+              emit-value
+              map-options
+              @filter="filterFn"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    No results
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+            <!-- <q-select
               v-model="clienteSelect"
               :options="get_combo_cliente.client"
               option-value="co_person"
@@ -20,7 +46,7 @@
               map-options
               label="Cliente o Propietario"
               filled
-            />
+            /> -->
           </div>
           <div
             class="col-xs-12 col-sm-3 q-px-sm text-center"
@@ -80,16 +106,8 @@ export default {
       cantidad: null,
       maximizedToggle: true,
       tipodebusqueda: null,
-      options: [
-        {
-          name: "Servicios",
-          value: 1,
-        },
-        {
-          name: "Materiales",
-          value: 2,
-        },
-      ],
+      options: [],
+      newoptions: [],
       buscarServiciosMateriales: "",
       filter: "",
       columns1: [
@@ -146,6 +164,23 @@ export default {
       "call_lista_vehiculo_ingreso",
       "call_nueva_operacion",
     ]),
+    filterFn(val, update, abort) {
+      let asd = [];
+      for (let index = 0; index < this.newoptions.length; index++) {
+        const element = this.newoptions[index];
+        if (element.no_person) {
+          asd.push(element);
+        }
+      }
+      // console.log("asd", asd);
+      update(() => {
+        const needle = val.toLowerCase();
+        // console.log(needle);
+        this.options = asd.filter(
+          (v) => v.no_person.toLowerCase().indexOf(needle) > -1
+        );
+      });
+    },
     cerrar() {
       this.$store.commit("operaciones/agregarServicios", false);
     },
@@ -198,6 +233,8 @@ export default {
     },
   },
   async created() {
+    this.options = this.get_combo_cliente.client;
+    this.newoptions = this.get_combo_cliente.client;
     this.$q.notify({
       message: "Creando",
     });

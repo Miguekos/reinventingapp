@@ -54,7 +54,7 @@ export default {
   name: "PageOperaciones",
   data() {
     return {
-      tab: "1",
+      tab: "1"
     };
   },
   components: {
@@ -65,7 +65,7 @@ export default {
       import(
         "components/Operaciones/PendienteDeEvaluacion/PendienteDeEvaluacion"
       ),
-    Titulos: () => import("components/Titulos"),
+    Titulos: () => import("components/Titulos")
   },
   methods: {
     boton(val) {
@@ -83,12 +83,13 @@ export default {
         // console.log("se preciono el boton");
         this.$store.commit("materiales/dialogCrear", true);
       }
-    },
+    }
   },
   async created() {
+    this.$store.commit("example/location", "Operaciones");
     if (this.$route.query.id != undefined) {
       this.tab = `${this.$route.query.id}`;
     }
-  },
+  }
 };
 </script>

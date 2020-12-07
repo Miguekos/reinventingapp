@@ -11,6 +11,7 @@
               <q-input
                 autofocus
                 dense
+                filled
                 v-model="buscar"
                 label="Buscar por placa"
               />

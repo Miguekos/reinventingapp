@@ -85,8 +85,8 @@
             </q-btn>
             <q-btn color="warning" type="reset" outline>reset</q-btn>
             <q-btn color="positive" type="submit" :loading="loadboton" outline
-              >Guardar</q-btn
-            >
+              >Guardar
+            </q-btn>
           </q-card-actions>
         </form>
       </q-card>
@@ -199,7 +199,7 @@ export default {
     }
   },
   async mounted() {
-    this.$q.loading.show();
+    // this.$q.loading.show();
     console.log("mounted - crear - personas");
     if (this.tipo == 2) {
       // await this.callVehiculosFilter(this.dataEdit.co_plaveh);
@@ -214,13 +214,13 @@ export default {
       // this.color = this.dataEdit.no_colveh;
       // await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     } else if (this.tipo == 1) {
       // await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     }
-    this.$q.loading.hide();
+    // this.$q.loading.hide();
     // this.mostrarFormulario = true;
   }
 };

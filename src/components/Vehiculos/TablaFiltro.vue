@@ -177,10 +177,10 @@ export default {
     "color",
     "order",
     "tool",
-    "loadtable",
+    "loadtable"
   ],
   components: {
-    DialogEdit: () => import("./Editar"),
+    DialogEdit: () => import("./Editar")
   },
   computed: {
     ...mapState("vehiculos", ["dialogEdit"]),
@@ -191,7 +191,7 @@ export default {
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
-    },
+    }
   },
   data() {
     return {
@@ -206,8 +206,8 @@ export default {
         sortBy: this.order,
         descending: true,
         page: 1,
-        rowsPerPage: 1000,
-      },
+        rowsPerPage: 1000
+      }
     };
   },
   methods: {
@@ -223,16 +223,16 @@ export default {
       // this.$emit("click", 2);
       // console.log(val);
       this.$q.notify({
-        message: val.co_plaveh,
+        message: val.co_plaveh
       });
     },
     exportTable() {
       // naive encoding to csv format
-      const content = [this.columns.map((col) => wrapCsvValue(col.label))]
+      const content = [this.columns.map(col => wrapCsvValue(col.label))]
         .concat(
-          this.data.map((row) =>
+          this.data.map(row =>
             this.columns
-              .map((col) =>
+              .map(col =>
                 wrapCsvValue(
                   typeof col.field === "function"
                     ? col.field(row)
@@ -255,11 +255,11 @@ export default {
         this.$q.notify({
           message: "Browser denied file download...",
           color: "negative",
-          icon: "warning",
+          icon: "warning"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
@@ -282,10 +282,12 @@ export default {
   thead tr th
     position: sticky
     z-index: 1
+
   thead tr:first-child th
     top: 0
 
   /* this is when the loading indicator appears */
+
   &.q-table--loading thead tr:last-child th
     /* height of all previous header rows */
     top: 48px

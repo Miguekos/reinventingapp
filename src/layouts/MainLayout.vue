@@ -11,11 +11,14 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
+        <q-separator dark vertical inset />
 
         <q-toolbar-title>
           <q-img src="logo2.png" spinner-color="white" width="100px" />
+          - {{ $store.state.example.location }}
           <!--          Reinventing Admin-->
         </q-toolbar-title>
+
         <!--        <div>Quasar v{{ $q.version }}</div>-->
         <q-btn
           flat

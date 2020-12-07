@@ -53,55 +53,55 @@ export default {
           align: "left",
           label: "ID",
           field: "co_person",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_nombre",
           align: "left",
           label: "Nombre",
           field: "no_nombre",
-          sortable: true,
+          sortable: true
         },
         {
           name: "ti_docide",
           align: "left",
           label: "Tipo de Documento",
           field: "ti_docide",
-          sortable: true,
+          sortable: true
         },
         {
           name: "co_docide",
           align: "left",
           label: "N° de Documento",
           field: "co_docide",
-          sortable: true,
+          sortable: true
         },
         {
           name: "nu_teléfo",
           align: "left",
           label: "Telefonos",
           field: "nu_teléfo",
-          sortable: true,
+          sortable: true
         },
         {
           name: "action",
           align: "right",
           label: "Acciones",
           field: "action",
-          sortable: true,
-        },
-      ],
+          sortable: true
+        }
+      ]
     };
   },
   computed: {
-    ...mapGetters("citas", ["getCitas"]),
+    ...mapGetters("citas", ["getCitas"])
   },
   components: {
     Filtros: () => import("../components/Filtros"),
     Titulos: () => import("../components/Titulos"),
     TablaFiltro: () => import("../components/TablaFiltro"),
     DialogCrear: () => import("../components/Citas/Crear"),
-    Calendario: () => import("../components/Citas/Calendario"),
+    Calendario: () => import("../components/Citas/Calendario")
   },
   methods: {
     ...mapActions("citas", ["callCitas"]),
@@ -120,12 +120,13 @@ export default {
         console.log("se preciono el boton");
         this.$store.commit("citas/dialogCrear", true);
       }
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
+    this.$store.commit("example/location", "Citas");
     await this.callCitas();
     this.$q.loading.hide();
-  },
+  }
 };
 </script>

@@ -42,10 +42,10 @@ export default {
   props: ["tipo", "info"],
   components: {
     Natural: () => import("./Natural.vue"),
-    Juridica: () => import("./Juridica.vue"),
+    Juridica: () => import("./Juridica.vue")
   },
   computed: {
-    ...mapState("usuarios", ["dialogCrear"]),
+    ...mapState("usuarios", ["dialogCrear"])
   },
   name: "CrearUsuario",
   data() {
@@ -76,7 +76,7 @@ export default {
       password: "",
       nombres: "",
       ape_pat: "",
-      ape_mat: "",
+      ape_mat: ""
     };
   },
   methods: {
@@ -125,21 +125,21 @@ export default {
           ape_mat: this.ape_mat,
           nombres: this.nombres,
           swt_emp: true,
-          swt_act: true,
+          swt_act: true
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddUser.message,
+            message: responseAddUser.message
           });
           this.callUsers("all");
           this.$store.commit("usuarios/dialogCrear", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddUser.user.detail} - verifique los campos`,
+            message: `${responseAddUser.user.detail} - verifique los campos`
           });
         }
 
@@ -150,15 +150,15 @@ export default {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado",
+          message: "Error controlado"
         });
         console.log("se paso, en el excel");
       }
       // }
-    },
+    }
   },
-  async mounted() {
-    this.$q.loading.show();
+  async created() {
+    // this.$q.loading.show();
     console.log("mounted - crear - personas");
     if (this.tipo == 2) {
       // await this.callPersonasFilter(this.dataEdit.co_plaveh);
@@ -173,15 +173,15 @@ export default {
       // this.color = this.dataEdit.no_colveh;
       // await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     } else if (this.tipo == 1) {
       // await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     }
-    this.$q.loading.hide();
+    // this.$q.loading.hide();
     // this.mostrarFormulario = true;
-  },
+  }
 };
 </script>
 

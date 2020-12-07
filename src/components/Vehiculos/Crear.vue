@@ -284,7 +284,7 @@ export default {
     },
   },
   async mounted() {
-    this.$q.loading.show();
+    // this.$q.loading.show();
     console.log("mounted - crear - vehiculos");
     if (this.tipo == 2) {
       // await this.callVehiculosFilter(this.dataEdit.co_plaveh);
@@ -299,13 +299,13 @@ export default {
       this.color = this.dataEdit.no_colveh;
       await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     } else if (this.tipo == 1) {
       await this.callMarcas("all");
       this.mostrarFormulario = true;
-      this.$q.loading.hide();
+      // this.$q.loading.hide();
     }
-    this.$q.loading.hide();
+    // this.$q.loading.hide();
     // this.mostrarFormulario = true;
   },
 };
