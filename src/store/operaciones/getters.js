@@ -37,3 +37,19 @@ export function get_lista_sermat_evalua(state) {
 export function get_lista_operaci_evalua(state) {
   return state.get_lista_operaci_evalua
 }
+
+export function get_lista_operaci_asignar(state) {
+  return state.get_lista_operaci_asignar
+}
+
+export function get_lista_sermat_asignar(state) {
+  return state.get_lista_sermat_asignar
+}
+
+export function get_combo_tecnico(state) {
+  return state.get_combo_tecnico
+}
+
+export function get_lista_opeser_ini_fin(state) {
+  return state.get_lista_opeser_ini_fin
+}

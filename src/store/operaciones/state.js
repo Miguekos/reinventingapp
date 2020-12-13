@@ -10,6 +10,11 @@ export default function () {
     agregarServicios: false,
     get_lista_sermat_evalua: [],
     get_lista_operaci_evalua: [],
-    operacionesid3: false
+    operacionesid3: false,
+    operacionesid4: false,
+    get_lista_operaci_asignar: [],
+    get_lista_sermat_asignar: [],
+    get_combo_tecnico: [],
+    get_lista_opeser_ini_fin: []
   };
 }

@@ -13,8 +13,8 @@
         <q-tab name="2" label="2. Abrir Operación" />
         <q-tab name="3" label="3. Pendientes de Evaluación" />
         <q-tab name="4" label="4. Pendientes de Asignación de Servicios" />
-        <q-tab name="5" label="5. Pendientes de Ejecución de Servicio" />
-        <q-tab name="6" label="6. Pendiente de Finalizar Servicio" />
+        <q-tab name="5" label="5. Inicio y Fin del Servicio" />
+        <!-- <q-tab name="6" label="6. Pendiente de Finalizar Servicio" /> -->
       </q-tabs>
       <div class="q-gutter-y-sm">
         <q-tab-panels
@@ -42,6 +42,22 @@
               </div>
             </div>
           </q-tab-panel>
+
+          <q-tab-panel name="4">
+            <div class="row">
+              <div class="col">
+                <AsingarServicios />
+              </div>
+            </div>
+          </q-tab-panel>
+
+          <q-tab-panel name="5">
+            <div class="row">
+              <div class="col">
+                <InicioFin />
+              </div>
+            </div>
+          </q-tab-panel>
         </q-tab-panels>
       </div>
     </div>
@@ -54,10 +70,13 @@ export default {
   name: "PageOperaciones",
   data() {
     return {
-      tab: "1"
+      tab: "1",
     };
   },
   components: {
+    InicioFin: () => import("components/Operaciones/InicioFin/InicioFin"),
+    AsingarServicios: () =>
+      import("components/Operaciones/AsignarServicios/AsignarServicios"),
     AbrirOperacion: () => import("components/Operaciones/AbrirOperacion"),
     NuevaOperacion: () =>
       import("components/Operaciones/NuevaOperacion/NuevaOperacion"),
@@ -65,7 +84,7 @@ export default {
       import(
         "components/Operaciones/PendienteDeEvaluacion/PendienteDeEvaluacion"
       ),
-    Titulos: () => import("components/Titulos")
+    Titulos: () => import("components/Titulos"),
   },
   methods: {
     boton(val) {
@@ -83,13 +102,13 @@ export default {
         // console.log("se preciono el boton");
         this.$store.commit("materiales/dialogCrear", true);
       }
-    }
+    },
   },
   async created() {
     this.$store.commit("example/location", "Operaciones");
     if (this.$route.query.id != undefined) {
       this.tab = `${this.$route.query.id}`;
     }
-  }
+  },
 };
 </script>

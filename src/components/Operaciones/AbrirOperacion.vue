@@ -55,6 +55,7 @@
           />
           <div class="text-center q-pa-md q-gutter-md">
             <q-btn
+              v-if="getOperacionesAbrir_operacion.client.length > 0"
               size="sm"
               color="primary"
               icon-right="add"
@@ -93,8 +94,13 @@
       <q-banner dense inline-actions class="text-white bg-red">
         Error al cargar la info: {{ getOperacionesAbrir_operacion }}
         <template v-slot:action>
-          <q-btn flat color="white" label="HOME" />
+          <!-- <q-btn flat color="white" label="HOME" /> -->
         </template>
+      </q-banner>
+    </div>
+    <div v-if="noencontrado">
+      <q-banner dense inline-actions class="text-white bg-red">
+        :( no se encontro lo que estas buscando de: {{ buscar }}
       </q-banner>
     </div>
     <q-dialog
@@ -125,6 +131,7 @@ export default {
       agregarServicios: false,
       agregarMateriales: false,
       buscar: "",
+      noencontrado: false,
     };
   },
   components: {
@@ -141,9 +148,24 @@ export default {
     ...mapActions("operaciones", ["callOperacionesAbrir_operacion"]),
     async buscarOperaciones() {
       this.$q.loading.show();
-      this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
-      await this.callOperacionesAbrir_operacion(this.buscar);
-      this.$q.loading.hide();
+      try {
+        if (this.buscar.length > 0) {
+          this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
+          await this.callOperacionesAbrir_operacion(this.buscar);
+          this.$q.loading.hide();
+          this.noencontrado = false;
+        } else {
+          this.$q.notify({
+            message: "No puede estar vacio el campo de busqueda",
+          });
+          this.noencontrado = true;
+          this.$q.loading.hide();
+        }
+      } catch (error) {
+        console.log(error);
+        this.$q.loading.hide();
+        this.noencontrado = true;
+      }
     },
     async cerrarDialogAddServicios() {
       this.agregarServicios = false;

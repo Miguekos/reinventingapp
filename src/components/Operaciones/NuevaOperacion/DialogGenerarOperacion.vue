@@ -2,7 +2,7 @@
   <div>
     <q-card class="full-height" square>
       <q-bar class="bg-primary text-white">
-        Datos de Operación
+        Nueva Operacion
         <q-space />
         <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>

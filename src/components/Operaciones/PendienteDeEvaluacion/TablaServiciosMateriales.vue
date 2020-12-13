@@ -40,7 +40,7 @@
         <q-td :props="props">
           <q-select
             dense
-            style="height: 34px"
+            style="width: 100px"
             v-model="props.row.opcion"
             :options="options"
             option-label="name"

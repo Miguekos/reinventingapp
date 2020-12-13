@@ -2,7 +2,7 @@
   <div>
     <q-card class="full-height" square>
       <q-bar class="bg-primary text-white">
-        Pendiente De Evaluacion
+        Asignar Servicios tecnicos
         <q-space />
         <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
@@ -11,6 +11,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-xs-12 col-sm-9 q-px-sm">
+            <!-- {{ get_lista_sermat_asignar }} -->
             <!-- {{ get_lista_sermat_evalua.sermat[1] }} -->
             <!-- <q-select
               v-model="clienteSelect"
@@ -43,7 +44,7 @@
       <q-separator />
 
       <q-card-section>
-        <TablaServiciosMateriales />
+        <TablaServicoTecnico />
       </q-card-section>
 
       <!-- <q-card-actions align="right">
@@ -57,10 +58,10 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("operaciones", ["get_lista_sermat_evalua"]),
+    ...mapGetters("operaciones", ["get_lista_sermat_asignar"]),
   },
   components: {
-    TablaServiciosMateriales: () => import("./TablaServiciosMateriales"),
+    TablaServicoTecnico: () => import("./TablaServicoTecnico"),
   },
   data() {
     return {};
@@ -68,7 +69,7 @@ export default {
   methods: {
     ...mapActions("operaciones", ["call_lista_operaci_evalua"]),
     async cerrar() {
-      this.$store.commit("operaciones/operacionesid3", false);
+      this.$store.commit("operaciones/operacionesid4", false);
       await this.call_lista_operaci_evalua({
         nom_cli: "",
         pla_veh: "",

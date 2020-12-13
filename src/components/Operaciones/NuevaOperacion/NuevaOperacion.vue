@@ -3,26 +3,68 @@
     <!--    {{ getOperacionesAbrir_operacion }}-->
     <!--    Buscar Operacion-->
     <div class="row" align="center">
-      <div class="col-4"></div>
-      <div class="col-4 q-pb-md">
+      <div class="col-2"></div>
+      <div class="col-8 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
-            <div class="col-9">
-              <q-input
-                autofocus
-                dense
-                filled
-                v-model="buscar"
-                label="Buscar por placa"
-              />
+            <div class="col-4 q-pa-xs">
+              <q-input filled dense v-model="fecha_ini" label="Fecha Inicio">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="fecha_ini" mask="YYYY-MM-DD">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
             </div>
-            <div class="col-3">
+            <div class="col-4 q-pa-xs">
+              <q-input filled dense v-model="fecha_fin" label="Fecha Fin">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="fecha_fin" mask="YYYY-MM-DD">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-2 q-pa-xs">
+              <q-input dense filled v-model="placa" type="text" label="Placa" />
+            </div>
+            <div class="col-2 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
             </div>
           </div>
         </q-form>
       </div>
-      <div class="col-4"></div>
+      <div class="col-2"></div>
     </div>
     <!--    Datos - Vehiculos - Cliente-->
     <div>
@@ -51,6 +93,10 @@ export default {
       agregarServicios: false,
       agregarMateriales: false,
       buscar: "",
+      fecha_ini: "",
+      fecha_fin: "",
+      placa: "",
+      date: "2019/02/01",
     };
   },
   components: {
@@ -63,7 +109,11 @@ export default {
     async buscarOperaciones() {
       this.$q.loading.show();
       this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
-      await this.callOperacionesAbrir_operacion(this.buscar);
+      await this.call_mostrar_ingreso({
+        fec_ini: "",
+        fec_fin: "",
+        pla_veh: this.placa,
+      });
       this.$q.loading.hide();
     },
   },

@@ -51,3 +51,23 @@ export function get_lista_operaci_evalua(state, payload) {
 export function operacionesid3(state, payload) {
   state.operacionesid3 = payload
 }
+
+export function operacionesid4(state, payload) {
+  state.operacionesid4 = payload
+}
+
+export function get_lista_operaci_asignar(state, payload) {
+  state.get_lista_operaci_asignar = payload
+}
+
+export function get_lista_sermat_asignar(state, payload) {
+  state.get_lista_sermat_asignar = payload
+}
+
+export function get_combo_tecnico(state, payload) {
+  state.get_combo_tecnico = payload
+}
+
+export function get_lista_opeser_ini_fin(state, payload) {
+  state.get_lista_opeser_ini_fin = payload
+}

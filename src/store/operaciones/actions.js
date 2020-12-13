@@ -98,3 +98,52 @@ export async function call_recalcula_sermat({ commit }, payload) {
   return response.data
   // commit("get_recalcula_sermat", response.data)
 }
+
+export async function call_lista_operaci_asignar({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/lista_operaci_asignar`, payload);
+  console.log(response.data);
+  // return response.data
+  commit("get_lista_operaci_asignar", response.data)
+}
+
+export async function call_lista_sermat_asignar({ commit }, payload) {
+  const response = await axiosInstance.get(`/operacflujo/lista_sermat_asignar/${payload}`);
+  console.log(response.data);
+  // return response.data
+  commit("get_lista_sermat_asignar", response.data)
+}
+
+export async function call_combo_tecnico({ commit }) {
+  const response = await axiosInstance.get(`/operacflujo/combo_tecnico`);
+  console.log(response.data);
+  // return response.data
+  commit("get_combo_tecnico", response.data)
+}
+
+export async function call_asigna_tecnico_servicio({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/asigna_tecnico_servicio`, payload);
+  console.log(response.data);
+  return response.data
+  // commit("get_asigna_tecnico_servicio", response.data)
+}
+
+export async function call_lista_opeser_ini_fin({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/lista_opeser_ini_fin`, payload);
+  console.log(response.data);
+  // return response.data
+  commit("get_lista_opeser_ini_fin", response.data)
+}
+
+export async function call_iniciar_servicio_ordser({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/iniciar_servicio_ordser`, payload);
+  console.log(response.data);
+  return response.data
+  // commit("get_iniciar_servicio_ordser", response.data)
+}
+
+export async function call_finalizar_servicio_ordser({ commit }, payload) {
+  const response = await axiosInstance.post(`/operacflujo/finalizar_servicio_ordser`, payload);
+  console.log(response.data);
+  return response.data
+  // commit("get_finalizar_servicio_ordser", response.data)
+}
