@@ -16,7 +16,7 @@
       >
         <template v-slot:top-right="props">
           <q-input
-            outlined
+            filled
             dense
             debounce="300"
             v-model="filter"
@@ -87,6 +87,13 @@
                 @click="editar(props.row)"
                 color="warning"
                 icon="edit"
+              />
+              <q-btn
+                dense
+                size="sm"
+                @click="editar(props.row)"
+                color="primary"
+                label="Generar Operacion"
               />
             </div>
           </q-td>

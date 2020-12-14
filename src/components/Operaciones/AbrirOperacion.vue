@@ -121,7 +121,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("operaciones", ["getOperacionesAbrir_operacion"]),
+    ...mapGetters("operaciones", ["getOperacionesAbrir_operacion"])
   },
   name: "AbrirOperacion",
   data() {
@@ -130,8 +130,10 @@ export default {
       buscarServiciosMateriales: "",
       agregarServicios: false,
       agregarMateriales: false,
-      buscar: "",
-      noencontrado: false,
+      buscar: this.$store.state.operaciones.numeroDeOperacion
+        ? this.$store.state.operaciones.numeroDeOperacion
+        : "",
+      noencontrado: false
     };
   },
   components: {
@@ -142,7 +144,7 @@ export default {
     TablaServicios: () => import("./TablaServiciosAbrirOperaciones"),
     TablaMateriales: () => import("./TablaMaterialesAbrirOperaciones"),
     DialogAddServicios: () => import("./DialogAddServicios"),
-    DialogAddMateriales: () => import("./DialogAddMateriales"),
+    DialogAddMateriales: () => import("./DialogAddMateriales")
   },
   methods: {
     ...mapActions("operaciones", ["callOperacionesAbrir_operacion"]),
@@ -156,7 +158,7 @@ export default {
           this.noencontrado = false;
         } else {
           this.$q.notify({
-            message: "No puede estar vacio el campo de busqueda",
+            message: "No puede estar vacio el campo de busqueda"
           });
           this.noencontrado = true;
           this.$q.loading.hide();
@@ -170,7 +172,7 @@ export default {
     async cerrarDialogAddServicios() {
       this.agregarServicios = false;
       await this.buscarOperaciones();
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
@@ -188,10 +190,10 @@ export default {
       this.$router.replace("/operaciones?id=2");
     }
     this.$q.notify({
-      message: "2. Abrir Operación",
+      message: "2. Abrir Operación"
     });
     this.$q.loading.hide();
-  },
+  }
 };
 </script>
 

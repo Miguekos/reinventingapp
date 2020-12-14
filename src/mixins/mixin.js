@@ -6,6 +6,7 @@ const MixinDefault = {
     return {};
   },
   created: function () {
+    console.log("Cargando Mixin Default")
     // console.log("this.info", this.info[0]);
     // const labels = {
     //   co_operac: "Codigo",

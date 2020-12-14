@@ -13,6 +13,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-5 q-px-sm">
               <q-select
+                dense
                 autofocus
                 v-model="tipodebusqueda"
                 :options="options"
@@ -27,6 +28,7 @@
               <q-input
                 v-model="buscarServiciosMateriales"
                 type="text"
+                dense
                 label="Escriba lo que desea buscar"
               />
             </div>
@@ -35,7 +37,7 @@
               style="align-self: center"
             >
               <q-btn
-                size="md"
+                size="sm"
                 color="primary"
                 type="submit"
                 icon="search"
@@ -69,8 +71,8 @@
                     @click="agregarServicios(props.row)"
                   >
                     <q-tooltip content-class="bg-white text-primary"
-                      >Agregar</q-tooltip
-                    >
+                      >Agregar
+                    </q-tooltip>
                   </q-btn>
                 </div>
               </q-td>
@@ -190,14 +192,17 @@
           titulo="Servicios"
           :hideheader="false"
           :hidebottom="true"
+          @click="buscarSM"
         />
-      </q-card-section>
-      <q-card-section>
+
+        <q-separator color="white" class="q-pa-xs" />
+
         <TablaMaterialesEdit
           :info="get_serv_mater_mostrar_buscar.lismatadd"
           titulo="Materiales"
           :hideheader="false"
           :hidebottom="true"
+          @click="buscarSM"
         />
       </q-card-section>
 
@@ -211,15 +216,16 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 const stringOptions = ["Servicios", "Materiales"];
 export default {
   name: "DialogAddServicios",
   computed: {
-    ...mapGetters("operaciones", ["get_serv_mater_mostrar_buscar"]),
+    ...mapGetters("operaciones", ["get_serv_mater_mostrar_buscar"])
   },
   components: {
     TablaServiciosEdit: () => import("./TablaServiciosEdit"),
-    TablaMaterialesEdit: () => import("./TablaMaterialesEdit"),
+    TablaMaterialesEdit: () => import("./TablaMaterialesEdit")
   },
   data() {
     return {
@@ -233,22 +239,22 @@ export default {
       optionsCV: [
         {
           name: "Costo",
-          value: "C",
+          value: "C"
         },
         {
           name: "Venta",
-          value: "V",
-        },
+          value: "V"
+        }
       ],
       options: [
         {
           name: "Servicios",
-          value: "S",
+          value: "S"
         },
         {
           name: "Materiales",
-          value: "M",
-        },
+          value: "M"
+        }
       ],
       buscarServiciosMateriales: "",
       filter: "",
@@ -258,16 +264,16 @@ export default {
           required: true,
           label: "Operación",
           align: "left",
-          field: (row) => row.co_operac,
-          format: (val) => `${val}`,
-          sortable: true,
+          field: row => row.co_operac,
+          format: val => `${val}`,
+          sortable: true
         },
         {
           name: "co_opeveh",
           align: "center",
           label: "Código",
           field: "co_opeveh",
-          sortable: true,
+          sortable: true
         },
         { name: "fat", label: "Familia", field: "fat", sortable: true },
         { name: "no_tiptra", label: "Tipo de Trabajo", field: "no_tiptra" },
@@ -275,7 +281,7 @@ export default {
         { name: "no_tipser", label: "U.M", field: "no_tipser" },
         { name: "im_preuni", label: "Precio", field: "im_preuni" },
         { name: "co_plaveh", label: "Vehículo", field: "co_plaveh" },
-        { name: "acciones", label: "Acciones", field: "acciones" },
+        { name: "acciones", label: "Acciones", field: "acciones" }
       ],
       columns2: [
         {
@@ -283,59 +289,59 @@ export default {
           required: true,
           label: "Operación",
           align: "left",
-          field: (row) => row.co_articu,
-          format: (val) => `${val}`,
-          sortable: true,
+          field: row => row.co_articu,
+          format: val => `${val}`,
+          sortable: true
         },
         {
           name: "co_barras",
           align: "left",
           label: "Código",
           field: "co_barras",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_catpad",
           label: "Categoría",
           align: "left",
           field: "no_catpad",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_articu",
           align: "left",
           label: "Descripción",
-          field: "no_articu",
+          field: "no_articu"
         },
         {
           name: "co_vehicu",
           align: "left",
           label: "Vehículo",
-          field: "co_vehicu",
+          field: "co_vehicu"
         },
         {
           name: "precioUnitario",
           label: "Precio Unitario",
           align: "left",
-          field: "precioUnitario",
+          field: "precioUnitario"
         },
         {
           name: "cantidad",
           align: "left",
           label: "Cantidad",
-          field: "cantidad",
+          field: "cantidad"
         },
         { name: "opciones", align: "left", label: "Opción", field: "opciones" },
-        { name: "acciones", align: "left", label: "Accion", field: "acciones" },
+        { name: "acciones", align: "left", label: "Accion", field: "acciones" }
       ],
-      data: [],
+      data: []
     };
   },
   methods: {
     ...mapActions("operaciones", [
       "call_serv_mater_mostrar_buscar",
       "call_add_servic_opera",
-      "call_add_materi_opera",
+      "call_add_materi_opera"
     ]),
     async agregarServicios(val) {
       try {
@@ -346,15 +352,15 @@ export default {
           tip_tra: `${val.ti_tratal}`,
           cod_ser: `${val.co_servic}`,
           imp_uni: `${val.im_preuni}`,
-          tip_ser: `${val.ti_servic}`,
+          tip_ser: `${val.ti_servic}`
         });
         this.$q.notify({
-          massage: val.no_servic,
+          massage: val.no_servic
         });
         this.buscarSM();
       } catch (error) {
         this.$q.notify({
-          massage: error,
+          massage: error
         });
       }
     },
@@ -365,7 +371,7 @@ export default {
         tip_fil: this.tipodebusqueda ? this.tipodebusqueda : "S",
         descrip: this.buscarServiciosMateriales
           ? this.buscarServiciosMateriales
-          : "",
+          : ""
       });
       this.$q.loading.hide();
     },
@@ -378,20 +384,20 @@ export default {
           cod_mat: `${val.co_articu}`,
           cantida: val.cantidad,
           imp_uni: parseFloat(val.precioUnitario),
-          cos_ven: val.opciones,
+          cos_ven: val.opciones
         });
         this.$q.notify({
-          massage: responseMaterialesAdd.message,
+          massage: responseMaterialesAdd.message
         });
         this.buscarSM();
       } catch (error) {
         console.log(error);
         this.$q.notify({
-          massage: error,
+          massage: error
         });
       }
       // this.infoMateriales.push(val);
-    },
+    }
   },
   async created() {
     // await this.call_serv_mater_mostrar_buscar({
@@ -399,25 +405,25 @@ export default {
     //   tip_fil: this.tip_fil ? this.tip_fil : "S",
     //   descrip: this.descrip ? this.descrip : "",
     // });
-  },
+  }
 };
 </script>
 
 <style>
 /* .my-table-details {
-  font-size: 0.85em;
-  font-style: italic;
-  max-width: 200px;
-  white-space: normal;
-  color: #555;
-  margin-top: 4px;
-} */
+    font-size: 0.85em;
+    font-style: italic;
+    max-width: 200px;
+    white-space: normal;
+    color: #555;
+    margin-top: 4px;
+  } */
 /* .q-field--dense .q-field__control,
-.q-field--dense .q-field__marginal {
-  height: 15px;
-  border-bottom: 1px solid black;
-  width: 50px;
-} */
+  .q-field--dense .q-field__marginal {
+    height: 15px;
+    border-bottom: 1px solid black;
+    width: 50px;
+  } */
 .campoeditartd {
   text-align: -webkit-center;
   /* text-align: center; */

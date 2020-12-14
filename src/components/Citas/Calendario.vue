@@ -72,8 +72,8 @@
         <q-separator />
 
         <q-card-actions align="center">
-          <q-btn flat label="Cerrar" color="negative" v-close-popup />
-          <q-btn flat label="Aceptar" color="primary" v-close-popup />
+          <q-btn label="Cerrar" color="negative" v-close-popup />
+          <q-btn label="Generar Operacion" color="primary" @click="confirm" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -85,7 +85,7 @@ import {
   DaykeepCalendar,
   DaykeepCalendarMonth,
   DaykeepCalendarAgenda,
-  DaykeepCalendarMultiDay,
+  DaykeepCalendarMultiDay
 } from "@daykeep/calendar-quasar";
 export default {
   props: ["info"],
@@ -94,7 +94,7 @@ export default {
     DaykeepCalendar,
     DaykeepCalendarMonth,
     DaykeepCalendarAgenda,
-    DaykeepCalendarMultiDay,
+    DaykeepCalendarMultiDay
   },
   data() {
     return {
@@ -106,7 +106,7 @@ export default {
         week: "SEMANA",
         threeDay: "3 DIAS",
         day: "DIA",
-        agenda: "AGENDA",
+        agenda: "AGENDA"
       },
       eventArray: [
         {
@@ -116,11 +116,11 @@ export default {
           location: "Oficina de los olivos",
           start: {
             dateTime: "2020-10-16T14:00:00",
-            timeZone: "America/Lima",
+            timeZone: "America/Lima"
           },
           end: {
             dateTime: "2020-10-16T14:00:00",
-            timeZone: "America/Lima",
+            timeZone: "America/Lima"
           },
           color: "positive",
           attendees: [
@@ -130,9 +130,9 @@ export default {
               displayName: "Benjamin Baldeon",
               organizer: false,
               self: false,
-              resource: false,
-            },
-          ],
+              resource: false
+            }
+          ]
         },
         {
           id: 2,
@@ -141,12 +141,12 @@ export default {
           color: "orange",
           start: {
             dateTime: "2020-10-31T18:51:00",
-            timeZone: "America/Lima",
+            timeZone: "America/Lima"
           },
           end: {
             dateTime: "2020-10-31T18:55:00",
-            timeZone: "America/Lima",
-          },
+            timeZone: "America/Lima"
+          }
         },
         {
           id: 3,
@@ -154,14 +154,14 @@ export default {
           description: "Rompio el motor",
           start: {
             dateTime: "2020-10-16T17:30:00",
-            timeZone: "America/Lima",
+            timeZone: "America/Lima"
           },
           end: {
             dateTime: "2020-10-16T17:30:00",
-            timeZone: "America/Lima",
-          },
-        },
-      ],
+            timeZone: "America/Lima"
+          }
+        }
+      ]
     };
   },
 
@@ -171,6 +171,31 @@ export default {
       this.dataCita = val;
       this.fixed = true;
     },
+    confirm() {
+      this.$q
+        .dialog({
+          title: "Confirmar",
+          message: "vas a generar una operacion, estas seguro?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          // console.log('>>>> OK')
+          this.fixed = false;
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+          this.fixed = false;
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+          this.fixed = false;
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+          this.fixed = false;
+        });
+    }
   },
   async created() {
     this.$on();
@@ -180,7 +205,7 @@ export default {
     //   console.log("CLICK", eventDetailObject);
     //   this.$emit("iniciar")
     // });
-    this.$root.$on("update-event-MYCALENDAR", function (eventDetailObject) {
+    this.$root.$on("update-event-MYCALENDAR", function(eventDetailObject) {
       // do something here
       console.log("UPDATE", eventDetailObject);
     });
@@ -196,7 +221,7 @@ export default {
     //   // do something here
     //   console.log("Evento DAY eventDetailObject");
     // });
-  },
+  }
 };
 </script>
 
