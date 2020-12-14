@@ -8,12 +8,26 @@
       title="Lista de Ingreso Vehicular"
       :data="info"
       dense
+      :filter="filter"
       :columns="columns"
       row-key="name"
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
     >
+      <template v-slot:top-right>
+        <q-input
+          filled
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Buscar"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
       <template v-slot:body-cell="props">
         <q-td :props="props">
           {{ props.value }}
@@ -48,23 +62,24 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   props: {
     info: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   computed: {
-    ...mapState("operaciones", ["agregarServicios"]),
+    ...mapState("operaciones", ["agregarServicios"])
   },
   components: {
-    DialogGenerarOperacion: () => import("./DialogGenerarOperacion"),
+    DialogGenerarOperacion: () => import("./DialogGenerarOperacion")
   },
   data() {
     return {
+      filter: "",
       maximizedToggle: false,
       initialPagination: {
         sortBy: "desc",
         descending: false,
         page: 1,
-        rowsPerPage: 1000,
+        rowsPerPage: 1000
         // rowsNumber: xx if getting data from a server
       },
       columns: [
@@ -73,22 +88,22 @@ export default {
           required: true,
           label: "N°",
           align: "left",
-          field: (row) => row.co_aduana,
-          format: (val) => `${val}`,
-          sortable: true,
+          field: row => row.co_aduana,
+          format: val => `${val}`,
+          sortable: true
         },
         {
           name: "co_plaveh",
           align: "center",
           label: "Placa",
           field: "co_plaveh",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_marveh",
           label: "Marca",
           field: "no_marveh",
-          sortable: true,
+          sortable: true
         },
         { name: "no_modveh", label: "Modelo", field: "no_modveh" },
         { name: "nu_anomod", label: "Año", field: "nu_anomod" },
@@ -97,52 +112,52 @@ export default {
           name: "no_entsal",
           label: "Tipo de Movimiento",
           field: "no_entsal",
-          sortable: true,
+          sortable: true
         },
         {
           name: "fe_regist",
           label: "Fecha de Registro",
           field: "fe_regist",
-          sortable: true,
+          sortable: true
         },
         {
           name: "ho_regist",
           label: "Hora de Registro",
           field: "ho_regist",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_chofer",
           label: "Conductor",
           field: "no_chofer",
-          sortable: true,
+          sortable: true
         },
         {
           name: "no_cenope",
           label: "Centro de Operaciones",
           field: "no_cenope",
-          sortable: true,
+          sortable: true
         },
         {
           name: "de_ingsal",
           label: "Descripción",
           field: "de_ingsal",
-          sortable: true,
+          sortable: true
         },
         {
           name: "accion",
           label: "Accion",
           field: "accionm",
-          sortable: true,
-        },
-      ],
+          sortable: true
+        }
+      ]
     };
   },
   methods: {
     ...mapActions("operaciones", [
       "call_combo_cliente",
       "call_lista_vehiculo_ingreso",
-      "call_nueva_operacion",
+      "call_nueva_operacion"
     ]),
     async generarOperacion(val) {
       this.$q.loading.show();
@@ -151,8 +166,8 @@ export default {
       console.log(val);
       this.$store.commit("operaciones/agregarServicios", true);
       this.$q.loading.hide();
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="sass">

@@ -17,7 +17,7 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top-right>
-        <q-input dense debounce="300" v-model="filter" placeholder="Buscar">
+        <q-input dense filled debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
           </template>

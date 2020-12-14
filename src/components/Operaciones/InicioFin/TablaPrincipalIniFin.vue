@@ -19,7 +19,7 @@
       :selected.sync="selected"
     >
       <template v-slot:top-right>
-        <q-input dense debounce="300" v-model="filter" placeholder="Buscar">
+        <q-input dense filled debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -45,7 +45,7 @@
         <div class="row q-gutter-lg">
           <div class="col">
             <q-btn
-              color="info"
+              color="green"
               @click="inicioOperacion"
               size="sm"
               style="width: 80px"
