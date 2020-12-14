@@ -21,8 +21,10 @@
 </template>
 
 <script>
+import { storagelocal } from "../mixins/mixin";
 import { mapActions } from "vuex";
 export default {
+  mixins: [storagelocal],
   data() {
     return {
       loadboton: false,
@@ -37,7 +39,8 @@ export default {
       console.log(files[0]);
       return {
         // url: 'http://192.168.0.30:9776/envios//upload',
-        url: () => `https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/`,
+        url: () =>
+          `https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/`,
         method: "POST",
         // headers: () => [{name: 'Content-Type', value: 'multipart/form-data'}],
         fieldName: "files"
@@ -48,7 +51,7 @@ export default {
       console.log("this.archivo", this.archivo);
       if (this.archivo) {
         this.callCambioFotper({
-          id: 105,
+          id: this.userLocal.co_usuari,
           fot_per: this.archivo
         })
           .then(async resp => {

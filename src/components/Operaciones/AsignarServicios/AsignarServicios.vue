@@ -51,7 +51,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("operaciones", ["get_lista_operaci_asignar"]),
+    ...mapGetters("operaciones", ["get_lista_operaci_asignar"])
   },
   name: "AbrirOperacion",
   data() {
@@ -62,11 +62,11 @@ export default {
       agregarMateriales: false,
       buscar: "",
       buscar_cliente: "",
-      buscar_placa: "",
+      buscar_placa: ""
     };
   },
   components: {
-    TablaPrincipal: () => import("./TablaAsignarServicios"),
+    TablaPrincipal: () => import("./TablaAsignarServicios")
     // DialogAddServicios: () => import("./DialogAddServicios"),
   },
   methods: {
@@ -76,19 +76,23 @@ export default {
       // this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
       await this.call_lista_operaci_asignar({
         nom_cli: this.buscar_cliente,
-        pla_veh: this.buscar_placa,
+        pla_veh: this.buscar_placa
       });
       this.$q.loading.hide();
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
     // await this.call_mostrar_ingreso();
+    await this.call_lista_operaci_asignar({
+      nom_cli: this.buscar_cliente,
+      pla_veh: this.buscar_placa
+    });
     this.$router.replace("/operaciones?id=4");
     this.$q.notify({
-      message: "1. Nueva Operacion",
+      message: "1. Nueva Operacion"
     });
     this.$q.loading.hide();
-  },
+  }
 };
 </script>
