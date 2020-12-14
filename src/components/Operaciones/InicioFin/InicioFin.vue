@@ -8,7 +8,7 @@
       <div class="col-8 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
-            <div class="col-3 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-input
                 autofocus
                 dense
@@ -18,7 +18,7 @@
                 clearable
               />
             </div>
-            <div class="col-3 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-input
                 autofocus
                 dense
@@ -28,7 +28,7 @@
                 clearable
               />
             </div>
-            <div class="col-3 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-input
                 v-model="buscar_tecnico"
                 filled
@@ -38,7 +38,7 @@
                 clearable
               />
             </div>
-            <div class="col-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
             </div>
           </div>
@@ -64,7 +64,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("operaciones", ["get_lista_opeser_ini_fin"]),
+    ...mapGetters("operaciones", ["get_lista_opeser_ini_fin"])
   },
   name: "AbrirOperacion",
   data() {
@@ -77,11 +77,11 @@ export default {
       buscar_cliente: "",
       buscar_placa: "",
       buscar_operacion: "",
-      buscar_tecnico: "",
+      buscar_tecnico: ""
     };
   },
   components: {
-    TablaPrincipalIniFin: () => import("./TablaPrincipalIniFin"),
+    TablaPrincipalIniFin: () => import("./TablaPrincipalIniFin")
     // DialogAddServicios: () => import("./DialogAddServicios"),
   },
   methods: {
@@ -92,23 +92,23 @@ export default {
       await this.call_lista_opeser_ini_fin({
         cod_ope: `${this.buscar_operacion}`,
         pla_veh: `${this.buscar_placa}`,
-        tec_aut: `${this.buscar_tecnico}`,
+        tec_aut: `${this.buscar_tecnico}`
       });
       this.$q.loading.hide();
-    },
+    }
   },
   async created() {
     this.$q.loading.show();
     await this.call_lista_opeser_ini_fin({
       cod_ope: "",
       pla_veh: "",
-      tec_aut: "",
+      tec_aut: ""
     });
     this.$router.replace("/operaciones?id=5");
-    this.$q.notify({
-      message: "5. Inicio y Fin del Servicio",
-    });
+    // this.$q.notify({
+    //   message: "5. Inicio y Fin del Servicio",
+    // });
     this.$q.loading.hide();
-  },
+  }
 };
 </script>

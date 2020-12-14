@@ -8,7 +8,7 @@
       <div class="col-8 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
-            <div class="col-5 q-pa-xs">
+            <div class="col-xs-12 col-sm-5 q-pa-xs">
               <q-input
                 autofocus
                 dense
@@ -17,7 +17,7 @@
                 label="Buscar por Cliente"
               />
             </div>
-            <div class="col-5 q-pa-xs">
+            <div class="col-xs-12 col-sm-5 q-pa-xs">
               <q-input
                 autofocus
                 dense
@@ -26,7 +26,7 @@
                 label="Buscar por Placa"
               />
             </div>
-            <div class="col-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
             </div>
           </div>
@@ -88,9 +88,9 @@ export default {
       pla_veh: "",
     });
     this.$router.replace("/operaciones?id=3");
-    this.$q.notify({
-      message: "3. Pendientes de Evaluacion",
-    });
+    // this.$q.notify({
+    //   message: "3. Pendientes de Evaluacion",
+    // });
     this.$q.loading.hide();
   },
 };

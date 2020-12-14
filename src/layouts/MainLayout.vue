@@ -96,7 +96,7 @@
       <router-view />
     </q-page-container>
     <q-dialog v-model="dialogPerfil">
-      <div style="width: 50%">
+      <div style="width: 80%">
         <q-card>
           <q-card-section @click="alert = true" align="center">
             <q-img width="200px" class="rounded-borders" :src="fotoPerfil" />

@@ -7,7 +7,7 @@
       <div class="col-8 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
-            <div class="col-4 q-pa-xs">
+            <div class="col-xs-12 col-sm-4 q-pa-xs">
               <q-input filled dense v-model="fecha_ini" label="Fecha Inicio">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -31,7 +31,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-4 q-pa-xs">
+            <div class="col-xs-12 col-sm-4 q-pa-xs">
               <q-input filled dense v-model="fecha_fin" label="Fecha Fin">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -55,10 +55,10 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-input dense filled v-model="placa" type="text" label="Placa" />
             </div>
-            <div class="col-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
             </div>
           </div>
@@ -121,9 +121,9 @@ export default {
     this.$q.loading.show();
     await this.call_mostrar_ingreso();
     this.$router.replace("/operaciones?id=1");
-    this.$q.notify({
-      message: "1. Nueva Operacion",
-    });
+    // this.$q.notify({
+    //   message: "1. Nueva Operacion",
+    // });
     this.$q.loading.hide();
   },
 };

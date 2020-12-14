@@ -189,9 +189,9 @@ export default {
     } else {
       this.$router.replace("/operaciones?id=2");
     }
-    this.$q.notify({
-      message: "2. Abrir Operación"
-    });
+    // this.$q.notify({
+    //   message: "2. Abrir Operación"
+    // });
     this.$q.loading.hide();
   }
 };
