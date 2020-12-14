@@ -6,13 +6,13 @@
           v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '400px' }"
         >
           <q-card-section>
-            <q-avatar rounded size="103px" class="absolute-center shadow-10">
-              <img src="../../assets/logo3.png" />
+            <q-avatar size="143px" class="absolute-center shadow-10">
+              <img src="../../assets/logo4.png" />
             </q-avatar>
           </q-card-section>
           <q-card-section>
             <div class="text-center q-pt-lg">
-              <div class="col text-h6 ellipsis text-italic">Reinventing</div>
+              <div class="col text-h6 ellipsis text-italic"></div>
             </div>
           </q-card-section>
           <form @submit.prevent="submitForm">
