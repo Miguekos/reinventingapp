@@ -1,7 +1,7 @@
 <template>
   <div class="">
     {{ get_lista_sermat_asignar.servic }}
-    {{options}}
+    {{ options }}
     <q-table
       title="Servicios"
       :data="get_lista_sermat_asignar.servic"
