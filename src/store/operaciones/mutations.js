@@ -71,3 +71,8 @@ export function get_combo_tecnico(state, payload) {
 export function get_lista_opeser_ini_fin(state, payload) {
   state.get_lista_opeser_ini_fin = payload
 }
+
+export function set_get_lista_sermat_asignar(state, payload) {
+  console.log("set_get_lista_sermat_asignar", payload)
+  state.get_lista_sermat_asignar.servic = payload
+}

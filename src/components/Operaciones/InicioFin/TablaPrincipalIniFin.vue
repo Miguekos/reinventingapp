@@ -11,7 +11,7 @@
       dense
       :filter="filter"
       :columns="columns"
-      row-key="no_operac"
+      row-key="co_opeser"
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
@@ -19,7 +19,13 @@
       :selected.sync="selected"
     >
       <template v-slot:top-right>
-        <q-input dense filled debounce="300" v-model="filter" placeholder="Buscar">
+        <q-input
+          dense
+          filled
+          debounce="300"
+          v-model="filter"
+          placeholder="Buscar"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -98,8 +104,8 @@ export default {
       filter: "",
       maximizedToggle: false,
       initialPagination: {
-        sortBy: "desc",
-        descending: false,
+        sortBy: "no_operac",
+        descending: true,
         page: 1,
         rowsPerPage: 1000,
         // rowsNumber: xx if getting data from a server
