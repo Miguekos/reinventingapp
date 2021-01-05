@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import example from './module-example'
+import example from "./module-example";
 import auth from "./store-auth";
 import usuarios from "./usuarios";
 import vehiculos from "./vehiculos";
@@ -11,6 +11,7 @@ import personas from "./personas";
 import citas from "./citas";
 import materiales from "./materiales";
 import operaciones from "./operaciones";
+import logisticas from "./store-logisticas";
 
 Vue.use(Vuex);
 
@@ -23,7 +24,7 @@ Vue.use(Vuex);
  * with the Store instance.
  */
 
-export default function (/* { ssrContext } */) {
+export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       example,
@@ -35,7 +36,8 @@ export default function (/* { ssrContext } */) {
       personas,
       citas,
       materiales,
-      operaciones
+      operaciones,
+      logisticas
     },
 
     // enable strict mode (adds overhead!)

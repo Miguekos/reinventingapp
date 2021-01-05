@@ -40,7 +40,7 @@
       </q-toolbar>
     </q-header>
     <q-drawer
-      class="left-navigation text-white"
+      class="left-navigation"
       v-model="leftDrawerOpen"
       style="
         background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;
@@ -50,9 +50,9 @@
     >
       <div
         class="full-height"
-        :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
+        :class="$q.dark.isActive ? 'drawer_dark' : ''"
       >
-        <div style="height: calc(100% - 117px); padding: 10px">
+        <div style="height: 85vh; padding: 10px">
           <!--          <q-toolbar>-->
           <div class="text-center">
             <span> MENU </span>
@@ -71,6 +71,132 @@
                 :key="link.title"
                 v-bind="link"
               />
+
+              <q-expansion-item
+                class="q-ma-sm navigation-item"
+                expand-separator
+                icon="assignment_turned_in"
+                label="Logistica"
+              >
+                <q-expansion-item
+                  :header-inset-level="0.5"
+                  :content-inset-level="1"
+                  icon="article"
+                  label="Orden de Compra"
+                >
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="assignment" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Listado de O/C</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+
+                    <q-item-section avatar>
+                      <q-icon name="calendar_view_day" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Visado jefatura</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Visado Gerencia</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
+
+                <q-expansion-item
+                  :header-inset-level="0.5"
+                  :content-inset-level="1"
+                  expand-separator
+                  icon="aspect_ratio"
+                  label="Tramite Documentario"
+                >
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fact_check" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>lista de Compras</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="horizontal_split" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Visado Solitante</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="Logout()"
+                  >
+
+                    <q-item-section avatar>
+                      <q-icon name="rounded_corner" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Visado Jefatura</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
+              </q-expansion-item>
+
               <q-item
                 class="q-ma-sm navigation-item"
                 clickable
@@ -178,12 +304,12 @@ const linksData = [
     icon: "rule",
     link: "/operaciones"
   },
-  {
-    title: "Logistica",
-    caption: "github.com/quasarframework",
-    icon: "assignment_turned_in",
-    link: "/logisticas"
-  },
+  // {
+  //   title: "Logistica",
+  //   caption: "github.com/quasarframework",
+  //   icon: "assignment_turned_in",
+  //   link: "/logisticas"
+  // },
   {
     title: "Reportes",
     caption: "github.com/quasarframework",
@@ -227,6 +353,9 @@ export default {
     };
   },
   methods: {
+    async URL(arg) {
+      await this.$router.push(arg);
+    },
     cerrarDialog() {
       this.alert = false;
       this.dialogPerfil = false;
@@ -260,7 +389,7 @@ export default {
 <style>
 .q-drawer {
   /*background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;*/
-  background-image: url("../assets/images/lake.jpg") !important;
+  /*background-image: url("../assets/images/lake.jpg") !important;*/
   /*background-size: cover !important;*/
 }
 
