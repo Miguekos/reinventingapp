@@ -1,6 +1,7 @@
 <template>
   <div>
     <q-card :class="$q.screen.gt.md ? 'full-height' : ''" square>
+      <!--      {{ get_inform_ordcom }}-->
       <q-bar class="bg-primary text-white">
         DETALLE ORDEN DE COMPRA
         <q-space />
@@ -10,10 +11,10 @@
       </q-bar>
       <q-card-section style="height: 45%">
         <div class="row">
-          <div class="col-xs-12 col-md-3 q-pa-xs">
-            <DatosdelaOC />
+          <div class="col-xs-12 col-md-4 q-pa-xs">
+            <DatosdelaOC :info="get_inform_ordcom" />
           </div>
-          <div class="col-xs-12 col-md-9 q-pa-xs">
+          <div class="col-xs-12 col-md-8 q-pa-xs">
             <TablaProductosdelaOrden />
           </div>
         </div>
@@ -29,11 +30,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   components: {
     DatosdelaOC: () => import("./DatosdelaOC"),
     TablaProductosdelaOrden: () => import("./TablaProductosdelaOrden"),
     BuscarProductos: () => import("./BuscarProductos")
+  },
+  computed: {
+    ...mapState("logisticas", ["dialogCrear", "dialogDetalleOrden"]),
+    ...mapGetters("logisticas", [
+      "get_inform_ordcom",
+      "get_listar_produc_encont"
+    ])
   },
   name: "DialogDetalleOrden",
   data() {

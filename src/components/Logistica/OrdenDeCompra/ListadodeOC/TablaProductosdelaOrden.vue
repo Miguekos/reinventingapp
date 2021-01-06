@@ -1,9 +1,15 @@
 <template>
   <div>
+    <!--    {{ get_listar_detall_ordcom }}-->
     <div class="row">
-      <div class="col"><u>Productos Encontrados </u></div>
+      <div class="col"><u>Productos de Orden </u></div>
       <div class="col text-right q-pa-xs">
-        <q-btn size="8px" color="primary" label="Actualizar" />
+        <q-btn
+          size="8px"
+          color="primary"
+          @click="acrtualizar"
+          label="Actualizar"
+        />
       </div>
     </div>
     <q-card flat bordered>
@@ -16,13 +22,40 @@
         virtual-scroll
         class="my-sticky-header-table-v2"
         dense
-        :data="data"
+        :data="get_listar_detall_ordcom.operac"
         :columns="columns"
         row-key="name"
       >
-        <template v-slot:body-cell-name="props">
+        <template v-slot:body-cell-ca_articu="props">
           <q-td :props="props">
-            {{ props.value }}
+            <q-input
+              filled
+              input-class="text-right"
+              v-model="props.row.ca_articu"
+              dense
+            />
+          </q-td>
+        </template>
+        <template v-slot:body-cell-im_preuni="props">
+          <q-td :props="props">
+            <q-input
+              filled
+              input-class="text-right"
+              v-model="props.row.im_preuni"
+              dense
+            />
+          </q-td>
+        </template>
+        <template v-slot:body-cell-accion="props">
+          <q-td :props="props">
+            <q-btn
+              class="q-pa-sm"
+              color="red"
+              size="xs"
+              icon="delete"
+              @click="eliminar(props.row)"
+              dense
+            />
           </q-td>
         </template>
       </q-table>
@@ -31,8 +64,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TablaProductosdelaOrden",
+  computed: {
+    ...mapState("logisticas", ["ordenCompra"]),
+    ...mapGetters("logisticas", ["get_listar_detall_ordcom"])
+  },
   data() {
     return {
       initialPagination: {
@@ -54,131 +92,115 @@ export default {
           required: true,
           label: "O/C",
           align: "left",
-          field: row => row.name,
+          field: row => row.co_ordcom,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "calories",
-          align: "center",
+          name: "co_articu",
+          align: "left",
           label: "Código",
-          field: "calories",
+          field: "co_articu",
           sortable: true
         },
-        { name: "fat", label: "Producto", field: "fat", sortable: true },
-        { name: "carbs", label: "Cantidad", field: "carbs" },
-        { name: "protein", label: "Precio U.", field: "protein" },
-        { name: "sodium", label: "Precio T.", field: "sodium" },
         {
-          name: "calcium",
+          name: "no_articu",
+          align: "left",
+          label: "Producto",
+          field: "no_articu",
+          sortable: true
+        },
+        {
+          name: "ca_articu",
+          align: "left",
+          label: "Cantidad",
+          field: "ca_articu"
+        },
+        {
+          name: "im_preuni",
+          align: "left",
+          label: "Precio U.",
+          field: "im_preuni"
+        },
+        {
+          name: "im_pretot",
+          align: "left",
+          label: "Precio T.",
+          field: "im_pretot"
+        },
+        {
+          name: "accion",
           label: "Acciones",
-          field: "calcium",
+          field: "accion",
           sortable: true
         }
       ],
-      data: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
-        }
-      ]
+      data: []
     };
+  },
+  methods: {
+    ...mapActions("logisticas", [
+      "call_listar_produc_encont",
+      "call_manten_produc_ordcom",
+      "call_listar_detall_ordcom"
+    ]),
+    async eliminar(val) {
+      this.$q.loading.show();
+      console.log(val);
+      await this.call_manten_produc_ordcom({
+        co_ordcom: val.co_ordcom,
+        co_articu: val.co_articu,
+        ca_articu: 0,
+        co_moneda: 28,
+        im_preuni: 0,
+        ti_accion: "D"
+      });
+      console.log("buscar - eliminar");
+      await this.call_listar_produc_encont({
+        co_ordcom: val.co_ordcom,
+        co_catego: this.categoria,
+        co_subcat: this.subcategoria,
+        no_produc: this.producto
+      });
+      await this.call_listar_detall_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
+      this.$q.loading.hide();
+    },
+    async acrtualizar() {
+      this.$q.loading.show();
+      const array = this.get_listar_detall_ordcom.operac;
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        console.log(element);
+        await this.call_manten_produc_ordcom({
+          co_ordcom: element.co_ordcom,
+          co_articu: element.co_articu,
+          ca_articu: element.ca_articu,
+          co_moneda: 28,
+          im_preuni: element.im_preuni,
+          ti_accion: "U"
+        });
+      }
+      await this.call_listar_produc_encont({
+        co_ordcom: this.ordenCompra,
+        co_catego: this.categoria,
+        co_subcat: this.subcategoria,
+        no_produc: this.producto
+      });
+      await this.call_listar_detall_ordcom({
+        co_ordcom: `${this.ordenCompra}`
+      });
+      this.$q.loading.hide();
+    },
+    async buscarProductos() {
+      await this.call_listar_produc_encont({
+        co_ordcom: this.ordenCompra,
+        co_catego: this.categoria,
+        co_subcat: this.subcategoria,
+        no_produc: this.producto
+      });
+    }
   }
 };
 </script>

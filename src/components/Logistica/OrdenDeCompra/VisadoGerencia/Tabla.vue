@@ -1,13 +1,14 @@
 <template>
   <div>
     <!-- {{info}} -->
+    <!--    {{get_listar_pendie_visado_gerencia}}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Lista de Órdenes"
-      :data="info"
+      :data="get_listar_pendie_visado_gerencia.operac"
       dense
       :filter="filter"
       :columns="columns"
@@ -17,7 +18,7 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top-right>
-        <q-btn color="primary" label="Confirmar" @click="crearOC"></q-btn>
+        <q-btn color="primary" @click="confirmar" label="Confirmar"></q-btn>
         <q-input
           class="q-pl-sm"
           dense
@@ -44,6 +45,28 @@
             :label="`${props.row.no_operac}`"
             @click="generarOperacion(props.row)"
           />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-visar="props">
+        <q-td :props="props">
+          <q-checkbox
+            v-model="props.row.visar"
+            color="secondary"
+            true-value="v"
+            false-value="r"
+          />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-accion="props">
+        <q-td :props="props">
+          <div class="row">
+            <div class="col">
+              <q-btn size="xs" color="primary" icon="map" />
+            </div>
+            <div class="col">
+              <q-btn size="xs" color="primary" icon="delete" />
+            </div>
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -73,7 +96,7 @@ export default {
   },
   computed: {
     ...mapState("logisticas", ["dialogCrear"]),
-    ...mapGetters("operaciones", ["get_lista_sermat_asignar"])
+    ...mapGetters("logisticas", ["get_listar_pendie_visado_gerencia"])
   },
   components: {
     // DialogGenerarOperacion: () => import("./DialogAsignarServicios")
@@ -98,41 +121,41 @@ export default {
           required: true,
           label: "Fecha",
           align: "left",
-          field: row => row.fe_regist,
+          field: row => row.fe_ordcom,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "no_usuari",
+          name: "co_rucpro",
           align: "center",
           label: "Ruc",
-          field: "no_usuari",
+          field: "co_rucpro",
           sortable: true
         },
         {
-          name: "no_operac",
+          name: "no_razsoc",
           label: "Proveedor",
-          field: "no_operac",
+          field: "no_razsoc",
           sortable: true
         },
-        { name: "no_client", label: "Orden Compra", field: "no_client" },
-        { name: "no_marveh", label: "Moneda", field: "no_marveh" },
+        { name: "no_ordcom", label: "Orden Compra", field: "no_ordcom" },
+        { name: "co_moneda", label: "Moneda", field: "co_moneda" },
         {
-          name: "no_modveh",
+          name: "im_prenet",
           label: "Precio Neto",
-          field: "no_modveh",
+          field: "im_prenet",
           sortable: true
         },
         {
-          name: "no_verveh",
-          label: "Precio Totla",
-          field: "no_verveh",
+          name: "im_pretot",
+          label: "Precio Total",
+          field: "im_pretot",
           sortable: true
         },
         {
-          name: "no_anoveh",
+          name: "visar",
           label: "¿Visar?",
-          field: "no_anoveh",
+          field: "visar",
           sortable: true
         },
         {
@@ -145,14 +168,29 @@ export default {
     };
   },
   methods: {
-    ...mapActions("operaciones", [
-      "call_combo_cliente",
-      "call_lista_vehiculo_ingreso",
-      "call_nueva_operacion",
-      "call_lista_sermat_evalua",
-      "call_lista_sermat_asignar",
-      "call_combo_tecnico"
+    ...mapActions("logisticas", [
+      "call_visrec_ordcom",
+      "call_listar_pendie_visado_gerencia"
     ]),
+
+    async confirmar() {
+      this.$q.loading.show();
+      const array = this.get_listar_pendie_visado_gerencia.operac;
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        await this.call_visrec_ordcom({
+          co_ordcom: element.co_ordcom,
+          co_person: 95,
+          ti_person: "G",
+          ti_visado: element.visar
+        });
+      }
+      await this.call_listar_pendie_visado_gerencia({
+        co_ordcom: "",
+        co_tipvis: "J"
+      });
+      this.$q.loading.hide();
+    },
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("logisticas/dialogCrear", true);

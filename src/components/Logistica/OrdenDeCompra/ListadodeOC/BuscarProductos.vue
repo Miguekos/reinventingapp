@@ -1,10 +1,18 @@
 <template>
   <div class="row">
     <div class="col-xs-12 col-md-12 q-pa-xs">
+      <!--      {{ get_listar_produc_encont }}-->
       <q-card flat bordered>
         <div class="row">
           <div class="col-xs-12 col-md-2 q-pa-xs">
-            <q-input autofocus dense filled v-model="oc" label="O/C" />
+            <q-input
+              autofocus
+              dense
+              disable
+              filled
+              v-model="ordenCompra"
+              label="O/C"
+            />
           </div>
           <div class="col-xs-12 col-md-3 q-pa-xs">
             <q-select
@@ -34,7 +42,7 @@
             />
           </div>
           <div class="col-xs-12 col-md-1 q-pa-xs">
-            <q-btn color="primary" label="Buscar" />
+            <q-btn color="primary" @click="buscarProductos" label="Buscar" />
           </div>
         </div>
       </q-card>
@@ -43,10 +51,11 @@
       <div class="row">
         <div class="col"><u>Productos Encontrados </u></div>
         <div class="col text-right q-pa-xs">
-          <q-btn size="8px" color="primary" label="Agregar" />
+          <!--          <q-btn size="8px" color="primary" label="Agregar" />-->
         </div>
       </div>
       <q-card flat bordered>
+        <!--        {{ get_listar_produc_encont }}-->
         <q-table
           color="primary"
           card-class="bg-amber-1 text-brown"
@@ -56,13 +65,29 @@
           virtual-scroll
           class="my-sticky-header-table-v2"
           dense
-          :data="data"
+          :data="get_listar_produc_encont.operac"
           :columns="columns"
           row-key="name"
         >
-          <template v-slot:body-cell-name="props">
+          <template v-slot:body-cell-cantidad="props">
             <q-td :props="props">
-              {{ props.value }}
+              <q-input
+                filled
+                input-class="text-right"
+                v-model="props.row.cantidad"
+                dense
+              />
+            </q-td>
+          </template>
+          <template v-slot:body-cell-accion="props">
+            <q-td :props="props">
+              <q-btn
+                color="primary"
+                size="sm"
+                @click="agregar(props.row)"
+                dense
+                label="agregar"
+              />
             </q-td>
           </template>
         </q-table>
@@ -72,8 +97,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TablaProductosdelaOrden",
+  computed: {
+    ...mapState("logisticas", ["ordenCompra"]),
+    ...mapGetters("logisticas", ["get_listar_produc_encont"])
+  },
   data() {
     return {
       initialPagination: {
@@ -95,126 +125,64 @@ export default {
           required: true,
           label: "O/C",
           align: "left",
-          field: row => row.name,
+          field: row => row.co_ordcom,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "calories",
+          name: "no_catego",
           align: "center",
           label: "Categoría",
-          field: "calories",
+          field: "no_catego",
           sortable: true
         },
-        { name: "fat", label: "Sub Categoría", field: "fat", sortable: true },
-        { name: "carbs", label: "Código", field: "carbs" },
-        { name: "protein", label: "Producto", field: "protein" },
-        { name: "sodium", label: "Cantidad", field: "sodium" }
+        {
+          name: "no_subcat",
+          label: "Sub Categoría",
+          field: "no_subcat",
+          sortable: true
+        },
+        { name: "co_barpro", label: "Código", field: "co_barpro" },
+        { name: "no_produc", label: "Producto", field: "no_produc" },
+        { name: "cantidad", label: "Cantidad", field: "cantidad" },
+        { name: "accion", label: "Accion", field: "accion" }
       ],
 
-      data: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
-        }
-      ]
+      data: []
     };
+  },
+  methods: {
+    ...mapActions("logisticas", [
+      "call_listar_produc_encont",
+      "call_manten_produc_ordcom",
+      "call_listar_detall_ordcom"
+    ]),
+    async agregar(val) {
+      this.$q.loading.show();
+      console.log(val);
+      await this.call_manten_produc_ordcom({
+        co_ordcom: val.co_ordcom,
+        co_articu: val.co_produc,
+        ca_articu: val.cantidad,
+        co_moneda: 28,
+        im_preuni: 0,
+        ti_accion: "I"
+      });
+      console.log("buscar - aagregar");
+      await this.buscarProductos();
+      await this.call_listar_detall_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
+      this.$q.loading.hide();
+    },
+    async buscarProductos() {
+      await this.call_listar_produc_encont({
+        co_ordcom: this.ordenCompra,
+        co_catego: this.categoria,
+        co_subcat: this.subcategoria,
+        no_produc: this.producto
+      });
+    }
   }
 };
 </script>

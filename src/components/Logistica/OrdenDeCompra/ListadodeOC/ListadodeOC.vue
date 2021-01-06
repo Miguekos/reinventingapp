@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <!--    {{ getOperacionesAbrir_operacion }}-->
+    <!--    {{ get_listar_ordcom.operac }}-->
     <!--    Buscar Operacion-->
     <div class="row" align="center">
       <div class="col-1"></div>
@@ -75,7 +75,7 @@
       <div class="row">
         <div class="col">
           <!--          {{ get_listar_ordcom }}-->
-          <TablaPrincipal :info="get_listar_ordcom.result" />
+          <TablaPrincipal :info="get_listar_ordcom.operac" />
         </div>
       </div>
       <!-- TablaMateriales -->
@@ -131,14 +131,14 @@ export default {
   async created() {
     this.$q.loading.show();
     // await this.call_mostrar_ingreso();
-    // await this.call_listar_ordcom({
-    //   fe_emides: `${this.fe_emides}`,
-    //   fe_emihas: `${this.fe_emihas}`,
-    //   no_provee: `${this.no_provee}`,
-    //   nu_ordcom: `${this.nu_ordcom}`,
-    //   ti_estado: `${this.ti_estado}`,
-    //   co_barras: `${this.co_barras}`
-    // });
+    await this.call_listar_ordcom({
+      fe_emides: `${this.fe_emides}`,
+      fe_emihas: `${this.fe_emihas}`,
+      no_provee: `${this.no_provee}`,
+      nu_ordcom: `${this.nu_ordcom}`,
+      ti_estado: `${this.ti_estado}`,
+      co_barras: `${this.co_barras}`
+    });
     this.$router.replace("/logisticas/ordenesdecompra?id=1");
     this.$store.commit("example/location", "Logistica / Listado de OC");
 

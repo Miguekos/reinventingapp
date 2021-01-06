@@ -3,9 +3,16 @@ import { axiosInstance } from "boot/axios";
 const state = {
   get_listar_ordcom: [],
   dialogCrear: false,
-  dialogDetalleOrden: true,
+  dialogDetalleOrden: false,
   get_listar_pendie_visado_jefatura: [],
-  get_listar_pendie_visado_gerencia: []
+  get_listar_pendie_visado_gerencia: [],
+  get_inform_ordcom: [],
+  get_listar_produc_encont: [],
+  get_listar_detall_ordcom: [],
+  ordenCompra: null,
+  get_catalogo_tcprovee: [],
+  get_tcservic: [],
+  get_catalogo_tcmoneda: []
 };
 
 const mutations = {
@@ -23,6 +30,27 @@ const mutations = {
   },
   get_listar_pendie_visado_gerencia(state, payload) {
     state.get_listar_pendie_visado_gerencia = payload;
+  },
+  get_inform_ordcom(state, payload) {
+    state.get_inform_ordcom = payload;
+  },
+  get_listar_produc_encont(state, payload) {
+    state.get_listar_produc_encont = payload;
+  },
+  get_listar_detall_ordcom(state, payload) {
+    state.get_listar_detall_ordcom = payload;
+  },
+  ordenCompra(state, payload) {
+    state.ordenCompra = payload;
+  },
+  get_catalogo_tcprovee(state, payload) {
+    state.get_catalogo_tcprovee = payload;
+  },
+  get_tcservic(state, payload) {
+    state.get_tcservic = payload;
+  },
+  get_catalogo_tcmoneda(state, payload) {
+    state.get_catalogo_tcmoneda = payload;
   }
 };
 
@@ -44,6 +72,62 @@ const actions = {
       payload
     );
     commit("get_listar_pendie_visado_gerencia", response.data);
+  },
+  async call_inform_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(`/ordcom/inform_ordcom`, payload);
+    commit("get_inform_ordcom", response.data);
+  },
+  async call_listar_produc_encont({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/ordcom/listar_produc_encont`,
+      payload
+    );
+    commit("get_listar_produc_encont", response.data);
+  },
+  async call_listar_detall_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/ordcom/listar_detall_ordcom`,
+      payload
+    );
+    commit("get_listar_detall_ordcom", response.data);
+  },
+  async call_insert_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(`/ordcom/insert_ordcom`, payload);
+    // commit("get_insert_ordcom", response.data);
+    return response.data;
+  },
+  async call_visrec_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(`/ordcom/visrec_ordcom`, payload);
+    // commit("get_visrec_ordcom", response.data);
+    return response.data;
+  },
+  async call_catalogo_tcprovee({ commit }, payload) {
+    const response = await axiosInstance.get(
+      `/ordcom/catalogo/tcprovee`,
+      payload
+    );
+    commit("get_catalogo_tcprovee", response.data);
+  },
+  async call_tcservic({ commit }, payload) {
+    const response = await axiosInstance.get(`/ordcom/tcservic`);
+    commit("get_tcservic", response.data);
+  },
+  async call_catalogo_tcmoneda({ commit }) {
+    const response = await axiosInstance.get(
+      `/ordcom/catalogo/tcmoneda`,
+      payload
+    );
+    commit("get_catalogo_tcmoneda", response.data);
+  },
+  async call_update_ordcom({ commit }, payload) {
+    const response = await axiosInstance.get(`/ordcom/update_ordcom`);
+    return response.data;
+    // commit("get_update_ordcom", response.data);
+  },
+  async call_manten_produc_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(`/ordcom/manten_produc_ordcom`, payload);
+    return response.data;
+    // commit("get_update_ordcom", response.data);
   }
 };
 
@@ -56,6 +140,24 @@ const getters = {
   },
   get_listar_pendie_visado_gerencia(state) {
     return state.get_listar_pendie_visado_gerencia;
+  },
+  get_inform_ordcom(state) {
+    return state.get_inform_ordcom;
+  },
+  get_listar_produc_encont(state) {
+    return state.get_listar_produc_encont;
+  },
+  get_listar_detall_ordcom(state) {
+    return state.get_listar_detall_ordcom;
+  },
+  get_catalogo_tcprovee(state) {
+    return state.get_catalogo_tcprovee;
+  },
+  get_tcservic(state) {
+    return state.get_tcservic;
+  },
+  get_catalogo_tcmoneda(state) {
+    return state.get_catalogo_tcmoneda;
   }
 };
 

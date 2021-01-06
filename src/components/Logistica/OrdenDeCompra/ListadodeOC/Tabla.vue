@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{info}} -->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
@@ -36,20 +35,20 @@
           {{ props.value }}
         </q-td>
       </template>
-      <template v-slot:body-cell-no_operac="props">
+      <template v-slot:body-cell-no_ordcom="props">
         <q-td :props="props">
           <q-btn
             size="xs"
             color="primary"
-            :label="`${props.row.no_operac}`"
+            :label="`${props.row.no_ordcom}`"
             @click="generarOperacion(props.row)"
           />
         </q-td>
       </template>
     </q-table>
-    <!--    <div>-->
-    <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
-    <!--    </div>-->
+    <div>
+      <DialogCrear :tipo="tipo" :info="dataEdit" />
+    </div>
     <q-dialog
       v-model="dialogDetalleOrden"
       persistent
@@ -73,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState("logisticas", ["dialogCrear", "dialogDetalleOrden"]),
-    ...mapGetters("operaciones", ["get_lista_sermat_asignar"])
+    ...mapGetters("logisticas", ["get_inform_ordcom"])
   },
   components: {
     DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
@@ -82,6 +81,9 @@ export default {
   data() {
     return {
       filter: "",
+      tipo: 1,
+      orden: null,
+      dataEdit: [],
       maximizedToggle: false,
       initialPagination: {
         sortBy: "desc",
@@ -101,55 +103,55 @@ export default {
           sortable: true
         },
         {
-          name: "no_usuari",
+          name: "co_docide",
           align: "center",
           label: "Ruc",
-          field: "no_usuari",
+          field: "co_docide",
           sortable: true
         },
         {
-          name: "no_operac",
+          name: "no_razsoc",
           label: "Proveedor",
-          field: "no_operac",
+          field: "no_razsoc",
           sortable: true
         },
-        { name: "no_client", label: "Orden Compra", field: "no_client" },
-        { name: "no_placas", label: "Estado", field: "no_placas" },
-        { name: "no_marveh", label: "Moneda", field: "no_marveh" },
+        { name: "no_ordcom", label: "Orden Compra", field: "no_ordcom" },
+        { name: "no_estado", label: "Estado", field: "no_estado" },
+        { name: "co_moneda", label: "Moneda", field: "co_moneda" },
         {
-          name: "no_modveh",
+          name: "im_baseim",
           label: "Precio Neto",
-          field: "no_modveh",
+          field: "im_baseim",
           sortable: true
         },
         {
-          name: "no_verveh",
-          label: "Precio Totla",
-          field: "no_verveh",
+          name: "im_pretot",
+          label: "Precio Total",
+          field: "im_pretot",
           sortable: true
         },
         {
-          name: "no_anoveh",
+          name: "ca_articu",
           label: "Cant. Produc.",
-          field: "no_anoveh",
+          field: "ca_articu",
           sortable: true
         },
         {
-          name: "no_colveh",
+          name: "fe_autori",
           label: "Visado Jefatura",
-          field: "no_colveh",
+          field: "fe_autori",
           sortable: true
         },
         {
-          name: "no_estado",
+          name: "fe_gerenc",
           label: "Visado Gerencia",
-          field: "no_estado",
+          field: "fe_gerenc",
           sortable: true
         },
         {
-          name: "adjunto",
+          name: "ca_arcadj",
           label: "Adjunto",
-          field: "adjunto",
+          field: "ca_arcadj",
           sortable: true
         },
         {
@@ -162,13 +164,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions("operaciones", [
-      "call_combo_cliente",
-      "call_lista_vehiculo_ingreso",
-      "call_nueva_operacion",
-      "call_lista_sermat_evalua",
-      "call_lista_sermat_asignar",
-      "call_combo_tecnico"
+    ...mapActions("logisticas", [
+      "call_inform_ordcom",
+      "call_listar_produc_encont",
+      "call_listar_detall_ordcom"
     ]),
     async crearOC() {
       console.log("Crear O/C");
@@ -176,12 +175,24 @@ export default {
     },
     async generarOperacion(val) {
       this.$q.loading.show();
-      await this.call_lista_sermat_asignar(val.co_operac);
+      this.$store.commit("logisticas/ordenCompra", val.co_ordcom);
+      await this.call_inform_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
+      await this.call_listar_produc_encont({
+        co_ordcom: `${val.co_ordcom}`,
+        co_catego: "",
+        co_subcat: "",
+        no_produc: ""
+      });
+      await this.call_listar_detall_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
       // await this.call_combo_cliente();
       // await this.call_lista_vehiculo_ingreso(val.co_aduana);
       console.log(val);
       this.$q.notify({
-        message: `${val.co_operac}`
+        message: `${val.co_ordcom}`
       });
       this.$store.commit("logisticas/dialogDetalleOrden", true);
       this.$q.loading.hide();

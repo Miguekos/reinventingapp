@@ -2,36 +2,51 @@
   <div>
     <q-dialog v-model="dialogCrear" persistent position="top">
       <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw">
-        <q-card-section class="row items-center">
-          <div>
-            <div v-if="tipo == 1" class="text-h5">Agregar Articulo</div>
-            <div v-else-if="tipo == 2" class="text-h5">Editar Articulo</div>
-          </div>
-        </q-card-section>
+        <div class="q-pl-lg">
+          <div v-if="tipo == 1" class="text-h6">Agregar O/C</div>
+          <div v-else-if="tipo == 2" class="text-h6">Editar Articulo</div>
+        </div>
+
         <q-separator />
         <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
           <q-card-section class="row items-center q-gutter-sm">
             <div class="col-12">
               <q-input
-                dense
-                ref="fechadecompra"
                 filled
+                dense
                 v-model="fechadecompra"
-                label="Fecha de compra"
-                hint="Fecha de compra"
-                lazy-rules
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
+                hint="Fecha de Orden"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="fechadecompra" mask="YYYY-MM-DD">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
             </div>
             <div class="col-12">
               <q-select
                 filled
                 dense
-                @input="traerCategorias"
                 v-model="proveedor"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
+                :options="get_catalogo_tcprovee.operac"
+                option-label="no_razsoc"
+                option-value="co_perjur"
                 emit-value
                 map-options
                 label="Proveedor"
@@ -39,27 +54,16 @@
               />
             </div>
             <div class="col-12">
-              <q-select
-                filled
-                dense
-                v-model="solicitante"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
-                emit-value
-                map-options
-                label="Solicitante"
-                hint="solicitante"
-              />
+              <q-input v-model="solicitante" dense filled label="Solicitante" />
             </div>
             <div class="col-12">
               <q-select
                 filled
                 dense
                 v-model="tipodecompra"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
+                :options="get_tcservic.operac"
+                option-label="no_tipcom"
+                option-value="ti_compra"
                 emit-value
                 map-options
                 label="Tipo de compra"
@@ -81,9 +85,9 @@
                 filled
                 dense
                 v-model="moneda"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
+                :options="get_catalogo_tcmoneda.operac"
+                option-label="no_moneda"
+                option-value="co_moneda"
                 emit-value
                 map-options
                 label="Moneda"
@@ -91,29 +95,18 @@
               />
             </div>
             <div class="col-12">
-              <q-select
-                filled
-                dense
-                v-model="tipopago"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
-                emit-value
-                map-options
-                label="Tipo Pago"
-                hint="Tipo Pago"
-              />
+              <q-input v-model="tipopago" dense filled label="Tipo Pago" />
             </div>
             <div class="col-12">
               <q-select
                 filled
                 dense
                 v-model="conigv"
-                :options="getMaterialesEmpresas"
-                option-label="no_empres"
-                option-value="co_empres"
-                emit-value
+                :options="optionsIGV"
+                option-value="value"
+                option-label="name"
                 map-options
+                emit-value
                 label="¿Con IGV?"
                 hint="¿Con IGV?"
               />
@@ -138,12 +131,13 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  props: ["tipo", "info"],
+  props: ["info"],
   computed: {
     ...mapState("logisticas", ["dialogCrear"]),
-    ...mapGetters("materiales", [
-      "getMaterialesCategorias",
-      "getMaterialesEmpresas"
+    ...mapGetters("logisticas", [
+      "get_catalogo_tcprovee",
+      "get_tcservic",
+      "get_catalogo_tcmoneda"
     ]),
     foo: {
       get() {
@@ -157,9 +151,27 @@ export default {
   name: "CreaVehiculos",
   data() {
     return {
+      fechadecompra: "2021-01-06",
       options: ["v1.1", "v1.2", "v1.3", "v1.4", "v1.4"],
+      optionsIGV: [
+        {
+          name: "SI",
+          value: 1
+        },
+        {
+          name: "NO",
+          value: 2
+        }
+      ],
       options2: this.getMaterialesCategorias,
-      fechadecompra: "",
+      tipo: 1,
+      dataEdit: [],
+      solicitante: "",
+      tipodecompra: "",
+      motivodecompra: "",
+      moneda: "",
+      tipopago: "",
+      conigv: "",
       proveedor: "",
       empresa: null,
       categoria: null,
@@ -177,11 +189,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions("materiales", [
-      "callMaterialesCategorias",
-      "callMaterialesEmpresas",
-      "callMaterialesAdd",
-      "callMateriales"
+    ...mapActions("logisticas", [
+      "call_insert_ordcom",
+      "call_catalogo_tcprovee",
+      "call_tcservic",
+      "call_catalogo_tcmoneda",
+      "call_listar_ordcom"
     ]),
     filterFn(val, update, abort) {
       let asd = [];
@@ -219,26 +232,37 @@ export default {
     async onSubmit() {
       this.loadboton = true;
       try {
-        const responseAddUser = await this.callMaterialesAdd({
-          cod_art: null,
-          nom_art: this.fechadecompra,
-          cod_bar: null,
-          cod_emp: this.empresa,
-          cod_cat: this.categoria
+        const responseService = await this.call_insert_ordcom({
+          pn_regist: 92,
+          pj_provee: this.proveedor,
+          co_moneda: this.moneda,
+          ti_compra: this.tipodecompra,
+          de_motcom: this.motivodecompra,
+          fe_ordcom: this.fechadecompra,
+          pn_solici: this.solicitante,
+          il_conigv: this.conigv,
+          co_tippro: this.tipopago
         });
-        console.log("responseAddUser", responseAddUser);
-        if (responseAddUser.res == "ok") {
+        console.log("responseService", responseService);
+        if (responseService.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddUser.message
+            message: responseService.message
           });
-          this.callMateriales();
-          this.$store.commit("materiales/dialogCrear", false);
-        } else if (responseAddUser.res == "ko") {
+          await this.call_listar_ordcom({
+            fe_emides: `${this.fe_emides}`,
+            fe_emihas: `${this.fe_emihas}`,
+            no_provee: `${this.no_provee}`,
+            nu_ordcom: `${this.nu_ordcom}`,
+            ti_estado: `${this.ti_estado}`,
+            co_barras: `${this.co_barras}`
+          });
+          this.$store.commit("logisticas/dialogCrear", false);
+        } else if (responseService.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddUser.message} - verifique los campos`
+            message: `${responseService.message} - verifique los campos`
           });
         }
       } catch (e) {
@@ -254,8 +278,11 @@ export default {
   },
   async mounted() {
     this.$q.loading.show();
+    this.call_catalogo_tcprovee();
+    this.call_tcservic();
+    this.call_catalogo_tcmoneda();
     console.log("mounted - crear - materiales");
-    await this.callMaterialesEmpresas();
+    // await this.callMaterialesEmpresas();
     this.mostrarFormulario = true;
     this.$q.loading.hide();
   }
