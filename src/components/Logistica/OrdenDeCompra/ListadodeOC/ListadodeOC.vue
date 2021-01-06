@@ -74,7 +74,7 @@
       <!-- TablaServicios -->
       <div class="row">
         <div class="col">
-          {{ get_listar_ordcom }}
+          <!--          {{ get_listar_ordcom }}-->
           <TablaPrincipal :info="get_listar_ordcom.result" />
         </div>
       </div>
@@ -98,6 +98,8 @@ export default {
       agregarServicios: false,
       agregarMateriales: false,
       buscar: "",
+      tipo: 1,
+      dataEdit: [],
       fe_emides: "",
       fe_emihas: "",
       no_provee: "",
@@ -129,15 +131,17 @@ export default {
   async created() {
     this.$q.loading.show();
     // await this.call_mostrar_ingreso();
-    await this.call_listar_ordcom({
-      fe_emides: `${this.fe_emides}`,
-      fe_emihas: `${this.fe_emihas}`,
-      no_provee: `${this.no_provee}`,
-      nu_ordcom: `${this.nu_ordcom}`,
-      ti_estado: `${this.ti_estado}`,
-      co_barras: `${this.co_barras}`
-    });
-    // this.$router.replace("/operaciones?id=4");
+    // await this.call_listar_ordcom({
+    //   fe_emides: `${this.fe_emides}`,
+    //   fe_emihas: `${this.fe_emihas}`,
+    //   no_provee: `${this.no_provee}`,
+    //   nu_ordcom: `${this.nu_ordcom}`,
+    //   ti_estado: `${this.ti_estado}`,
+    //   co_barras: `${this.co_barras}`
+    // });
+    this.$router.replace("/logisticas/ordenesdecompra?id=1");
+    this.$store.commit("example/location", "Logistica / Listado de OC");
+
     // this.$q.notify({
     //   message: "1. Nueva Operacion"
     // });

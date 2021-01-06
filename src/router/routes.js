@@ -13,6 +13,11 @@ const routes = [
       { path: "materiales", component: () => import("pages/Material.vue") },
       { path: "operaciones", component: () => import("pages/Operaciones.vue") },
       { path: "logisticas", component: () => import("pages/Logistica.vue") },
+      {
+        path: "logisticas/ordenesdecompra",
+        component: () =>
+          import("components/Logistica/OrdenDeCompra/OrdenesDeCompra.vue")
+      },
       { path: "reportes", component: () => import("pages/Reportes.vue") }
     ]
   },

@@ -65,6 +65,9 @@ export default {
     return {
       employee_dialog: true
     };
+  },
+  created() {
+    this.$store.commit("example/location", "");
   }
 };
 </script>

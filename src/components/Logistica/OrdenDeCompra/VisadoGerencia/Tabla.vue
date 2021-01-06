@@ -6,7 +6,7 @@
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
-      title="Listado"
+      title="Lista de Órdenes"
       :data="info"
       dense
       :filter="filter"
@@ -17,7 +17,7 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top-right>
-        <q-btn color="primary" label="Nueva O/C" @click="crearOC"></q-btn>
+        <q-btn color="primary" label="Confirmar" @click="crearOC"></q-btn>
         <q-input
           class="q-pl-sm"
           dense
@@ -50,17 +50,17 @@
     <!--    <div>-->
     <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
     <!--    </div>-->
-    <q-dialog
-      v-model="dialogDetalleOrden"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-up"
-      full-height
-      full-width
-    >
-      <DialogGenerarOperacion />
-    </q-dialog>
+    <!--    <q-dialog-->
+    <!--      v-model="operacionesid4"-->
+    <!--      persistent-->
+    <!--      :maximized="maximizedToggle"-->
+    <!--      transition-show="slide-up"-->
+    <!--      transition-hide="slide-down"-->
+    <!--      full-height-->
+    <!--      full-width-->
+    <!--    >-->
+    <!--      <DialogGenerarOperacion />-->
+    <!--    </q-dialog>-->
   </div>
 </template>
 <script>
@@ -72,15 +72,17 @@ export default {
     }
   },
   computed: {
-    ...mapState("logisticas", ["dialogCrear", "dialogDetalleOrden"]),
+    ...mapState("logisticas", ["dialogCrear"]),
     ...mapGetters("operaciones", ["get_lista_sermat_asignar"])
   },
   components: {
-    DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
+    // DialogGenerarOperacion: () => import("./DialogAsignarServicios")
     DialogCrear: () => import("./NuevaOC")
   },
   data() {
     return {
+      tipo: 1,
+      dataEdit: [],
       filter: "",
       maximizedToggle: false,
       initialPagination: {
@@ -114,7 +116,6 @@ export default {
           sortable: true
         },
         { name: "no_client", label: "Orden Compra", field: "no_client" },
-        { name: "no_placas", label: "Estado", field: "no_placas" },
         { name: "no_marveh", label: "Moneda", field: "no_marveh" },
         {
           name: "no_modveh",
@@ -130,26 +131,8 @@ export default {
         },
         {
           name: "no_anoveh",
-          label: "Cant. Produc.",
+          label: "¿Visar?",
           field: "no_anoveh",
-          sortable: true
-        },
-        {
-          name: "no_colveh",
-          label: "Visado Jefatura",
-          field: "no_colveh",
-          sortable: true
-        },
-        {
-          name: "no_estado",
-          label: "Visado Gerencia",
-          field: "no_estado",
-          sortable: true
-        },
-        {
-          name: "adjunto",
-          label: "Adjunto",
-          field: "adjunto",
           sortable: true
         },
         {
@@ -183,9 +166,12 @@ export default {
       this.$q.notify({
         message: `${val.co_operac}`
       });
-      this.$store.commit("logisticas/dialogDetalleOrden", true);
+      this.$store.commit("operaciones/operacionesid4", true);
       this.$q.loading.hide();
     }
+  },
+  async created() {
+    // await this.call_combo_tecnico();
   }
 };
 </script>

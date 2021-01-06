@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md">
+    <!--        {{ get_listar_pendie_visado_gerencia }}-->
     <q-banner
       v-if="get_listar_pendie_visado_gerencia.res == 'ko'"
       dense
@@ -12,7 +13,6 @@
         <q-btn flat color="white" label="Recargar" />
       </template>
     </q-banner>
-    <!--    {{ getOperacionesAbrir_operacion }}-->
     <!--    Buscar Operacion-->
     <div class="row" align="center">
       <div class="col-1"></div>
@@ -62,7 +62,7 @@
       <!-- TablaServicios -->
       <div class="row">
         <div class="col">
-          <!--          {{ get_listar_pendie_visado_gerencia }}-->
+          <!--          {{ get_listar_ordcom }}-->
           <TablaPrincipal :info="get_listar_pendie_visado_gerencia.result" />
         </div>
       </div>
@@ -78,7 +78,7 @@ export default {
   computed: {
     ...mapGetters("logisticas", ["get_listar_pendie_visado_gerencia"])
   },
-  name: "VisadoJefatura",
+  name: "VisadoGerencia",
   data() {
     return {
       maximizedToggle: false,
@@ -86,8 +86,8 @@ export default {
       agregarServicios: false,
       agregarMateriales: false,
       OrdendeCompra: "",
-      buscar: "",
       co_ordcom: "",
+      buscar: "",
       fe_emides: "",
       fe_emihas: "",
       no_provee: "",
@@ -107,7 +107,7 @@ export default {
       // this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
       await this.call_listar_pendie_visado_gerencia({
         co_ordcom: `${this.co_ordcom}`,
-        co_tipvis: "J"
+        co_tipvis: "G"
       });
       this.$q.loading.hide();
     }
@@ -116,10 +116,10 @@ export default {
     this.$q.loading.show();
     await this.call_listar_pendie_visado_gerencia({
       co_ordcom: `${this.co_ordcom}`,
-      co_tipvis: "J"
+      co_tipvis: "G"
     });
-    this.$router.replace("/logisticas/ordenesdecompra?id=2");
-    this.$store.commit("example/location", "Logistica / Visado Jefatura");
+    this.$router.replace("/logisticas/ordenesdecompra?id=3");
+    this.$store.commit("example/location", "Logistica / Visado Gerencia");
     // this.$q.notify({
     //   message: "1. Nueva Operacion"
     // });

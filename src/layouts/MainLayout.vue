@@ -11,11 +11,11 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-separator dark vertical inset />
+        <!--        <q-separator dark vertical inset />-->
 
         <q-toolbar-title>
           <q-img src="logo2.png" spinner-color="white" width="100px" />
-          - {{ $store.state.example.location }}
+          / {{ $store.state.example.location }}
           <!--          Reinventing Admin-->
         </q-toolbar-title>
 
@@ -31,10 +31,9 @@
         >
           <q-avatar>
             <img width="50px" :src="fotoPerfil" />
-            <q-badge color="negative" floating>
-              4
-              <!--              {{ $store.state.utils.Alertas.length }}-->
-            </q-badge>
+            <!--            <q-badge color="negative" floating>-->
+            <!--              4-->
+            <!--            </q-badge>-->
           </q-avatar>
         </q-btn>
       </q-toolbar>
@@ -48,10 +47,7 @@
       side="left"
       elevated
     >
-      <div
-        class="full-height"
-        :class="$q.dark.isActive ? 'drawer_dark' : ''"
-      >
+      <div class="full-height" :class="$q.dark.isActive ? 'drawer_dark' : ''">
         <div style="height: 85vh; padding: 10px">
           <!--          <q-toolbar>-->
           <div class="text-center">
@@ -77,124 +73,56 @@
                 expand-separator
                 icon="assignment_turned_in"
                 label="Logistica"
+                :content-inset-level="0.5"
               >
-                <q-expansion-item
-                  :header-inset-level="0.5"
-                  :content-inset-level="1"
-                  icon="article"
-                  label="Orden de Compra"
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('logisticas/ordenesdecompra')"
                 >
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
-                    <q-item-section avatar>
-                      <q-icon name="assignment" />
-                    </q-item-section>
+                  <q-item-section avatar>
+                    <q-icon name="assignment" />
+                  </q-item-section>
 
-                    <q-item-section>
-                      <q-item-label>Listado de O/C</q-item-label>
-                    </q-item-section>
-                  </q-item>
+                  <q-item-section>
+                    <q-item-label>Ordenes de Compra</q-item-label>
+                  </q-item-section>
+                </q-item>
 
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
-
-                    <q-item-section avatar>
-                      <q-icon name="calendar_view_day" />
-                    </q-item-section>
-
-                    <q-item-section>
-                      <q-item-label>Visado jefatura</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
-
-                    <q-item-section avatar>
-                      <q-icon name="description" />
-                    </q-item-section>
-
-                    <q-item-section>
-                      <q-item-label>Visado Gerencia</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-expansion-item>
-
-                <q-expansion-item
-                  :header-inset-level="0.5"
-                  :content-inset-level="1"
-                  expand-separator
-                  icon="aspect_ratio"
-                  label="Tramite Documentario"
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
                 >
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
-                    <q-item-section avatar>
-                      <q-icon name="fact_check" />
-                    </q-item-section>
+                  <q-item-section avatar>
+                    <q-icon name="aspect_ratio" />
+                  </q-item-section>
 
-                    <q-item-section>
-                      <q-item-label>lista de Compras</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
-                    <q-item-section avatar>
-                      <q-icon name="horizontal_split" />
-                    </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Trámite Documentario</q-item-label>
+                  </q-item-section>
+                </q-item>
 
-                    <q-item-section>
-                      <q-item-label>Visado Solitante</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item
-                    class="q-ma-sm navigation-item"
-                    clickable
-                    active-class="tab-active"
-                    v-ripple
-                    exact
-                    @click="Logout()"
-                  >
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                >
+                  <q-item-section avatar>
+                    <q-icon name="description" />
+                  </q-item-section>
 
-                    <q-item-section avatar>
-                      <q-icon name="rounded_corner" />
-                    </q-item-section>
-
-                    <q-item-section>
-                      <q-item-label>Visado Jefatura</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-expansion-item>
+                  <q-item-section>
+                    <q-item-label>Ingresos / Salidas</q-item-label>
+                  </q-item-section>
+                </q-item>
               </q-expansion-item>
 
               <q-item
