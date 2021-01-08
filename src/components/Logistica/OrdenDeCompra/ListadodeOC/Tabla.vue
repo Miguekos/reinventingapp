@@ -86,8 +86,8 @@ export default {
       dataEdit: [],
       maximizedToggle: false,
       initialPagination: {
-        sortBy: "desc",
-        descending: false,
+        sortBy: "name",
+        descending: true,
         page: 1,
         rowsPerPage: 1000
         // rowsNumber: xx if getting data from a server
