@@ -86,8 +86,8 @@ export default {
       dataEdit: [],
       maximizedToggle: false,
       initialPagination: {
-        sortBy: "desc",
-        descending: false,
+        sortBy: "no_tradoc",
+        descending: true,
         page: 1,
         rowsPerPage: 1000
         // rowsNumber: xx if getting data from a server
@@ -115,7 +115,7 @@ export default {
           field: "no_razsoc",
           sortable: true
         },
-        { name: "no_tradoc", label: "Tramite Doc", field: "no_tradoc" },
+        { name: "no_tradoc", label: "Tramite Doc", field: "no_tradoc", sortable: true },
         { name: "no_estado", label: "Estado", field: "no_estado" },
         { name: "co_moneda", label: "Moneda", field: "co_moneda" },
         {

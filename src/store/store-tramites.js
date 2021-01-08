@@ -12,7 +12,8 @@ const state = {
   tramiteDoc: null,
   get_catalogo_tcprovee: [],
   get_catalogo_tctipdoc: [],
-  get_catalogo_tcmoneda: []
+  get_catalogo_tcmoneda: [],
+  get_catalogo_tcsolici: []
 };
 
 const mutations = {
@@ -51,6 +52,9 @@ const mutations = {
   },
   get_catalogo_tcmoneda(state, payload) {
     state.get_catalogo_tcmoneda = payload;
+  },
+  get_catalogo_tcsolici(state, payload) {
+    state.get_catalogo_tcsolici = payload;
   }
 };
 
@@ -120,6 +124,10 @@ const actions = {
     const response = await axiosInstance.get(`/tradoc/catalogo/tctipdoc`);
     commit("get_catalogo_tctipdoc", response.data);
   },
+  async call_catalogo_tcsolici({ commit }) {
+    const response = await axiosInstance.get(`/tradoc/catalogo/tcsolici`);
+    commit("get_catalogo_tcsolici", response.data);
+  },
   async call_update_tradoc({ commit }, payload) {
     const response = await axiosInstance.get(`/tradoc/update_tradoc`);
     return response.data;
@@ -162,6 +170,9 @@ const getters = {
   },
   get_catalogo_tcmoneda(state) {
     return state.get_catalogo_tcmoneda;
+  },
+  get_catalogo_tcsolici(state) {
+    return state.get_catalogo_tcsolici;
   }
 };
 

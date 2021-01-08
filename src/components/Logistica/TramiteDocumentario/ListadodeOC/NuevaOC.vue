@@ -6,7 +6,7 @@
           <div v-if="tipo == 1" class="text-h6">Agregar T/D</div>
           <div v-else-if="tipo == 2" class="text-h6">Editar Articulo</div>
         </div>
-
+        <!--        {{ get_catalogo_tcsolici }}-->
         <q-separator />
         <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
           <q-card-section class="row items-center q-gutter-sm">
@@ -54,7 +54,18 @@
               />
             </div>
             <div class="col-12">
-              <q-input v-model="solicitante" dense filled label="Solicitante" />
+              <q-select
+                filled
+                dense
+                v-model="solicitante"
+                :options="get_catalogo_tcsolici.operac"
+                option-label="no_solici"
+                option-value="co_solici"
+                emit-value
+                map-options
+                label="Solicitante"
+                hint="Solicitante"
+              />
             </div>
             <div class="col-12">
               <q-select
@@ -134,7 +145,8 @@ export default {
     ...mapGetters("tramites", [
       "get_catalogo_tcprovee",
       "get_catalogo_tctipdoc",
-      "get_catalogo_tcmoneda"
+      "get_catalogo_tcmoneda",
+      "get_catalogo_tcsolici"
     ]),
     foo: {
       get() {
@@ -192,7 +204,8 @@ export default {
       "call_catalogo_tcprovee",
       "call_catalogo_tctipdoc",
       "call_catalogo_tcmoneda",
-      "call_listar_tradoc"
+      "call_listar_tradoc",
+      "call_catalogo_tcsolici"
     ]),
     filterFn(val, update, abort) {
       let asd = [];
@@ -280,6 +293,7 @@ export default {
     this.call_catalogo_tcprovee();
     this.call_catalogo_tctipdoc();
     this.call_catalogo_tcmoneda();
+    this.call_catalogo_tcsolici();
     console.log("mounted - crear - materiales");
     // await this.callMaterialesEmpresas();
     this.mostrarFormulario = true;
