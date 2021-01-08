@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--    {{ get_rep_kardex.resultado }}-->
+    {{ get_rep_kardex.resultado[0] }}
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
@@ -77,84 +77,84 @@ export default {
           required: true,
           label: "Empresa",
           align: "left",
-          field: row => row.fe_regist,
+          field: row => row.no_empres,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "co_docide",
+          name: "co_almace",
           align: "center",
           label: "Almacén",
-          field: "co_docide",
+          field: "co_almace",
           sortable: true
         },
         {
-          name: "no_razsoc",
+          name: "co_articu",
           label: "Código Artículo",
-          field: "no_razsoc",
+          field: "co_articu",
           sortable: true
         },
-        { name: "no_ordcom", label: "Nombre Artículo", field: "no_ordcom" },
-        { name: "no_estado", label: "Fecha", field: "no_estado" },
-        { name: "co_moneda", label: "Documento", field: "co_moneda" },
+        { name: "co_articu", label: "Nombre Artículo", field: "co_articu" },
+        { name: "fe_movini", label: "Fecha", field: "fe_movini" },
+        { name: "fe_movini", label: "Documento", field: "fe_movini" },
         {
-          name: "im_baseim",
+          name: "co_transa",
           label: "Transacción",
-          field: "im_baseim",
+          field: "co_transa",
           sortable: true
         },
         {
-          name: "im_pretot",
+          name: "ca_entuni",
           label: "Cantidad",
-          field: "im_pretot",
+          field: "ca_entuni",
           sortable: true
         },
         {
-          name: "ca_articu",
+          name: "ca_entuni",
           label: "Precio Unitario",
-          field: "ca_articu",
+          field: "ca_entuni",
           sortable: true
         },
         {
-          name: "fe_autori",
+          name: "im_enttot",
           label: "Importe Total",
-          field: "fe_autori",
+          field: "im_enttot",
           sortable: true
         },
         {
-          name: "fe_gerenc",
+          name: "ca_saluni",
           label: "Cantidad",
-          field: "fe_gerenc",
+          field: "ca_saluni",
           sortable: true
         },
         {
-          name: "ca_arcadj",
+          name: "im_saluni",
           label: "Precio Unitario",
-          field: "ca_arcadj",
+          field: "im_saluni",
           sortable: true
         },
         {
-          name: "ca_arcadj",
+          name: "im_saltot",
           label: "Precio Total",
-          field: "ca_arcadj",
+          field: "im_saltot",
           sortable: true
         },
         {
-          name: "ca_arcadj",
+          name: "ca_resuni",
           label: "Cantidad",
-          field: "ca_arcadj",
+          field: "ca_resuni",
           sortable: true
         },
         {
-          name: "ca_arcadj",
+          name: "im_resuni",
           label: "Precio Unitario",
-          field: "ca_arcadj",
+          field: "im_resuni",
           sortable: true
         },
         {
-          name: "ca_arcadj",
+          name: "im_restot",
           label: "Precio Total",
-          field: "ca_arcadj",
+          field: "im_restot",
           sortable: true
         },
         {
