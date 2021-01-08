@@ -18,7 +18,27 @@ const routes = [
         component: () =>
           import("components/Logistica/OrdenDeCompra/OrdenesDeCompra.vue")
       },
-      { path: "reportes", component: () => import("pages/Reportes.vue") }
+      {
+        path: "logisticas/tramitedoc",
+        component: () =>
+          import("components/Logistica/TramiteDocumentario/TramiteDocumentario")
+      },
+      {
+        path: "reportes/kardex",
+        component: () => import("components/Reportes/Logistica/Kardex/Kardex")
+      },
+      {
+        path: "reportes/inventariovalorizado",
+        component: () =>
+          import(
+            "components/Reportes/Logistica/InventarioValorizado/InventarioValorizado"
+          )
+      },
+      {
+        path: "reportes/reportediario",
+        component: () =>
+          import("components/Reportes/Operaciones/ReporteDiario/ReporteDiario")
+      }
     ]
   },
   {

@@ -1,11 +1,11 @@
 import { axiosInstance } from "boot/axios";
 
 const state = {
-  get_listar_ordcom: [],
+  get_empresas: [],
   dialogCrear: false,
   dialogDetalleOrden: false,
-  get_listar_pendie_visado_jefatura: [],
-  get_listar_pendie_visado_gerencia: [],
+  get_combo_almacen: [],
+  get_rep_kardex: [],
   get_inform_ordcom: [],
   get_listar_produc_encont: [],
   get_listar_detall_ordcom: [],
@@ -16,8 +16,8 @@ const state = {
 };
 
 const mutations = {
-  get_listar_ordcom(state, payload) {
-    state.get_listar_ordcom = payload;
+  get_empresas(state, payload) {
+    state.get_empresas = payload;
   },
   dialogCrear(state, payload) {
     state.dialogCrear = payload;
@@ -25,11 +25,11 @@ const mutations = {
   dialogDetalleOrden(state, payload) {
     state.dialogDetalleOrden = payload;
   },
-  get_listar_pendie_visado_jefatura(state, payload) {
-    state.get_listar_pendie_visado_jefatura = payload;
+  get_combo_almacen(state, payload) {
+    state.get_combo_almacen = payload;
   },
-  get_listar_pendie_visado_gerencia(state, payload) {
-    state.get_listar_pendie_visado_gerencia = payload;
+  get_rep_kardex(state, payload) {
+    state.get_rep_kardex = payload;
   },
   get_inform_ordcom(state, payload) {
     state.get_inform_ordcom = payload;
@@ -55,23 +55,22 @@ const mutations = {
 };
 
 const actions = {
-  async call_listar_ordcom({ commit }, payload) {
-    const response = await axiosInstance.post(`/ordcom/listar_ordcom`, payload);
-    commit("get_listar_ordcom", response.data);
+  async call_empresas({ commit }) {
+    const response = await axiosInstance.get(`/articulo/empresas`);
+    commit("get_empresas", response.data);
   },
-  async call_listar_pendie_visado_jefatura({ commit }, payload) {
+  async call_combo_almacen({ commit }) {
+    const response = await axiosInstance.get(
+      `/reportes/combo_almacen`
+    );
+    commit("get_combo_almacen", response.data);
+  },
+  async call_rep_kardex({ commit }, payload) {
     const response = await axiosInstance.post(
-      `/ordcom/listar_pendie_visado`,
+      `/reportes/rep_kardex`,
       payload
     );
-    commit("get_listar_pendie_visado_jefatura", response.data);
-  },
-  async call_listar_pendie_visado_gerencia({ commit }, payload) {
-    const response = await axiosInstance.post(
-      `/ordcom/listar_pendie_visado`,
-      payload
-    );
-    commit("get_listar_pendie_visado_gerencia", response.data);
+    commit("get_rep_kardex", response.data);
   },
   async call_inform_ordcom({ commit }, payload) {
     const response = await axiosInstance.post(`/ordcom/inform_ordcom`, payload);
@@ -113,7 +112,10 @@ const actions = {
     commit("get_tcservic", response.data);
   },
   async call_catalogo_tcmoneda({ commit }) {
-    const response = await axiosInstance.get(`/ordcom/catalogo/tcmoneda`);
+    const response = await axiosInstance.get(
+      `/ordcom/catalogo/tcmoneda`,
+      payload
+    );
     commit("get_catalogo_tcmoneda", response.data);
   },
   async call_update_ordcom({ commit }, payload) {
@@ -122,24 +124,21 @@ const actions = {
     // commit("get_update_ordcom", response.data);
   },
   async call_manten_produc_ordcom({ commit }, payload) {
-    const response = await axiosInstance.post(
-      `/ordcom/manten_produc_ordcom`,
-      payload
-    );
+    const response = await axiosInstance.post(`/ordcom/manten_produc_ordcom`, payload);
     return response.data;
     // commit("get_update_ordcom", response.data);
   }
 };
 
 const getters = {
-  get_listar_ordcom(state) {
-    return state.get_listar_ordcom;
+  get_empresas(state) {
+    return state.get_empresas;
   },
-  get_listar_pendie_visado_jefatura(state) {
-    return state.get_listar_pendie_visado_jefatura;
+  get_combo_almacen(state) {
+    return state.get_combo_almacen;
   },
-  get_listar_pendie_visado_gerencia(state) {
-    return state.get_listar_pendie_visado_gerencia;
+  get_rep_kardex(state) {
+    return state.get_rep_kardex;
   },
   get_inform_ordcom(state) {
     return state.get_inform_ordcom;

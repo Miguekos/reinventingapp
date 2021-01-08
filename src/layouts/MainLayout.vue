@@ -81,7 +81,7 @@
                   active-class="tab-active"
                   v-ripple
                   exact
-                  @click="URL('logisticas/ordenesdecompra')"
+                  @click="URL('/logisticas/ordenesdecompra')"
                 >
                   <q-item-section avatar>
                     <q-icon name="assignment" />
@@ -98,6 +98,7 @@
                   active-class="tab-active"
                   v-ripple
                   exact
+                  @click="URL('/logisticas/tramitedoc')"
                 >
                   <q-item-section avatar>
                     <q-icon name="aspect_ratio" />
@@ -121,6 +122,65 @@
 
                   <q-item-section>
                     <q-item-label>Ingresos / Salidas</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-expansion-item>
+
+              <q-expansion-item
+                class="q-ma-sm navigation-item"
+                expand-separator
+                icon="receipt_long"
+                label="Reporte"
+                :content-inset-level="0.5"
+              >
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/reportes/kardex')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="assignment" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Kardex</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/reportes/inventariovalorizado')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="aspect_ratio" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Inventario Valorizado</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('reportes/reportediario')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="description" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Operaciones</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-expansion-item>
@@ -231,19 +291,19 @@ const linksData = [
     caption: "github.com/quasarframework",
     icon: "rule",
     link: "/operaciones"
-  },
+  }
   // {
   //   title: "Logistica",
   //   caption: "github.com/quasarframework",
   //   icon: "assignment_turned_in",
   //   link: "/logisticas"
   // },
-  {
-    title: "Reportes",
-    caption: "github.com/quasarframework",
-    icon: "receipt_long",
-    link: "/reportes"
-  }
+  // {
+  //   title: "Reportes",
+  //   caption: "github.com/quasarframework",
+  //   icon: "receipt_long",
+  //   link: "/reportes"
+  // }
 ];
 
 export default {
@@ -281,8 +341,8 @@ export default {
     };
   },
   methods: {
-    async URL(arg) {
-      await this.$router.push(arg);
+    URL(arg) {
+      this.$router.push(arg);
     },
     cerrarDialog() {
       this.alert = false;

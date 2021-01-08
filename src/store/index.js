@@ -12,6 +12,8 @@ import citas from "./citas";
 import materiales from "./materiales";
 import operaciones from "./operaciones";
 import logisticas from "./store-logisticas";
+import tramites from "./store-tramites";
+import reportes from "./store-reportes";
 
 Vue.use(Vuex);
 
@@ -37,7 +39,9 @@ export default function(/* { ssrContext } */) {
       citas,
       materiales,
       operaciones,
-      logisticas
+      logisticas,
+      tramites,
+      reportes
     },
 
     // enable strict mode (adds overhead!)
