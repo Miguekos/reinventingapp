@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ get_rep_kardex.resultado[0] }}
+    <!--    {{ get_rep_kardex.resultado[0] }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
@@ -82,10 +82,10 @@ export default {
           sortable: true
         },
         {
-          name: "co_almace",
+          name: "no_almace",
           align: "center",
           label: "Almacén",
-          field: "co_almace",
+          field: "no_almace",
           sortable: true
         },
         {
@@ -94,9 +94,9 @@ export default {
           field: "co_articu",
           sortable: true
         },
-        { name: "co_articu", label: "Nombre Artículo", field: "co_articu" },
+        { name: "no_articu", label: "Nombre Artículo", field: "no_articu" },
         { name: "fe_movini", label: "Fecha", field: "fe_movini" },
-        { name: "fe_movini", label: "Documento", field: "fe_movini" },
+        { name: "co_docume", label: "Documento", field: "co_docume" },
         {
           name: "co_transa",
           label: "Transacción",
@@ -110,9 +110,9 @@ export default {
           sortable: true
         },
         {
-          name: "ca_entuni",
+          name: "im_entuni",
           label: "Precio Unitario",
-          field: "ca_entuni",
+          field: "im_entuni",
           sortable: true
         },
         {

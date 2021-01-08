@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--    {{ get_rep_kardex }}-->
+    <!--    {{ get_rep_invent_valori }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Productos"
-      :data="info"
+      :data="get_rep_invent_valori.resultado"
       dense
       :filter="filter"
       :columns="columns"
@@ -55,7 +55,7 @@ export default {
   name: "Tabla",
   computed: {
     ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
-    ...mapGetters("reportes", ["get_rep_kardex"])
+    ...mapGetters("reportes", ["get_rep_invent_valori"])
   },
   data() {
     return {
@@ -77,30 +77,30 @@ export default {
           required: true,
           label: "Empresa",
           align: "left",
-          field: row => row.fe_regist,
+          field: row => row.no_empres,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "co_docide",
+          name: "no_almace",
           align: "center",
           label: "Almacén",
-          field: "co_docide",
+          field: "no_almace",
           sortable: true
         },
         {
-          name: "no_razsoc",
+          name: "co_articu",
           label: "Código",
-          field: "no_razsoc",
+          field: "co_articu",
           sortable: true
         },
-        { name: "no_ordcom", label: "Artículo", field: "no_ordcom" },
-        { name: "no_estado", label: "Cantidad", field: "no_estado" },
-        { name: "co_moneda", label: "Precio Unitario", field: "co_moneda" },
+        { name: "no_articu", label: "Artículo", field: "no_articu" },
+        { name: "ca_articu", label: "Cantidad", field: "ca_articu" },
+        { name: "im_preuni", label: "Precio Unitario", field: "im_preuni" },
         {
-          name: "im_baseim",
+          name: "im_pretot",
           label: "Precio Total",
-          field: "im_baseim",
+          field: "im_pretot",
           sortable: true
         },
         {
@@ -113,17 +113,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions("reportes", ["call_rep_kardex"])
+    ...mapActions("reportes", ["call_rep_invent_valori"])
   },
   async created() {
-    await this.call_rep_kardex({
-      fec_des: "", // fecha inicio
-      fec_has: "", // fecha fin
-      cod_emp: "", // empresa (combo)
-      cod_alm: "", // codigo almacen (combo)
-      cod_art: "", // codigo articulo
-      nom_art: "", // nombre articulo
-      operaci: "" // Operacion
+    await this.call_rep_invent_valori({
+      cod_emp: "",
+      cod_alm: "",
+      nom_art: ""
     });
   }
 };

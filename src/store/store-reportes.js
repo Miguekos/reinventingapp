@@ -6,7 +6,7 @@ const state = {
   dialogDetalleOrden: false,
   get_combo_almacen: [],
   get_rep_kardex: [],
-  get_inform_ordcom: [],
+  get_rep_invent_valori: [],
   get_listar_produc_encont: [],
   get_listar_detall_ordcom: [],
   ordenCompra: null,
@@ -31,8 +31,8 @@ const mutations = {
   get_rep_kardex(state, payload) {
     state.get_rep_kardex = payload;
   },
-  get_inform_ordcom(state, payload) {
-    state.get_inform_ordcom = payload;
+  get_rep_invent_valori(state, payload) {
+    state.get_rep_invent_valori = payload;
   },
   get_listar_produc_encont(state, payload) {
     state.get_listar_produc_encont = payload;
@@ -60,21 +60,19 @@ const actions = {
     commit("get_empresas", response.data);
   },
   async call_combo_almacen({ commit }) {
-    const response = await axiosInstance.get(
-      `/reportes/combo_almacen`
-    );
+    const response = await axiosInstance.get(`/reportes/combo_almacen`);
     commit("get_combo_almacen", response.data);
   },
   async call_rep_kardex({ commit }, payload) {
-    const response = await axiosInstance.post(
-      `/reportes/rep_kardex`,
-      payload
-    );
+    const response = await axiosInstance.post(`/reportes/rep_kardex`, payload);
     commit("get_rep_kardex", response.data);
   },
-  async call_inform_ordcom({ commit }, payload) {
-    const response = await axiosInstance.post(`/ordcom/inform_ordcom`, payload);
-    commit("get_inform_ordcom", response.data);
+  async call_rep_invent_valori({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/reportes/rep_invent_valori`,
+      payload
+    );
+    commit("get_rep_invent_valori", response.data);
   },
   async call_listar_produc_encont({ commit }, payload) {
     const response = await axiosInstance.post(
@@ -124,7 +122,10 @@ const actions = {
     // commit("get_update_ordcom", response.data);
   },
   async call_manten_produc_ordcom({ commit }, payload) {
-    const response = await axiosInstance.post(`/ordcom/manten_produc_ordcom`, payload);
+    const response = await axiosInstance.post(
+      `/ordcom/manten_produc_ordcom`,
+      payload
+    );
     return response.data;
     // commit("get_update_ordcom", response.data);
   }
@@ -140,8 +141,8 @@ const getters = {
   get_rep_kardex(state) {
     return state.get_rep_kardex;
   },
-  get_inform_ordcom(state) {
-    return state.get_inform_ordcom;
+  get_rep_invent_valori(state) {
+    return state.get_rep_invent_valori;
   },
   get_listar_produc_encont(state) {
     return state.get_listar_produc_encont;

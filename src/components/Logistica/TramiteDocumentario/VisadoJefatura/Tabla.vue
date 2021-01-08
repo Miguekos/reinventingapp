@@ -120,7 +120,7 @@ export default {
           required: true,
           label: "Fecha",
           align: "left",
-          field: row => row.fe_tradoctradoc,
+          field: row => row.fe_tradoc,
           format: val => `${val}`,
           sortable: true
         },
@@ -190,13 +190,13 @@ export default {
         await this.call_visrec_tradoc({
           co_tradoc: element.co_tradoc,
           co_person: 95,
-          ti_person: "J",
+          ti_person: "S",
           ti_visado: element.visar
         });
       }
       await this.call_listar_pendie_visado_gerencia({
         co_tradoc: "",
-        co_tipvis: "J"
+        co_tipvis: "S"
       });
       this.$q.loading.hide();
     },

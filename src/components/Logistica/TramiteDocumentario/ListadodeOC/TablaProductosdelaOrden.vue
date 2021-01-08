@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!--    {{ get_listar_detall_ordcom }}-->
+    <!--    {{ get_listar_detall_tradoc }}-->
     <div class="row">
-      <div class="col"><u>Productos de Orden </u></div>
+      <div class="col"><u>Productos del Tramite </u></div>
       <div class="col text-right q-pa-xs">
         <q-btn
           size="8px"
@@ -22,7 +22,7 @@
         virtual-scroll
         class="my-sticky-header-table-v2"
         dense
-        :data="get_listar_detall_ordcom.operac"
+        :data="get_listar_detall_tradoc.operac"
         :columns="columns"
         row-key="name"
       >
@@ -68,8 +68,8 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TablaProductosdelaOrden",
   computed: {
-    ...mapState("tramites", ["ordenCompra"]),
-    ...mapGetters("tramites", ["get_listar_detall_ordcom"])
+    ...mapState("tramites", ["tramiteDoc"]),
+    ...mapGetters("tramites", ["get_listar_detall_tradoc"])
   },
   data() {
     return {
@@ -92,7 +92,7 @@ export default {
           required: true,
           label: "O/C",
           align: "left",
-          field: row => row.co_ordcom,
+          field: row => row.co_tradoc,
           format: val => `${val}`,
           sortable: true
         },
@@ -141,14 +141,14 @@ export default {
   methods: {
     ...mapActions("tramites", [
       "call_listar_produc_encont",
-      "call_manten_produc_ordcom",
-      "call_listar_detall_ordcom"
+      "call_manten_produc_tradoc",
+      "call_listar_detall_tradoc"
     ]),
     async eliminar(val) {
       this.$q.loading.show();
       console.log(val);
-      await this.call_manten_produc_ordcom({
-        co_ordcom: val.co_ordcom,
+      await this.call_manten_produc_tradoc({
+        co_tradoc: val.co_tradoc,
         co_articu: val.co_articu,
         ca_articu: 0,
         co_moneda: 28,
@@ -157,24 +157,24 @@ export default {
       });
       console.log("buscar - eliminar");
       await this.call_listar_produc_encont({
-        co_ordcom: val.co_ordcom,
+        co_tradoc: val.co_tradoc,
         co_catego: this.categoria,
         co_subcat: this.subcategoria,
         no_produc: this.producto
       });
-      await this.call_listar_detall_ordcom({
-        co_ordcom: `${val.co_ordcom}`
+      await this.call_listar_detall_tradoc({
+        co_tradoc: `${val.co_tradoc}`
       });
       this.$q.loading.hide();
     },
     async acrtualizar() {
       this.$q.loading.show();
-      const array = this.get_listar_detall_ordcom.operac;
+      const array = this.get_listar_detall_tradoc.operac;
       for (let index = 0; index < array.length; index++) {
         const element = array[index];
         console.log(element);
-        await this.call_manten_produc_ordcom({
-          co_ordcom: element.co_ordcom,
+        await this.call_manten_produc_tradoc({
+          co_tradoc: element.co_tradoc,
           co_articu: element.co_articu,
           ca_articu: element.ca_articu,
           co_moneda: 28,
@@ -183,19 +183,19 @@ export default {
         });
       }
       await this.call_listar_produc_encont({
-        co_ordcom: this.ordenCompra,
+        co_tradoc: this.tramiteDoc,
         co_catego: this.categoria,
         co_subcat: this.subcategoria,
         no_produc: this.producto
       });
-      await this.call_listar_detall_ordcom({
-        co_ordcom: `${this.ordenCompra}`
+      await this.call_listar_detall_tradoc({
+        co_tradoc: `${this.tramiteDoc}`
       });
       this.$q.loading.hide();
     },
     async buscarProductos() {
       await this.call_listar_produc_encont({
-        co_ordcom: this.ordenCompra,
+        co_tradoc: this.tramiteDoc,
         co_catego: this.categoria,
         co_subcat: this.subcategoria,
         no_produc: this.producto

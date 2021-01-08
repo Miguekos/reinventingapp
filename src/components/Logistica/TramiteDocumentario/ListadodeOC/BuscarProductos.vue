@@ -10,7 +10,7 @@
               dense
               disable
               filled
-              v-model="ordenCompra"
+              v-model="tramiteDoc"
               label="O/C"
             />
           </div>
@@ -101,7 +101,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TablaProductosdelaOrden",
   computed: {
-    ...mapState("tramites", ["ordenCompra"]),
+    ...mapState("tramites", ["tramiteDoc"]),
     ...mapGetters("tramites", ["get_listar_produc_encont"])
   },
   data() {
@@ -125,7 +125,7 @@ export default {
           required: true,
           label: "O/C",
           align: "left",
-          field: row => row.co_ordcom,
+          field: row => row.co_tradoc,
           format: val => `${val}`,
           sortable: true
         },
@@ -154,14 +154,14 @@ export default {
   methods: {
     ...mapActions("tramites", [
       "call_listar_produc_encont",
-      "call_manten_produc_ordcom",
-      "call_listar_detall_ordcom"
+      "call_manten_produc_tradoc",
+      "call_listar_detall_tradoc"
     ]),
     async agregar(val) {
       this.$q.loading.show();
       console.log(val);
-      await this.call_manten_produc_ordcom({
-        co_ordcom: val.co_ordcom,
+      await this.call_manten_produc_tradoc({
+        co_tradoc: val.co_tradoc,
         co_articu: val.co_produc,
         ca_articu: val.cantidad,
         co_moneda: 28,
@@ -170,14 +170,14 @@ export default {
       });
       console.log("buscar - aagregar");
       await this.buscarProductos();
-      await this.call_listar_detall_ordcom({
-        co_ordcom: `${val.co_ordcom}`
+      await this.call_listar_detall_tradoc({
+        co_tradoc: `${val.co_tradoc}`
       });
       this.$q.loading.hide();
     },
     async buscarProductos() {
       await this.call_listar_produc_encont({
-        co_ordcom: this.ordenCompra,
+        co_tradoc: this.tramiteDoc,
         co_catego: this.categoria,
         co_subcat: this.subcategoria,
         no_produc: this.producto

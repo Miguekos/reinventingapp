@@ -9,15 +9,9 @@
         narrow-indicator
         align="justify"
       >
-        <q-tab name="1" label="1. Listado de T/C" />
-        <q-tab name="2" label="2. Visado Jefatura" />
-        <q-tab name="3" label="3. Visado Gerencia" />
-        <q-tab
-          name="4"
-          disable
-          label="4. Asignar Proveedor"
-        />
-        <q-tab name="5" disable label="5. Requerimientos Compras" />
+        <q-tab name="1" label="1. Listado de T/D" />
+        <q-tab name="2" label="2. Visado Solicitante" />
+        <q-tab name="3" label="3. Visado Jefatura" />
         <!-- <q-tab name="6" label="6. Pendiente de Finalizar Servicio" /> -->
       </q-tabs>
       <div class="q-gutter-y-sm">
@@ -46,22 +40,6 @@
               </div>
             </div>
           </q-tab-panel>
-
-          <q-tab-panel name="4">
-            <div class="row">
-              <div class="col">
-                <!--                <AsingarServicios />-->
-              </div>
-            </div>
-          </q-tab-panel>
-
-          <q-tab-panel name="5">
-            <div class="row">
-              <div class="col">
-                <!--                <InicioFin />-->
-              </div>
-            </div>
-          </q-tab-panel>
         </q-tab-panels>
       </div>
     </div>
@@ -86,7 +64,9 @@ export default {
         "components/Logistica/TramiteDocumentario/VisadoGerencia/VisadoGerencia"
       ),
     ListadodeOC: () =>
-      import("components/Logistica/TramiteDocumentario/ListadodeOC/ListadodeOC"),
+      import(
+        "components/Logistica/TramiteDocumentario/ListadodeOC/ListadodeOC"
+      ),
     VisadoJefatura: () =>
       import(
         "components/Logistica/TramiteDocumentario/VisadoJefatura/VisadoJefatura"

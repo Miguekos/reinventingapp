@@ -54,7 +54,18 @@
               />
             </div>
             <div class="col-12">
-              <q-input v-model="solicitante" dense filled label="Solicitante" />
+              <q-select
+                filled
+                dense
+                v-model="solicitante"
+                :options="get_catalogo_tcsolici.operac"
+                option-label="no_solici"
+                option-value="co_solici"
+                emit-value
+                map-options
+                label="Solicitante"
+                hint="Solicitante"
+              />
             </div>
             <div class="col-12">
               <q-select
@@ -137,7 +148,8 @@ export default {
     ...mapGetters("logisticas", [
       "get_catalogo_tcprovee",
       "get_tcservic",
-      "get_catalogo_tcmoneda"
+      "get_catalogo_tcmoneda",
+      "get_catalogo_tcsolici"
     ]),
     foo: {
       get() {
@@ -194,7 +206,8 @@ export default {
       "call_catalogo_tcprovee",
       "call_tcservic",
       "call_catalogo_tcmoneda",
-      "call_listar_ordcom"
+      "call_listar_ordcom",
+      "call_catalogo_tcsolici"
     ]),
     filterFn(val, update, abort) {
       let asd = [];
@@ -280,6 +293,7 @@ export default {
     this.$q.loading.show();
     this.call_catalogo_tcprovee();
     this.call_tcservic();
+    this.call_catalogo_tcsolici();
     this.call_catalogo_tcmoneda();
     console.log("mounted - crear - materiales");
     // await this.callMaterialesEmpresas();

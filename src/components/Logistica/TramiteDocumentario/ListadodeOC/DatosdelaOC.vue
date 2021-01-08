@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col"><u>Datos de la OC </u></div>
+      <div class="col"><u>Datos de la TD </u></div>
       <div class="col text-right q-pa-xs">
         <q-btn
           size="8px"
@@ -11,25 +11,26 @@
         />
       </div>
     </div>
+    <!--    {{ info }}-->
     <q-card flat bordered>
       <q-markup-table dense>
         <tbody>
           <tr>
-            <td class="text-left">Nro. O/C</td>
-            <td class="text-right">{{ info.operac[0].co_ordcom }}</td>
+            <td class="text-left">Nro. T/D</td>
+            <td class="text-right">{{ info.operac[0].co_tradoc }}</td>
           </tr>
           <tr>
             <td class="text-left">Fecha Registro</td>
-            <td class="text-right">{{ info.operac[0].fe_ordcom }}</td>
+            <td class="text-right">{{ info.operac[0].fe_tradoc }}</td>
           </tr>
           <tr>
             <td class="text-left">Proveedor</td>
             <td class="text-right">{{ info.operac[0].no_provee }}</td>
           </tr>
-          <tr>
-            <td class="text-left">Tipo de Compra</td>
-            <td class="text-right">{{ info.operac[0].ti_compra }}</td>
-          </tr>
+          <!--          <tr>-->
+          <!--            <td class="text-left">Tipo de Compra</td>-->
+          <!--            <td class="text-right">{{ info.operac[0].ti_compra }}</td>-->
+          <!--          </tr>-->
           <tr>
             <td class="text-left">Moneda</td>
             <td class="text-right">{{ info.operac[0].no_moneda }}</td>
@@ -40,12 +41,12 @@
           </tr>
           <tr>
             <td class="text-left">Importe</td>
-            <td class="text-right">{{ info.operac[0].im_pretot }}</td>
+            <td class="text-right">{{ info.operac[0].im_tradoc }}</td>
           </tr>
-          <tr>
-            <td class="text-left">Tipo de Pago</td>
-            <td class="text-right">{{ info.operac[0].co_tippro }}</td>
-          </tr>
+          <!--          <tr>-->
+          <!--            <td class="text-left">Tipo de Pago</td>-->
+          <!--            <td class="text-right">{{ info.operac[0].co_tippro }}</td>-->
+          <!--          </tr>-->
           <tr>
             <td class="text-left">Motivo Compra</td>
             <td class="text-right">{{ info.operac[0].no_motcom }}</td>

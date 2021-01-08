@@ -121,7 +121,7 @@ export default {
           required: true,
           label: "Fecha",
           align: "left",
-          field: row => row.fe_ordcom,
+          field: row => row.fe_tradoc,
           format: val => `${val}`,
           sortable: true
         },
@@ -181,7 +181,7 @@ export default {
         await this.call_visrec_tradoc({
           co_tradoc: element.co_tradoc,
           co_person: 95,
-          ti_person: "G",
+          ti_person: "J",
           ti_visado: element.visar
         });
       }

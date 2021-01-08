@@ -1,9 +1,9 @@
 <template>
   <div>
     <q-card :class="$q.screen.gt.md ? 'full-height' : ''" square>
-      {{ get_inform_tradoc }}
+      <!--      {{ get_inform_tradoc }}-->
       <q-bar class="bg-primary text-white">
-        DETALLE ORDEN DE COMPRA
+        DETALLE TRAMITE DOCUMENTARIO
         <q-space />
         <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
@@ -23,7 +23,7 @@
       <q-separator />
 
       <q-card-section style="height: 45%">
-        <!--        <BuscarProductos />-->
+        <BuscarProductos />
       </q-card-section>
     </q-card>
   </div>
@@ -34,8 +34,8 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   components: {
     DatosdelaOC: () => import("./DatosdelaOC"),
-    TablaProductosdelaOrden: () => import("./TablaProductosdelaOrden")
-    // BuscarProductos: () => import("./BuscarProductos")
+    TablaProductosdelaOrden: () => import("./TablaProductosdelaOrden"),
+    BuscarProductos: () => import("./BuscarProductos")
   },
   computed: {
     ...mapState("tramites", ["dialogCrear", "dialogDetalleOrden"]),

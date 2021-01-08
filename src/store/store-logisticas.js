@@ -12,7 +12,8 @@ const state = {
   ordenCompra: null,
   get_catalogo_tcprovee: [],
   get_tcservic: [],
-  get_catalogo_tcmoneda: []
+  get_catalogo_tcmoneda: [],
+  get_catalogo_tcsolici: []
 };
 
 const mutations = {
@@ -51,6 +52,9 @@ const mutations = {
   },
   get_catalogo_tcmoneda(state, payload) {
     state.get_catalogo_tcmoneda = payload;
+  },
+  get_catalogo_tcsolici(state, payload) {
+    state.get_catalogo_tcsolici = payload;
   }
 };
 
@@ -128,6 +132,14 @@ const actions = {
     );
     return response.data;
     // commit("get_update_ordcom", response.data);
+  },
+  async call_catalogo_tcsolici({ commit }, payload) {
+    const response = await axiosInstance.get(
+      `/ordcom/catalogo/tcsolici`,
+      payload
+    );
+    // return response.data;
+    commit("get_catalogo_tcsolici", response.data);
   }
 };
 
@@ -158,6 +170,9 @@ const getters = {
   },
   get_catalogo_tcmoneda(state) {
     return state.get_catalogo_tcmoneda;
+  },
+  get_catalogo_tcsolici(state) {
+    return state.get_catalogo_tcsolici;
   }
 };
 

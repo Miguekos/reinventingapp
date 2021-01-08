@@ -62,7 +62,7 @@
       <!-- TablaServicios -->
       <div class="row">
         <div class="col">
-          {{ get_listar_pendie_visado_gerencia }}
+<!--          {{ get_listar_pendie_visado_gerencia }}-->
           <TablaPrincipal :info="get_listar_pendie_visado_gerencia.result" />
         </div>
       </div>
@@ -107,7 +107,7 @@ export default {
       // this.$store.commit("operaciones/numeroDeOperacion", this.buscar);
       await this.call_listar_pendie_visado_gerencia({
         co_tradoc: `${this.co_tradoc}`,
-        co_tipvis: "J"
+        co_tipvis: "S"
       });
       this.$q.loading.hide();
     }
@@ -116,10 +116,10 @@ export default {
     this.$q.loading.show();
     await this.call_listar_pendie_visado_gerencia({
       co_tradoc: `${this.co_tradoc}`,
-      co_tipvis: "J"
+      co_tipvis: "S"
     });
     this.$router.replace("/logisticas/tramitedoc?id=2");
-    this.$store.commit("example/location", "TramitesDoc / Visado Jefatura");
+    this.$store.commit("example/location", "TramitesDoc / Visado Solicitante");
     // this.$q.notify({
     //   message: "1. Nueva Operacion"
     // });

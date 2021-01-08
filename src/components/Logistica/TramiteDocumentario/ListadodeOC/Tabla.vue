@@ -16,7 +16,7 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top-right>
-        <q-btn color="primary" label="Nueva T/C" @click="crearOC"></q-btn>
+        <q-btn color="primary" label="Nuevo T/D" @click="crearOC"></q-btn>
         <q-input
           class="q-pl-sm"
           dense
@@ -138,13 +138,13 @@ export default {
         },
         {
           name: "fe_autori",
-          label: "Visado Jefatura",
+          label: "Visado Solicitante",
           field: "fe_autori",
           sortable: true
         },
         {
           name: "fe_gerenc",
-          label: "Visado Gerencia",
+          label: "Visado Jefatura",
           field: "fe_gerenc",
           sortable: true
         },
@@ -174,22 +174,21 @@ export default {
       this.$store.commit("tramites/dialogCrear", true);
     },
     async generarOperacion(val) {
+      console.log("generarOperacion", val);
       this.$q.loading.show();
       this.$store.commit("tramites/tramiteDoc", val.co_tradoc);
-      // await this.call_inform_tradoc({
-      //   co_tradoc: `${val.co_tradoc}`
-      // });
-      // await this.call_listar_produc_encont({
-      //   co_tradoc: `${val.co_tradoc}`,
-      //   co_catego: "",
-      //   co_subcat: "",
-      //   no_produc: ""
-      // });
+      await this.call_inform_tradoc({
+        co_tradoc: `${val.co_tradoc}`
+      });
+      await this.call_listar_produc_encont({
+        co_tradoc: `${val.co_tradoc}`,
+        co_catego: "",
+        co_subcat: "",
+        no_produc: ""
+      });
       await this.call_listar_detall_tradoc({
         co_tradoc: `${val.co_tradoc}`
       });
-      // await this.call_combo_cliente();
-      // await this.call_lista_vehiculo_ingreso(val.co_aduana);
       console.log(val);
       this.$q.notify({
         message: `${val.co_tradoc}`
