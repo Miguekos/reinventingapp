@@ -140,6 +140,11 @@ const actions = {
     );
     // return response.data;
     commit("get_catalogo_tcsolici", response.data);
+  },
+  async call_delete_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(`/ordcom/delete_ordcom`, payload);
+    return response.data;
+    // commit("get_update_tradoc", response.data);
   }
 };
 

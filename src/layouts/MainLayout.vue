@@ -62,6 +62,65 @@
           <hr />
           <q-scroll-area style="height: 100%">
             <q-list padding>
+              <q-expansion-item
+                class="q-ma-sm navigation-item"
+                expand-separator
+                icon="assignment_turned_in"
+                label="Configuracion"
+                :content-inset-level="0.5"
+              >
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/usuarios')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="group" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Usuarios</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/personas')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="face" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Personas</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/materiales')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="list_alt" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Materiales</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-expansion-item>
+
               <EssentialLink
                 v-for="link in essentialLinks"
                 :key="link.title"
@@ -115,13 +174,30 @@
                   active-class="tab-active"
                   v-ripple
                   exact
+                  @click="URL('/logisticas/ingresoarticulos')"
                 >
                   <q-item-section avatar>
                     <q-icon name="description" />
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label>Ingresos / Salidas</q-item-label>
+                    <q-item-label>Ingresos de Articulos</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/logisticas/salidaarticulos')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="description" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Salida de Articulos</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-expansion-item>
@@ -173,7 +249,7 @@
                   active-class="tab-active"
                   v-ripple
                   exact
-                  @click="URL('reportes/reportediario')"
+                  @click="URL('/reportes/reportediario')"
                 >
                   <q-item-section avatar>
                     <q-icon name="description" />
@@ -248,44 +324,56 @@
         </q-card>
       </q-dialog>
     </q-dialog>
+    <q-dialog
+      v-model="dialogIngresoVehicular"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-up"
+      full-height
+      full-width
+    >
+      <DialogIngresoVehicular />
+    </q-dialog>
   </q-layout>
 </template>
 
 <script>
 import { storagelocal } from "../mixins/mixin";
 import EssentialLink from "components/EssentialLink.vue";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 const linksData = [
-  {
-    title: "Usuarios",
-    caption: "quasar.dev",
-    icon: "group",
-    link: "/usuarios"
-  },
+  // {
+  //   title: "Usuarios",
+  //   caption: "quasar.dev",
+  //   icon: "group",
+  //   link: "/usuarios"
+  // },
   {
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
     link: "/vehiculos"
   },
-  {
-    title: "Personas",
-    caption: "github.com/quasarframework",
-    icon: "face",
-    link: "/personas"
-  },
+  // {
+  //   title: "Personas",
+  //   caption: "github.com/quasarframework",
+  //   icon: "face",
+  //   link: "/personas"
+  // },
   {
     title: "Citas",
     caption: "github.com/quasarframework",
     icon: "event",
     link: "/citas"
   },
-  {
-    title: "Materiales",
-    caption: "github.com/quasarframework",
-    icon: "list_alt",
-    link: "/materiales"
-  },
+  // {
+  //   title: "Materiales",
+  //   caption: "github.com/quasarframework",
+  //   icon: "list_alt",
+  //   link: "/materiales"
+  // },
   {
     title: "Operaciones",
     caption: "github.com/quasarframework",
@@ -317,12 +405,15 @@ export default {
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
-    }
+    },
+    ...mapState("example", ["dialogIngresoVehicular"])
   },
   components: {
     EssentialLink,
     Profile: () => import("pages/Profile"),
-    Test: () => import("pages/Test")
+    Test: () => import("pages/Test"),
+    DialogIngresoVehicular: () =>
+      import("components/Vehiculos/IngresoVehicular")
   },
   data() {
     return {

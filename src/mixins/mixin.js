@@ -5,8 +5,8 @@ const MixinDefault = {
   data() {
     return {};
   },
-  created: function () {
-    console.log("Cargando Mixin Default")
+  created: function() {
+    console.log("Cargando Mixin Default");
     // console.log("this.info", this.info[0]);
     // const labels = {
     //   co_operac: "Codigo",
@@ -38,7 +38,7 @@ const MixinDefault = {
         if (key in map) {
           // rename key
           if (src[key] instanceof Array) {
-            dst[map[key]] = src[key].map((i) => ObjKeyRename(i, map));
+            dst[map[key]] = src[key].map(i => ObjKeyRename(i, map));
           } else {
             dst[map[key]] = src[key];
           }
@@ -93,6 +93,9 @@ const MixinDefault = {
     },
     formatFecha(val) {
       return Fechas.larga(val);
+    },
+    formatFechaCorta(val) {
+      return Fechas.Custom(val);
     }
   }
 };
@@ -101,10 +104,10 @@ const storagelocal = {
   data() {
     return {
       userLocal: null,
-      idLocal: null,
+      idLocal: null
     };
   },
-  created: function () {
+  created: function() {
     const todo = this.$q.localStorage.getAll();
     this.idLocal = todo.co_usuari;
     this.userLocal = todo.UserDetalle;

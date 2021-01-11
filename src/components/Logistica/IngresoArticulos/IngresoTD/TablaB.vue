@@ -1,64 +1,8 @@
-# Quasar App (reinventingapp)
-
-A Quasar Framework app
-
-## Install the dependencies
-```bash
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-
-
-### Table
-color="primary"
-card-class="bg-amber-1 text-brown"
-table-class="text-grey-8"
-table-header-class="text-brown"
-:pagination="initialPagination"
-virtual-scroll
-class="my-sticky-header-table"
-
-### Pagination Table
-initialPagination: {
-        sortBy: "name",
-        descending: true,
-        page: 1,
-        rowsPerPage: 1000
-        // rowsNumber: xx if getting data from a server
-      }
-
-
-### Dialog Full
-<q-dialog
-  v-model="dialogDetalleOrden"
-  persistent
-  :maximized="maximizedToggle"
-  transition-show="slide-up"
-  transition-hide="slide-up"
-  full-height
-  full-width
->
-  <DialogGenerarOperacion />
-</q-dialog>
-
 <template>
   <div>
     <q-card class="full-height" square>
       <q-bar class="bg-primary text-white">
-        Datos Ingreso O/C
+        Datos Ingreso T/D
         <q-space />
         <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
@@ -156,7 +100,7 @@ export default {
       "call_buscar_operacion"
     ]),
     cerrar() {
-      this.$store.commit("almacen/dialogIngresoOC", false);
+      this.$store.commit("almacen/dialogIngresoTD", false);
     }
   },
   async created() {
@@ -170,9 +114,3 @@ export default {
   }
 };
 </script>
-
-
-
-
-### default
-import { mapActions, mapGetters, mapState } from "vuex";

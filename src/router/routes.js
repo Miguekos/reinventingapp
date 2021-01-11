@@ -24,6 +24,16 @@ const routes = [
           import("components/Logistica/TramiteDocumentario/TramiteDocumentario")
       },
       {
+        path: "logisticas/ingresoarticulos",
+        component: () =>
+          import("components/Logistica/IngresoArticulos/IngresoArticulos")
+      },
+      {
+        path: "logisticas/salidaarticulos",
+        component: () =>
+          import("components/Logistica/SalidaArticulos/SalidaArticulos")
+      },
+      {
         path: "reportes/kardex",
         component: () => import("components/Reportes/Logistica/Kardex/Kardex")
       },

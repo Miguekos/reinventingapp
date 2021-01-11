@@ -91,7 +91,7 @@
               <q-btn
                 dense
                 size="sm"
-                @click="editar(props.row)"
+                @click="generarOperacion(props.row)"
                 color="primary"
                 label="Generar Operacion"
               />
@@ -162,8 +162,7 @@
 
 <script>
 import { exportFile } from "quasar";
-import { mapState } from "vuex";
-
+import { mapActions, mapGetters, mapState } from "vuex";
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
@@ -218,6 +217,9 @@ export default {
     };
   },
   methods: {
+    generarOperacion() {
+      this.$store.commit("example/dialogIngresoVehicular", true);
+    },
     employee_dialogActive(val) {
       console.log(val);
       this.data_employee_dialog = val;

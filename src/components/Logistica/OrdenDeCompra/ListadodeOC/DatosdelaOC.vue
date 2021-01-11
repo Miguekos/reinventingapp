@@ -11,6 +11,7 @@
         />
       </div>
     </div>
+    <!--    {{ info }}-->
     <q-card flat bordered>
       <q-markup-table dense>
         <tbody>
@@ -28,7 +29,7 @@
           </tr>
           <tr>
             <td class="text-left">Tipo de Compra</td>
-            <td class="text-right">{{ info.operac[0].ti_compra }}</td>
+            <td class="text-right">{{ info.operac[0].no_tippro }}</td>
           </tr>
           <tr>
             <td class="text-left">Moneda</td>
@@ -44,7 +45,7 @@
           </tr>
           <tr>
             <td class="text-left">Tipo de Pago</td>
-            <td class="text-right">{{ info.operac[0].co_tippro }}</td>
+            <td class="text-right">{{ info.operac[0].ti_compra }}</td>
           </tr>
           <tr>
             <td class="text-left">Motivo Compra</td>

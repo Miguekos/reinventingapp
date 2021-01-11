@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--    {{ get_rep_invent_valori }}-->
+    <!--    {{ info }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Productos"
-      :data="get_rep_invent_valori.resultado"
+      :data="info"
       dense
       :filter="filter"
       :columns="columns"
@@ -52,11 +52,12 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
+  props: ["info"],
   name: "Tabla",
-  computed: {
-    ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
-    ...mapGetters("reportes", ["get_rep_invent_valori"])
-  },
+  // computed: {
+  //   ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
+  //   ...mapGetters("reportes", ["get_rep_invent_valori"])
+  // },
   data() {
     return {
       filter: "",
@@ -113,14 +114,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions("reportes", ["call_rep_invent_valori"])
-  },
-  async created() {
-    await this.call_rep_invent_valori({
-      cod_emp: "",
-      cod_alm: "",
-      nom_art: ""
-    });
+    generarOperacion(val) {
+      this.$router.push(`/reportes/kardex?id=${val.co_articu}`);
+    }
   }
 };
 </script>

@@ -249,12 +249,12 @@ export default {
           pn_regist: 92,
           pj_provee: this.proveedor,
           co_moneda: this.moneda,
-          ti_compra: this.tipodecompra,
+          co_tippro: this.tipodecompra,
           de_motcom: this.motivodecompra,
           fe_ordcom: this.fechadecompra,
           pn_solici: this.solicitante,
           il_conigv: this.conigv,
-          co_tippro: this.tipopago
+          ti_compra: this.tipopago
         });
         console.log("responseService", responseService);
         if (responseService.res == "ok") {
@@ -264,12 +264,12 @@ export default {
             message: responseService.message
           });
           await this.call_listar_ordcom({
-            fe_emides: `${this.fe_emides}`,
-            fe_emihas: `${this.fe_emihas}`,
-            no_provee: `${this.no_provee}`,
-            nu_ordcom: `${this.nu_ordcom}`,
-            ti_estado: `${this.ti_estado}`,
-            co_barras: `${this.co_barras}`
+            fe_emides: "",
+            fe_emihas: "",
+            no_provee: "",
+            nu_ordcom: "",
+            ti_estado: "",
+            co_barras: ""
           });
           this.$store.commit("logisticas/dialogCrear", false);
         } else if (responseService.res == "ko") {

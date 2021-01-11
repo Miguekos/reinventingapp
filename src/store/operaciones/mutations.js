@@ -26,6 +26,10 @@ export function agregarServicios(state, payload) {
   state.agregarServicios = payload
 }
 
+export function buscarServicios(state, payload) {
+  state.buscarServicios = payload
+}
+
 export function get_mostrar_ingreso(state, payload) {
   state.get_mostrar_ingreso = payload
 }
@@ -75,4 +79,8 @@ export function get_lista_opeser_ini_fin(state, payload) {
 export function set_get_lista_sermat_asignar(state, payload) {
   console.log("set_get_lista_sermat_asignar", payload)
   state.get_lista_sermat_asignar.servic = payload
+}
+
+export function get_buscar_operacion(state, payload) {
+  state.get_buscar_operacion = payload
 }

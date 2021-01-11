@@ -45,6 +45,27 @@
           />
         </q-td>
       </template>
+      <template v-slot:body-cell-ca_arcadj="props">
+        <q-td :props="props">
+          <q-btn
+            size="xs"
+            icon="attachment"
+            color="primary"
+            @click="arcadj(props.row)"
+          />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-accion="props">
+        <q-td :props="props">
+          <q-btn
+            size="xs"
+            round
+            icon="delete"
+            color="red"
+            @click="eliminar(props.row)"
+          />
+        </q-td>
+      </template>
     </q-table>
     <div>
       <DialogCrear :tipo="tipo" :info="dataEdit" />
@@ -64,7 +85,10 @@
 </template>
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
+import { MixinDefault } from "../../../../mixins/mixin";
+import { Fechas } from "src/directives/formatFecha";
 export default {
+  mixins: [MixinDefault],
   props: {
     info: {
       type: Array
@@ -99,7 +123,7 @@ export default {
           label: "Fecha",
           align: "left",
           field: row => row.fe_regist,
-          format: val => `${val}`,
+          format: val => `${this.formatFechaCorta(val)}`,
           sortable: true
         },
         {
@@ -167,11 +191,71 @@ export default {
     ...mapActions("logisticas", [
       "call_inform_ordcom",
       "call_listar_produc_encont",
-      "call_listar_detall_ordcom"
+      "call_listar_detall_ordcom",
+      "call_delete_ordcom",
+      "call_listar_ordcom"
     ]),
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("logisticas/dialogCrear", true);
+    },
+    async arcadj(val) {
+      console.log("arcadj", val);
+    },
+    async eliminar(val) {
+      this.$q
+        .dialog({
+          title: "Confirmar",
+          message: "¿Estas seguro que quieres eliminar?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(async () => {
+          try {
+            this.$q.loading.show();
+            console.log("Eliminar", val);
+            const responseEliminar = await this.call_delete_ordcom({
+              co_ordcom: val.co_ordcom,
+              co_person: 92
+            });
+            console.log(responseEliminar.res);
+            if (responseEliminar.res === "ok") {
+              await this.call_listar_ordcom({
+                fe_emides: "",
+                fe_emihas: "",
+                no_provee: "",
+                nu_ordcom: "",
+                ti_estado: "",
+                co_barras: ""
+              });
+              this.$q.notify({
+                message: `${responseEliminar.message}`
+              });
+            } else if (responseEliminar.res === "ko") {
+              this.$q.notify({
+                message: `${responseEliminar.message}`
+              });
+            } else {
+              this.$q.notify({
+                message: `Error Controlado`
+              });
+            }
+            this.$q.loading.hide();
+          } catch (e) {
+            this.$q.loading.hide();
+          }
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+
+      console.log("siempre se ejecuta");
     },
     async generarOperacion(val) {
       this.$q.loading.show();

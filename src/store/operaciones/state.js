@@ -1,4 +1,4 @@
-export default function () {
+export default function() {
   return {
     getOperacionesAbrir_operacion: [],
     numeroDeOperacion: null,
@@ -8,6 +8,7 @@ export default function () {
     get_lista_vehiculo_ingreso: [],
     operacion: null,
     agregarServicios: false,
+    buscarServicios: false,
     get_lista_sermat_evalua: [],
     get_lista_operaci_evalua: [],
     operacionesid3: false,
@@ -15,6 +16,7 @@ export default function () {
     get_lista_operaci_asignar: [],
     get_lista_sermat_asignar: [],
     get_combo_tecnico: [],
-    get_lista_opeser_ini_fin: []
+    get_lista_opeser_ini_fin: [],
+    get_buscar_operacion: []
   };
 }

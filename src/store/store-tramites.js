@@ -140,6 +140,11 @@ const actions = {
     );
     return response.data;
     // commit("get_update_tradoc", response.data);
+  },
+  async call_delete_tradoc({ commit }, payload) {
+    const response = await axiosInstance.post(`/tradoc/delete_tradoc`, payload);
+    return response.data;
+    // commit("get_update_tradoc", response.data);
   }
 };
 

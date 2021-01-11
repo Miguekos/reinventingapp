@@ -262,12 +262,11 @@ export default {
             message: responseService.message
           });
           await this.call_listar_tradoc({
-            fe_emides: `${this.fe_emides}`,
-            fe_emihas: `${this.fe_emihas}`,
-            no_provee: `${this.no_provee}`,
-            nu_tradoc: `${this.nu_tradoc}`,
-            ti_estado: `${this.ti_estado}`,
-            co_barras: `${this.co_barras}`
+            fe_emides: "",
+            fe_emihas: "",
+            no_provee: "",
+            nu_tramit: "",
+            co_barras: ""
           });
           this.$store.commit("tramites/dialogCrear", false);
         } else if (responseService.res == "ko") {

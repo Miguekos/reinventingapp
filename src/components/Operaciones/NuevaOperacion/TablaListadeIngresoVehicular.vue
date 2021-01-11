@@ -16,17 +16,28 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top-right>
-        <q-input
-          filled
-          dense
-          debounce="300"
-          v-model="filter"
-          placeholder="Buscar"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        <div class="row">
+          <div class="q-pa-xs">
+            <q-btn
+              color="primary"
+              label="Buscar Operacion"
+              @click="buscarOperacion"
+            />
+          </div>
+          <div class="q-pa-xs">
+            <q-input
+              filled
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Buscar"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
+        </div>
       </template>
       <template v-slot:body-cell="props">
         <q-td :props="props">
@@ -55,6 +66,17 @@
     >
       <DialogGenerarOperacion />
     </q-dialog>
+    <q-dialog
+      v-model="buscarServicios"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      full-height
+      full-width
+    >
+      <DialogBuscarOperacion />
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -66,10 +88,11 @@ export default {
     }
   },
   computed: {
-    ...mapState("operaciones", ["agregarServicios"])
+    ...mapState("operaciones", ["agregarServicios", "buscarServicios"])
   },
   components: {
-    DialogGenerarOperacion: () => import("./DialogGenerarOperacion")
+    DialogGenerarOperacion: () => import("./DialogGenerarOperacion"),
+    DialogBuscarOperacion: () => import("./DialogBuscarOperacion")
   },
   data() {
     return {
@@ -159,6 +182,9 @@ export default {
       "call_lista_vehiculo_ingreso",
       "call_nueva_operacion"
     ]),
+    buscarOperacion() {
+      this.$store.commit("operaciones/buscarServicios", true);
+    },
     async generarOperacion(val) {
       this.$q.loading.show();
       await this.call_combo_cliente();

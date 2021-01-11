@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--    {{ get_rep_kardex.resultado[0] }}-->
+    <!--    {{ info }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Kardex"
-      :data="get_rep_kardex.resultado"
+      :data="info"
       dense
       :filter="filter"
       :columns="columns"
@@ -50,13 +50,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
 export default {
+  props: ["info"],
   name: "Tabla",
-  computed: {
-    ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
-    ...mapGetters("reportes", ["get_rep_kardex"])
-  },
   data() {
     return {
       filter: "",
@@ -165,20 +161,6 @@ export default {
         }
       ]
     };
-  },
-  methods: {
-    ...mapActions("reportes", ["call_rep_kardex"])
-  },
-  async created() {
-    await this.call_rep_kardex({
-      fec_des: "", // fecha inicio
-      fec_has: "", // fecha fin
-      cod_emp: "", // empresa (combo)
-      cod_alm: "", // codigo almacen (combo)
-      cod_art: "", // codigo articulo
-      nom_art: "", // nombre articulo
-      operaci: "" // Operacion
-    });
   }
 };
 </script>
