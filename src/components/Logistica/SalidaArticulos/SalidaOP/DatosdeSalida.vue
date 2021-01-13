@@ -143,12 +143,12 @@ export default {
       await this.call_grabar_transa_ingsal({
         fe_regist: "2020-01-11",
         co_person: "2",
-        il_unineg: "OC",
+        il_unineg: "OP",
         ti_ingsal: "1",
         co_empres: "19",
         co_almace: "1",
         no_coment: "COMENTARIO DE INGRESO O SALIDA",
-        nu_docume: "OC",
+        nu_docume: "OP",
         co_arcadj: "XXXX"
       });
     }

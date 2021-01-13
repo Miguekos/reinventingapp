@@ -48,7 +48,18 @@ const routes = [
         path: "reportes/reportediario",
         component: () =>
           import("components/Reportes/Operaciones/ReporteDiario/ReporteDiario")
-      }
+      },
+      {
+        path: "reportes/produccionoperaciones",
+        component: () =>
+          import("components/Reportes/Operaciones/ProduccionOperaciones/ProduccionOperaciones")
+      },
+      {
+        path: "reportes/seguimientomantenimiento",
+        component: () =>
+          import("components/Reportes/Operaciones/SeguimientoMantenimiento/SeguimientoMantenimiento")
+      },
+
     ]
   },
   {

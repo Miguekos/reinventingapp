@@ -220,3 +220,13 @@ export async function call_buscar_operacion({ commit }, payload) {
   console.log(response.data);
   commit("get_buscar_operacion", response.data);
 }
+
+export async function call_ingreso_vehicular({ commit }, payload) {
+  const response = await axiosInstance.post(
+    `/operacflujo/ingreso_vehicular`,
+    payload
+  );
+  console.log(response.data);
+  return response.data;
+  // commit("get_buscar_operacion", response.data);
+}

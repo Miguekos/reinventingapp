@@ -12,7 +12,10 @@ const state = {
   ordenCompra: null,
   get_catalogo_tcprovee: [],
   get_tcservic: [],
-  get_catalogo_tcmoneda: []
+  get_catalogo_tcmoneda: [],
+  get_produccion_operaciones: [],
+  get_seguimiento_mantenimiento: [],
+  get_tipo_trabajo: []
 };
 
 const mutations = {
@@ -51,6 +54,15 @@ const mutations = {
   },
   get_catalogo_tcmoneda(state, payload) {
     state.get_catalogo_tcmoneda = payload;
+  },
+  get_produccion_operaciones(state, payload) {
+    state.get_produccion_operaciones = payload;
+  },
+  get_seguimiento_mantenimiento(state, payload) {
+    state.get_seguimiento_mantenimiento = payload;
+  },
+  get_tipo_trabajo(state, payload) {
+    state.get_tipo_trabajo = payload;
   }
 };
 
@@ -128,6 +140,30 @@ const actions = {
     );
     return response.data;
     // commit("get_update_ordcom", response.data);
+  },
+  async call_produccion_operaciones({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/reportes/produccion_operaciones`,
+      payload
+    );
+    // return response.data;
+    commit("get_produccion_operaciones", response.data);
+  },
+  async call_seguimiento_mantenimiento({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/reportes/seguimiento_mantenimiento`,
+      payload
+    );
+    // return response.data;
+    commit("get_seguimiento_mantenimiento", response.data);
+  },
+  async call_tipo_trabajo({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/reportes/tipo_trabajo`,
+      payload
+    );
+    // return response.data;
+    commit("get_tipo_trabajo", response.data);
   }
 };
 
@@ -158,6 +194,15 @@ const getters = {
   },
   get_catalogo_tcmoneda(state) {
     return state.get_catalogo_tcmoneda;
+  },
+  get_produccion_operaciones(state) {
+    return state.get_produccion_operaciones;
+  },
+  get_seguimiento_mantenimiento(state) {
+    return state.get_seguimiento_mantenimiento;
+  },
+  get_tipo_trabajo(state) {
+    return state.get_tipo_trabajo;
   }
 };
 

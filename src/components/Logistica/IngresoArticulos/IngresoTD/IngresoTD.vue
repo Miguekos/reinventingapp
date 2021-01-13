@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="">
     <!--    {{ get_listar_ordcom.operac }}-->
     <!--    Buscar Operacion-->
     <div class="row" align="center">
@@ -90,7 +90,11 @@ export default {
   name: "IngresoTD",
   data() {
     return {
+      fe_emides: "",
+      fe_emihas: "",
+      ti_estado: "",
       fe_regdes: "",
+      maximizedToggle: "",
       fe_reghas: "",
       no_provee: "",
       nu_ordcom: "",
@@ -101,7 +105,10 @@ export default {
     ...mapGetters("almacen", ["get_listar_produc_ordtra_ingres"])
   },
   methods: {
-    ...mapActions("almacen", ["call_listar_produc_ordtra_ingres"])
+    ...mapActions("almacen", ["call_listar_produc_ordtra_ingres"]),
+    buscarOperaciones() {
+      console.log("buscarOperaciones");
+    }
   },
   components: {
     TablaPrincipal: () => import("./Tabla")

@@ -117,11 +117,11 @@ export default {
       ]
     };
   },
-  methods: {
-    titulos(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    methods: {
+        titulos(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
     }
-  }
 };
 </script>
 

@@ -1,218 +1,155 @@
 <template>
-  <div class="">
-    <!-- {{ get_combo_tecnico }} -->
-    <q-table
-      title="Servicios"
-      :data="get_lista_sermat_asignar.servic"
-      :columns="columns"
-      dense
-      row-key="name"
-      color="primary"
-      card-class="bg-amber-1 text-brown"
-      table-class="text-grey-8"
-      table-header-class="text-brown"
-      class="my-sticky-header-table"
-    >
-      <template v-slot:body-cell-tecnico="props">
-        <q-td :props="props">
-          <q-select
-            dense
-            style="width: 270px"
-            v-model="props.row.tecnico"
-            :options="get_combo_tecnico.tecnico"
-            option-label="no_person"
-            option-value="co_tecaut"
-            emit-value
-            map-options
-            bg-color="grey"
-            filled
-          />
-        </q-td>
-      </template>
-    </q-table>
-    <div class="row">
-      <div class="col text-center q-pa-md q-gutter-md">
-        <q-btn
-          color="secondary"
-          @click="confirmar"
-          icon="check"
-          label="Confirmar Opcion"
-        />
-      </div>
-    </div>
+  <div>
+    <q-card class="full-height" square>
+      <q-bar class="bg-primary text-white">
+        Datos Ingreso O/C
+        <q-space />
+        <q-btn dense flat icon="close" @click="cerrar">
+          <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <q-card-section>
+        {{ get_listar_docume_agrega_ingsal.message }}
+        <DatosdeSalida :info="get_listar_docume_agrega_ingsal.message" />
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section>
+        <!--        {{ get_buscar_operacion.result[0] }}-->
+        <!--        <TablaBuscar :info="get_buscar_operacion.result" />-->
+        {{ get_listar_produc_agrega_ingsal }}
+        <ArticulosIngresaran :info="get_listar_produc_agrega_ingsal.message" />
+      </q-card-section>
+
+      <!-- <q-card-actions align="right">
+        <q-btn flat label="Decline" color="primary" v-close-popup />
+        <q-btn flat label="Accept" color="primary" v-close-popup />
+      </q-card-actions> -->
+    </q-card>
   </div>
 </template>
+
 <script>
-    import { mapActions, mapGetters } from "vuex";
-    export default {
-        computed: {
-            ...mapGetters("operaciones", [
-                "get_lista_sermat_asignar",
-                "get_combo_tecnico",
-            ]),
+import { storagelocal } from "../../../../mixins/mixin";
+import { mapActions, mapGetters } from "vuex";
+const stringOptions = ["Servicios", "Materiales"];
+export default {
+  name: "DialogAddServicios",
+  mixins: [storagelocal],
+  components: {
+    DatosdeSalida: () => import("./DatosdeSalida"),
+    ArticulosIngresaran: () => import("./ArticulosIngresaran")
+  },
+  computed: {
+    ...mapGetters("almacen", [
+      "get_listar_docume_agrega_ingsal",
+      "get_listar_produc_agrega_ingsal"
+    ])
+  },
+  data() {
+    return {
+      cod_ope: "",
+      pla_veh: "",
+      fec_ini: "",
+      fec_fin: "",
+      loadboton: false,
+      clienteSelect: null,
+      model: null,
+      infoMateriales: [],
+      infoServicios: [],
+      precioUnitario: null,
+      cantidad: null,
+      maximizedToggle: true,
+      tipodebusqueda: null,
+      options: [],
+      newoptions: [],
+      buscarServiciosMateriales: "",
+      filter: "",
+      columns1: [
+        {
+          name: "desc",
+          required: true,
+          label: "Fecha de Registro",
+          align: "left",
+          field: row => row.co_operac,
+          format: val => `${val}`,
+          sortable: true
         },
-        data() {
-            return {
-                cantidad: "",
-                preciounitario: "",
-                model: "",
-                options: [
-                    {
-                        name: "Aceptar",
-                        value: "A",
-                    },
-                    {
-                        name: "Rechazar",
-                        value: "R",
-                    },
-                    {
-                        name: "Espera",
-                        value: "E",
-                    },
-                ],
-                columns: [
-                    // {
-                    //   name: "name",
-                    //   required: true,
-                    //   label: "Operacion",
-                    //   align: "left",
-                    //   field: (row) => row.co_operac,
-                    //   format: (val) => `${val}`,
-                    //   sortable: true,
-                    // },
-                    {
-                        name: "co_plaveh",
-                        align: "left",
-                        label: "Vehiculos",
-                        field: "co_plaveh",
-                        sortable: true,
-                    },
-                    {
-                        name: "tecnico",
-                        align: "left",
-                        label: "Tecnico",
-                        field: "tecnico",
-                        sortable: true,
-                    },
-                    {
-                        name: "co_opeser",
-                        label: "Codigo",
-                        align: "left",
-                        field: "co_opeser",
-                        sortable: true,
-                    },
-                    {
-                        name: "no_servic",
-                        align: "left",
-                        label: "Descripcion",
-                        field: "no_servic",
-                    },
-                    {
-                        name: "no_unimed",
-                        align: "left",
-                        label: "Unidad Medida",
-                        field: "no_unimed",
-                    },
-                    {
-                        name: "no_tipser",
-                        align: "left",
-                        label: "Gran Familia",
-                        field: "no_tipser",
-                    },
-                    {
-                        name: "ca_uniori",
-                        align: "left",
-                        label: "Cantidad",
-                        field: "ca_uniori",
-                        sortable: true,
-                    },
-                    {
-                        name: "im_preori",
-                        label: "P.U",
-                        align: "left",
-                        field: "im_preori",
-                        sortable: true,
-                    },
-                    {
-                        name: "va_totori",
-                        label: "P.U",
-                        align: "left",
-                        field: "va_totori",
-                        sortable: true,
-                    },
-                    {
-                        name: "ca_uniaju",
-                        align: "left",
-                        label: "Cantidad",
-                        field: "ca_uniaju",
-                        sortable: true,
-                    },
-                    {
-                        name: "im_preaju",
-                        label: "P.U",
-                        align: "left",
-                        field: "im_preaju",
-                        sortable: true,
-                    },
-                    {
-                        name: "va_totaju",
-                        label: "P.U",
-                        align: "left",
-                        field: "va_totaju",
-                        sortable: true,
-                    },
-                    {
-                        name: "no_estado",
-                        label: "Estado",
-                        align: "left",
-                        field: "no_estado",
-                        sortable: true,
-                    },
-                    {
-                        name: "ti_servic",
-                        label: "Tipo de Servicio",
-                        field: "ti_servic",
-                        align: "right",
-                        sortable: true,
-                    },
-                ],
-            };
+        {
+          name: "co_opeveh",
+          align: "center",
+          label: "Usuario",
+          field: "co_opeveh",
+          sortable: true
         },
-        methods: {
-            ...mapActions("operaciones", [
-                "call_evalua_item_sermat",
-                "call_recalcula_sermat",
-                "call_lista_sermat_evalua",
-                "call_lista_operaci_asignar",
-                "call_asigna_tecnico_servicio",
-            ]),
-            async confirmar() {
-                this.$q.loading.show();
-                for (
-                    let index = 0;
-                    index < this.get_lista_sermat_asignar.servic.length;
-                    index++
-                ) {
-                    const element = this.get_lista_sermat_asignar.servic[index];
-                    console.log(element);
-                    await this.call_asigna_tecnico_servicio({
-                        cod_ope: `${element.co_operac}`,
-                        ope_ser: `${element.co_opeser}`,
-                        tec_aut: `${element.tecnico}`,
-                    });
-                }
-                // await this.call_lista_sermat_evalua(
-                //   this.get_lista_sermat_asignar.servic[0].co_operac
-                // );
-                await this.call_lista_operaci_asignar({
-                    nom_cli: "",
-                    pla_veh: "",
-                });
-                this.$q.loading.hide();
-                this.$store.commit("operaciones/operacionesid4", false);
-            },
-        },
+        { name: "fat", label: "N° Operación", field: "fat", sortable: true },
+        { name: "no_tiptra", label: "Cliente", field: "no_tiptra" },
+        { name: "no_servic", label: "Estado", field: "no_servic" },
+        { name: "no_tipser", label: "Placa", field: "no_tipser" },
+        { name: "im_preuni", label: "Marca", field: "im_preuni" },
+        { name: "co_plaveh", label: "Modelo", field: "co_plaveh" },
+        { name: "acciones", label: "Versión", field: "acciones" },
+        { name: "acciones", label: "Año", field: "acciones" },
+        { name: "acciones", label: "Color", field: "acciones" },
+        { name: "acciones", label: "Chasis", field: "acciones" },
+        { name: "acciones", label: "Motor", field: "acciones" },
+        { name: "acciones", label: "Acciones", field: "acciones" }
+      ],
+      data: []
     };
+  },
+  methods: {
+    ...mapActions("almacen", [
+      "call_quitar_produc_agrega_ingsal",
+      "call_listar_produc_ordtra_ingres"
+    ]),
+    async eliminar() {
+      await this.call_quitar_produc_agrega_ingsal({
+        co_person: "2",
+        fe_regist: "2020-01-11",
+        co_prikey: "75",
+        co_articu: null,
+        ca_articu: null,
+        il_unineg: "OP",
+        ti_ingsal: "1"
+      });
+    },
+    async grabar() {
+      await this.call_grabar_transa_ingsal({
+        fe_regist: "2020-01-11",
+        co_person: "2",
+        il_unineg: "OP",
+        ti_ingsal: "1",
+        co_empres: "19",
+        co_almace: "1",
+        no_coment: "COMENTARIO DE INGRESO O SALIDA",
+        nu_docume: "OP",
+        co_arcadj: "XXXX"
+      });
+    },
+    async cerrar() {
+      this.$q.loading.show();
+      await this.call_listar_produc_ordtra_ingres({
+        fe_regdes: "",
+        fe_reghas: "",
+        no_provee: "",
+        nu_ordtra: "",
+        co_barras: "",
+        il_ordtra: "OP"
+      });
+      this.$store.commit("almacen/dialogSalidaOP", false);
+      this.$q.loading.hide();
+    }
+  },
+  async created() {
+    this.$q.loading.show();
+
+    this.$q.notify({
+      message: "Creando"
+    });
+    console.log("DialogBuscarOperacion.vue");
+    this.$q.loading.hide();
+  }
+};
 </script>
-<style>
-</style>

@@ -19,13 +19,7 @@
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
-            <q-btn
-              dense
-              round
-              size="sm"
-              color="red"
-              icon="delete"
-            />
+            <q-btn dense round size="sm" color="red" icon="delete" />
           </div>
         </q-td>
       </template>
@@ -99,9 +93,7 @@ export default {
           field: "action",
           sortable: true
         }
-      ],
-
-      data: []
+      ]
     };
   }
 };

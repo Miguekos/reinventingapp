@@ -71,7 +71,17 @@ module.exports = function(/* ctx */) {
     framework: {
       iconSet: "material-icons", // Quasar icon set
       lang: "es", // Quasar language pack
-      config: {},
+      config: {
+        // loading: {
+        //   // Loading defaults
+        //   spinner: QSpinnerGears,
+        //   message: "Some message",
+        //   messageColor: "blue",
+        //   spinnerSize: 250, // in pixels
+        //   spinnerColor: "white",
+        //   customClass: "bg-primary"
+        // }
+      },
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives

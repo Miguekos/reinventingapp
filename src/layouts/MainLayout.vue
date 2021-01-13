@@ -256,7 +256,45 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label>Operaciones</q-item-label>
+                    <q-item-label>Operaciones Reporte Diario</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/reportes/produccionoperaciones')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="description" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label
+                      >Operaciones Produccion Operaciones</q-item-label
+                    >
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/reportes/seguimientomantenimiento')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="description" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label
+                      >Operaciones Seguimiento Mantenimiento</q-item-label
+                    >
                   </q-item-section>
                 </q-item>
               </q-expansion-item>
@@ -417,6 +455,7 @@ export default {
   },
   data() {
     return {
+      maximizedToggle: false,
       alert: false,
       info: null,
       user: {

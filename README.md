@@ -115,6 +115,12 @@ export default {
       newoptions: [],
       buscarServiciosMateriales: "",
       filter: "",
+      initialPagination: {
+              sortBy: "name",
+              descending: true,
+              page: 1,
+              rowsPerPage: 1000
+            },
       columns1: [
         {
           name: "desc",

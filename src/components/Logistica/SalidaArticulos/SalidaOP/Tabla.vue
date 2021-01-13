@@ -11,29 +11,68 @@
       class="my-sticky-header-table"
       title="Artículos a ingresar"
       :data="info"
+      :filter="filter"
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:body-cell-ingresa="props">
+      <template v-slot:top-right>
+        <div class="row">
+          <div class="q-pa-xs">
+            <q-btn color="primary" label="Ingresar" @click="ingresar" />
+          </div>
+          <div class="q-pa-xs">
+            <q-input
+              filled
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Buscar"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
+        </div>
+      </template>
+      <template v-slot:body-cell-il_selecc="props">
         <q-td class="text-center" :props="props">
-          <q-input
-            color="red"
-            dense
-            v-model="props.row.ingresa"
-            style="padding: 2px 2px 2px 10px; width: 100px; margin-left: 15px; height: 18px; border-left: gray solid 1px"
+          <q-checkbox
+            size="30px"
+            val="X"
+            v-model="props.row.il_selecc"
           />
-          <!--          {{ props.row.ingresa }}-->
         </q-td>
       </template>
     </q-table>
+    <q-dialog
+      v-model="dialogSalidaOP"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-up"
+      full-height
+      full-width
+    >
+      <DialogSalidaOP />
+    </q-dialog>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   props: ["info"],
+  computed: {
+    ...mapState("almacen", ["dialogSalidaOP"])
+  },
+  components: {
+    DialogSalidaOP: () => import("./TablaB")
+  },
   data() {
     return {
+      maximizedToggle: false,
+      filter: "",
       initialPagination: {
         sortBy: "name",
         descending: true,
@@ -45,9 +84,9 @@ export default {
         {
           name: "name",
           required: true,
-          label: "Fecha OC",
+          label: "Fecha OP",
           align: "left",
-          field: row => row.fe_operac,
+          field: row => row.fe_regist,
           format: val => `${val}`,
           sortable: true
         },
@@ -64,48 +103,93 @@ export default {
           field: "no_client",
           sortable: true
         },
-        { name: "no_operac", label: "Orden Compra", field: "no_operac" },
-        { name: "co_plaveh", label: "Co_barras", field: "co_plaveh" },
-        { name: "no_marmod", label: "No_articu", field: "no_marmod" },
+        { name: "no_operac", label: "No_operac", field: "no_operac" },
+        { name: "co_plaveh", label: "Co_plaveh", field: "co_plaveh" },
+        { name: "no_marveh", label: "No_marmod", field: "no_marveh" },
         {
           name: "co_barras",
-          label: "Co_unimed",
+          label: "Co_barras",
           field: "co_barras",
           sortable: true
         },
         {
           name: "no_articu",
-          label: "Ca_articu",
+          label: "No_articu",
           field: "no_articu",
           sortable: true
         },
         {
           name: "ca_articu",
-          label: "Ca_ingres",
+          label: "Ca_articu",
           field: "ca_articu",
           sortable: true
         },
         {
-          name: "stock",
-          label: "Ca_pendie",
-          field: "stock",
+          name: "ca_stocks",
+          label: "Stock",
+          field: "ca_stocks",
           sortable: true
         },
         {
-          name: "Ti_estado",
-          label: "Ingresa",
-          field: "Ti_estado",
+          name: "ti_estado",
+          label: "Estado",
+          field: "ti_estado",
           sortable: true
         },
         {
-          name: "check",
+          name: "il_selecc",
           label: "Check",
-          field: "check",
+          field: "il_selecc",
           sortable: true
         }
       ],
       data: []
     };
+  },
+  methods: {
+    ...mapActions("almacen", [
+      "call_insert_produc_ingsal",
+      "call_listar_docume_agrega_ingsal",
+      "call_listar_produc_agrega_ingsal"
+    ]),
+    async ingresar() {
+      this.$q.loading.show();
+      console.log("ingresar");
+      try {
+        for (let i = 0; i < this.info.length; i++) {
+          const element = this.info[i];
+          console.log("element", element);
+          if (element.ingresa) {
+            await this.call_insert_produc_ingsal({
+              co_person: "92",
+              fe_regist: "2021-01-11",
+              co_prikey: element.co_ordtra,
+              co_articu: element.co_articu,
+              ca_articu: element.ca_articu,
+              il_unineg: "OP",
+              ti_ingsal: element.ingresa
+            });
+          }
+        }
+        await this.call_listar_docume_agrega_ingsal({
+          fe_regist: "2020-01-11",
+          co_person: "2",
+          il_unineg: "OP",
+          ti_ingsal: "2"
+        });
+        await this.call_listar_produc_agrega_ingsal({
+          fe_regist: "2020-01-11",
+          co_person: "2",
+          il_unineg: "OP",
+          ti_ingsal: "2"
+        });
+        this.$store.commit("almacen/dialogSalidaOP", true);
+        this.$q.loading.hide();
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
+    }
   }
 };
 </script>

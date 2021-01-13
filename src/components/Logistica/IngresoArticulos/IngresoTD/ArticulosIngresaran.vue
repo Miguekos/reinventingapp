@@ -1,6 +1,9 @@
 <template>
-  <div class="q-pa-md">
+  <div>
     <q-table
+      dense
+      flat
+      bordered
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
@@ -8,18 +11,21 @@
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
-      title="Treats"
-      :data="data"
+      title="Artículos que ingresarán"
+      :data="info"
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:body-cell-name="props">
+      <template v-slot:body-cell-action="props">
         <q-td :props="props">
-          <div>
-            <q-badge color="purple" :label="props.value" />
-          </div>
-          <div class="my-table-details">
-            {{ props.row.details }}
+          <div class="q-gutter-sm">
+            <q-btn
+              dense
+              round
+              size="sm"
+              color="red"
+              icon="delete"
+            />
           </div>
         </q-td>
       </template>
@@ -28,42 +34,70 @@
 </template>
 <script>
 export default {
+  props: ["info"],
   data() {
     return {
+      initialPagination: {
+        sortBy: "name",
+        descending: true,
+        page: 1,
+        rowsPerPage: 1000
+      },
       columns: [
         {
           name: "name",
           required: true,
-          label: "Dessert (100g serving)",
+          label: "Fe_ordcom",
           align: "left",
-          field: row => row.name,
+          field: row => row.fe_docume,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "calories",
+          name: "co_procli",
           align: "center",
-          label: "Calories",
-          field: "calories",
+          label: "Co_docide",
+          field: "co_procli",
           sortable: true
         },
-        { name: "fat", label: "Fat (g)", field: "fat", sortable: true },
-        { name: "carbs", label: "Carbs (g)", field: "carbs" },
-        { name: "protein", label: "Protein (g)", field: "protein" },
-        { name: "sodium", label: "Sodium (mg)", field: "sodium" },
         {
-          name: "calcium",
-          label: "Calcium (%)",
-          field: "calcium",
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+          name: "no_procli",
+          label: "No_razsoc",
+          field: "no_procli",
+          sortable: true
+        },
+        { name: "no_prikey", label: "No_ordcom", field: "no_prikey" },
+        { name: "co_barras", label: "Co_barras", field: "co_barras" },
+        { name: "no_articu", label: "No_articu", field: "no_articu" },
+        {
+          name: "co_unimed",
+          label: "Co_unimed",
+          field: "co_unimed",
+          sortable: true
         },
         {
-          name: "iron",
-          label: "Iron (%)",
-          field: "iron",
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+          name: "ca_articu",
+          label: "Ca_articu",
+          field: "ca_articu",
+          sortable: true
+        },
+        {
+          name: "ca_ingsal",
+          label: "Ca_ingres",
+          field: "ca_ingsal",
+          sortable: true
+        },
+        {
+          name: "ca_pendie",
+          label: "Ca_pendie",
+          field: "ca_pendie",
+          sortable: true
+        },
+        {
+          name: "action",
+          label: "Accion",
+          field: "action",
+          sortable: true
         }
       ],
 

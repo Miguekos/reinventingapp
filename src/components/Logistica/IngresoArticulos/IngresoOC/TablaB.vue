@@ -9,7 +9,8 @@
         </q-btn>
       </q-bar>
       <q-card-section>
-        <DatosdeIngreso />
+        <!--        {{ get_listar_docume_agrega_ingsal.message }}-->
+        <DatosdeIngreso :info="get_listar_docume_agrega_ingsal.message" />
       </q-card-section>
 
       <q-separator />
@@ -17,7 +18,8 @@
       <q-card-section>
         <!--        {{ get_buscar_operacion.result[0] }}-->
         <!--        <TablaBuscar :info="get_buscar_operacion.result" />-->
-        <ArticulosIngresaran />
+        <!--        {{ get_listar_produc_agrega_ingsal }}-->
+        <ArticulosIngresaran :info="get_listar_produc_agrega_ingsal.message" />
       </q-card-section>
 
       <!-- <q-card-actions align="right">
@@ -39,7 +41,12 @@ export default {
     DatosdeIngreso: () => import("./DatosdeIngreso"),
     ArticulosIngresaran: () => import("./ArticulosIngresaran")
   },
-  computed: {},
+  computed: {
+    ...mapGetters("almacen", [
+      "get_listar_docume_agrega_ingsal",
+      "get_listar_produc_agrega_ingsal"
+    ])
+  },
   data() {
     return {
       cod_ope: "",
@@ -93,14 +100,46 @@ export default {
     };
   },
   methods: {
-    ...mapActions("operaciones", [
-      "call_combo_cliente",
-      "call_lista_vehiculo_ingreso",
-      "call_nueva_operacion",
-      "call_buscar_operacion"
+    ...mapActions("almacen", [
+      "call_quitar_produc_agrega_ingsal",
+      "call_listar_produc_ordtra_ingres"
     ]),
-    cerrar() {
+    async eliminar() {
+      await this.call_quitar_produc_agrega_ingsal({
+        co_person: "2",
+        fe_regist: "2020-01-11",
+        co_prikey: "75",
+        co_articu: null,
+        ca_articu: null,
+        il_unineg: "OC",
+        ti_ingsal: "1"
+      });
+    },
+    async grabar() {
+      await this.call_grabar_transa_ingsal({
+        fe_regist: "2020-01-11",
+        co_person: "2",
+        il_unineg: "OC",
+        ti_ingsal: "1",
+        co_empres: "19",
+        co_almace: "1",
+        no_coment: "COMENTARIO DE INGRESO O SALIDA",
+        nu_docume: "OC",
+        co_arcadj: "XXXX"
+      });
+    },
+    async cerrar() {
+      this.$q.loading.show();
+      await this.call_listar_produc_ordtra_ingres({
+        fe_regdes: "",
+        fe_reghas: "",
+        no_provee: "",
+        nu_ordtra: "",
+        co_barras: "",
+        il_ordtra: "OC"
+      });
       this.$store.commit("almacen/dialogIngresoOC", false);
+      this.$q.loading.hide();
     }
   },
   async created() {

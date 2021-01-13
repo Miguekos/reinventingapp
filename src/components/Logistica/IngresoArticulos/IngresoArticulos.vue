@@ -38,7 +38,8 @@ export default {
   name: "IngresoArticulos",
   data() {
     return {
-      tab: "1"
+      tab: "1",
+      maximizedToggle: false
     };
   },
   components: {

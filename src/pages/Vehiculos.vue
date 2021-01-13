@@ -76,9 +76,8 @@
     <!--    <div align="center">-->
     <!--      <Filtros />-->
     <!--    </div>-->
-    <div v-if="getVehiculos" align="center">
+    <div align="center">
       <TablaFiltro
-        :loadtable="loadtable"
         order="co_vehicu"
         color="green"
         tool="vehiculos"
@@ -89,6 +88,20 @@
         :exportar="false"
         gridactivate="false"
       />
+    </div>
+    <div>
+      <!--      {{ getVehiculos }}-->
+      <!--      <TablaFiltro-->
+      <!--        order="co_vehicu"-->
+      <!--        color="green"-->
+      <!--        tool="vehiculos"-->
+      <!--        @click="boton"-->
+      <!--        :info="filteredByAll"-->
+      <!--        :columns="columns"-->
+      <!--        paginas="15"-->
+      <!--        :exportar="false"-->
+      <!--        gridactivate="false"-->
+      <!--      />-->
     </div>
     <!--    <div v-if="activarCrear">-->
     <!--    <div v-if="$store.state.vehiculos.dialogCrear">-->
@@ -201,12 +214,16 @@ export default {
       }
     }
   },
-
   async created() {
+    console.log("Vehiculos");
     this.$q.loading.show();
-    this.$store.commit("example/location", "Vehiculos");
-    await this.callVehiculos("all");
-    // this.$q.loading.hide();
+    setTimeout(async () => {
+      console.log("asd");
+      this.$store.commit("example/location", "Vehiculos");
+      await this.callVehiculos("all");
+      console.log("Vehiculos - finnn");
+      this.$q.loading.hide();
+    }, 10000);
   }
 };
 </script>

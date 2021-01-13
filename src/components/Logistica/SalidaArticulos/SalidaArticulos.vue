@@ -37,7 +37,7 @@ export default {
     };
   },
   components: {
-    TablaSalidaOP: () => import("./SalidaOP/Tabla")
+    TablaSalidaOP: () => import("./SalidaOP/SalidaOP")
   },
   methods: {
     boton(val) {

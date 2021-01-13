@@ -34,8 +34,8 @@
     <div>
       <div class="row">
         <div class="col">
-          <!--          {{ get_rep_kardex.resultado[0] }}-->
-          <Tabla :info="get_rep_kardex.resultado" />
+          <!--          {{ get_seguimiento_mantenimiento.resultado[0] }}-->
+          <Tabla :info="get_seguimiento_mantenimiento.resultado" />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "Kardex",
   computed: {
-    ...mapGetters("reportes", ["get_rep_kardex"])
+    ...mapGetters("reportes", ["get_seguimiento_mantenimiento"])
   },
   data() {
     return {
@@ -61,23 +61,20 @@ export default {
     Tabla: () => import("./Tabla")
   },
   methods: {
-    ...mapActions("reportes", ["call_rep_kardex"])
+    ...mapActions("reportes", ["call_seguimiento_mantenimiento"])
   },
   buscarOperaciones() {
     console.log("buscarOperaciones");
   },
   async created() {
-      this.$q.loading.show()
-    await this.call_rep_kardex({
-      fec_des: "", // fecha inicio
-      fec_has: "", // fecha fin
-      cod_emp: "", // empresa (combo)
-      cod_alm: "", // codigo almacen (combo)
-      cod_art: "", // codigo articulo
-      nom_art: "", // nombre articulo
-      operaci: "" // Operacion
+    this.$q.loading.show();
+    await this.call_seguimiento_mantenimiento({
+      cod_ope: "", // codigo de operacion (campo opcional)
+      pla_veh: "", // placa (campo opcional)
+      tip_tra: "0", // Tipo trabajo del filto  (Obligatorio)
+      tip_cli: "0" // Tipo Cliente del filtro (Obligatorio)
     });
-      this.$q.loading.hide()
+    this.$q.loading.hide();
   }
 };
 </script>

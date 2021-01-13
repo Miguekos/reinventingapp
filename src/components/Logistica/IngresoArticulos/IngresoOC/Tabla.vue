@@ -75,6 +75,7 @@ export default {
   },
   data() {
     return {
+      maximizedToggle: false,
       filter: "",
       initialPagination: {
         sortBy: "name",
@@ -144,8 +145,48 @@ export default {
     };
   },
   methods: {
-    ingresar() {
-      this.$store.commit("almacen/dialogIngresoOC", true);
+    ...mapActions("almacen", [
+      "call_insert_produc_ingsal",
+      "call_listar_docume_agrega_ingsal",
+      "call_listar_produc_agrega_ingsal"
+    ]),
+    async ingresar() {
+      this.$q.loading.show();
+      console.log("ingresar");
+      try {
+        for (let i = 0; i < this.info.length; i++) {
+          const element = this.info[i];
+          console.log("element", element);
+          if (element.ingresa) {
+            await this.call_insert_produc_ingsal({
+              co_person: "92",
+              fe_regist: "2021-01-11",
+              co_prikey: element.co_ordtra,
+              co_articu: element.co_articu,
+              ca_articu: element.ca_articu,
+              il_unineg: "OC",
+              ti_ingsal: element.ingresa
+            });
+          }
+        }
+        await this.call_listar_docume_agrega_ingsal({
+          fe_regist: "2021-01-11",
+          co_person: "92",
+          il_unineg: "OC",
+          ti_ingsal: "1"
+        });
+        await this.call_listar_produc_agrega_ingsal({
+          fe_regist: "2021-01-11",
+          co_person: "92",
+          il_unineg: "OC",
+          ti_ingsal: "1"
+        });
+        this.$store.commit("almacen/dialogIngresoOC", true);
+        this.$q.loading.hide();
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
     }
   }
 };

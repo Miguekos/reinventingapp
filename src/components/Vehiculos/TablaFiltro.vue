@@ -93,7 +93,7 @@
                 size="sm"
                 @click="generarOperacion(props.row)"
                 color="primary"
-                label="Generar Operacion"
+                label="Nuevo ingreso"
               />
             </div>
           </q-td>
@@ -217,7 +217,8 @@ export default {
     };
   },
   methods: {
-    generarOperacion() {
+    generarOperacion(val) {
+      this.$store.commit("example/dataIngresoVehicular", val);
       this.$store.commit("example/dialogIngresoVehicular", true);
     },
     employee_dialogActive(val) {
