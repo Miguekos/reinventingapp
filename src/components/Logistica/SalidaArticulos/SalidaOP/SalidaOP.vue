@@ -12,7 +12,7 @@
                 clearable
                 filled
                 dense
-                v-model="fe_emides"
+                v-model="fe_regdes"
                 label="Fecha Inicio"
               >
                 <template v-slot:append>
@@ -22,7 +22,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="fe_emides" mask="YYYY-MM-DD">
+                      <q-date v-model="fe_regdes" mask="YYYY-MM-DD">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -42,7 +42,7 @@
                 clearable
                 filled
                 dense
-                v-model="fe_emihas"
+                v-model="fe_reghas"
                 label="Fecha Inicio"
               >
                 <template v-slot:append>
@@ -52,7 +52,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="fe_emihas" mask="YYYY-MM-DD">
+                      <q-date v-model="fe_reghas" mask="YYYY-MM-DD">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -86,13 +86,7 @@
               />
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">
-              <q-input
-                autofocus
-                dense
-                filled
-                v-model="il_despac"
-                label="Estado"
-              />
+              <q-input autofocus dense filled v-model="estado" label="Estado" />
             </div>
             <div class="col-xs-12 col-sm-1 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
@@ -123,6 +117,7 @@ export default {
   name: "IngresoOP",
   data() {
     return {
+      estado: "",
       fe_regdes: "",
       fe_reghas: "",
       no_provee: "",

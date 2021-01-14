@@ -7,6 +7,7 @@
     <!--    <div align="center">-->
     <!--      <Filtros />-->
     <!--    </div>-->
+    <!--    {{getCitas}}-->
     <div v-if="getCitas" align="center">
       <!--      <TablaFiltro-->
       <!--        order="co_person"-->

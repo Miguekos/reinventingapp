@@ -1,6 +1,6 @@
-import { date } from 'quasar'
+import { date } from "quasar";
 
-let timeStamp = Date.now()
+let timeStamp = Date.now();
 
 export function getCitas(state) {
   // co_citope: 15
@@ -22,10 +22,13 @@ export function getCitas(state) {
   // console.log(formattedString);
   for (let index = 0; index < state.getCitas.length; index++) {
     const element = state.getCitas[index];
-    const fechaNueva = date.formatDate(element.fe_progra, 'YYYY-MM-DDTHH:mm:ss');
+    const fechaNueva = date.formatDate(
+      element.fe_progra,
+      "YYYY-MM-DDTHH:mm:ss"
+    );
     // console.log(fechaNueva);
-    const fechaFin = date.addToDate(element.fe_progra, { hours: 1 })
-    const fechaFinF = date.formatDate(fechaFin, 'YYYY-MM-DDTHH:mm:ss');
+    const fechaFin = date.addToDate(element.fe_progra, { hours: 1 });
+    const fechaFinF = date.formatDate(fechaFin, "YYYY-MM-DDTHH:mm:ss");
     // console.log(fechaFinF);
 
     // console.log(element);
@@ -60,12 +63,11 @@ export function getCitas(state) {
           organizer: true,
           self: true,
           resource: false,
-          comment: "adasfasasfasf",
+          infocita: element
         }
       ]
-    }
-    data.push(json)
-
+    };
+    data.push(json);
   }
   // console.log(data);
   return data;

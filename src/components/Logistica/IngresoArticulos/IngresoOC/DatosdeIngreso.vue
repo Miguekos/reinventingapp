@@ -75,6 +75,7 @@ export default {
   props: ["info"],
   data() {
     return {
+      options: [""],
       filter: "",
       initialPagination: {
         sortBy: "name",
@@ -138,7 +139,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions("almacen", ["call_grabar_transa_ingsal"]),
+    ...mapActions("almacen", [
+      "call_grabar_transa_ingsal",
+      "call_listar_produc_ordtra_ingres"
+    ]),
     async grabar() {
       this.$q.loading.show();
       console.log("grabar");
@@ -162,6 +166,16 @@ export default {
         this.$q.notify({
           message: "Se grabo correctamente"
         });
+
+        await this.call_listar_produc_ordtra_ingres({
+          fe_regdes: "",
+          fe_reghas: "",
+          no_provee: "",
+          nu_ordtra: "",
+          co_barras: "",
+          il_ordtra: "OC"
+        });
+        this.$store.commit("almacen/dialogIngresoOC", false);
         this.$q.loading.hide();
       } catch (e) {
         console.log(e);

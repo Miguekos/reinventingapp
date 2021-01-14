@@ -172,31 +172,37 @@ export default {
       this.fixed = true;
     },
     confirm() {
-      this.$q
-        .dialog({
-          title: "Confirmar",
-          message: "vas a generar una operacion, estas seguro?",
-          cancel: true,
-          persistent: true
-        })
-        .onOk(() => {
-          // console.log('>>>> OK')
-          this.$store.commit("example/dataIngresoVehicular", val);
-          this.$store.commit("example/dialogIngresoVehicular", true);
-          this.fixed = false;
-        })
-        .onOk(() => {
-          // console.log('>>>> second OK catcher')
-          this.fixed = false;
-        })
-        .onCancel(() => {
-          // console.log('>>>> Cancel')
-          this.fixed = false;
-        })
-        .onDismiss(() => {
-          // console.log('I am triggered on both OK and Cancel')
-          this.fixed = false;
-        });
+      console.log(this.dataCita.attendees[0].infocita);
+      this.$store.commit(
+        "example/dataIngresoVehicular",
+        this.dataCita.attendees[0].infocita
+      );
+      this.$store.commit("example/dialogIngresoVehicular", true);
+      // this.$q
+      //   .dialog({
+      //     title: "Confirmar",
+      //     message: "vas a generar una operacion, estas seguro?",
+      //     cancel: true,
+      //     persistent: true
+      //   })
+      //   .onOk(() => {
+      //     // console.log('>>>> OK')
+      //     // this.$store.commit("example/dataIngresoVehicular", val);
+      //     // this.$store.commit("example/dialogIngresoVehicular", true);
+      //     this.fixed = false;
+      //   })
+      //   .onOk(() => {
+      //     // console.log('>>>> second OK catcher')
+      //     this.fixed = false;
+      //   })
+      //   .onCancel(() => {
+      //     // console.log('>>>> Cancel')
+      //     this.fixed = false;
+      //   })
+      //   .onDismiss(() => {
+      //     // console.log('I am triggered on both OK and Cancel')
+      //     this.fixed = false;
+      //   });
     }
   },
   async created() {

@@ -142,8 +142,7 @@ export default {
           field: "ingresa",
           sortable: true
         }
-      ],
-      data: []
+      ]
     };
   },
   methods: {

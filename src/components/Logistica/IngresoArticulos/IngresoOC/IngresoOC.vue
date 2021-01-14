@@ -12,7 +12,7 @@
                 clearable
                 filled
                 dense
-                v-model="fe_emides"
+                v-model="fe_regdes"
                 label="Fecha Inicio"
               >
                 <template v-slot:append>
@@ -22,7 +22,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="fe_emides" mask="YYYY-MM-DD">
+                      <q-date v-model="fe_regdes" mask="YYYY-MM-DD">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -42,7 +42,7 @@
                 clearable
                 filled
                 dense
-                v-model="fe_emihas"
+                v-model="fe_reghas"
                 label="Fecha Inicio"
               >
                 <template v-slot:append>
@@ -52,7 +52,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="fe_emihas" mask="YYYY-MM-DD">
+                      <q-date v-model="fe_reghas" mask="YYYY-MM-DD">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -81,7 +81,7 @@
                 autofocus
                 dense
                 filled
-                v-model="nu_ordcom"
+                v-model="nu_ordtra"
                 label="Orden de Compra"
               />
             </div>
@@ -134,14 +134,12 @@ export default {
   name: "IngresoOC",
   data() {
     return {
-      fe_emides: "",
-      fe_emihas: "",
-      ti_estado: "",
       fe_regdes: "",
-      maximizedToggle: "",
       fe_reghas: "",
+      ti_estado: "",
+      maximizedToggle: "",
       no_provee: "",
-      nu_ordcom: "",
+      nu_ordtra: "",
       co_barras: ""
     };
   },
@@ -150,8 +148,18 @@ export default {
   },
   methods: {
     ...mapActions("almacen", ["call_listar_produc_ordtra_ingres"]),
-    buscarOperaciones() {
+    async buscarOperaciones() {
       console.log("buscarOperaciones");
+      this.$q.loading.show();
+      await this.call_listar_produc_ordtra_ingres({
+        fe_regdes: `${this.fe_regdes}`,
+        fe_reghas: `${this.fe_reghas}`,
+        no_provee: `${this.no_provee}`,
+        nu_ordtra: `${this.nu_ordtra}`,
+        co_barras: `${this.co_barras}`,
+        il_ordtra: "OC"
+      });
+      this.$q.loading.hide();
     }
   },
   components: {

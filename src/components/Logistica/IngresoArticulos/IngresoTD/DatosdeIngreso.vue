@@ -138,7 +138,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions("almacen", ["call_grabar_transa_ingsal"]),
+    ...mapActions("almacen", [
+      "call_grabar_transa_ingsal",
+      "call_listar_produc_ordtra_ingres"
+    ]),
     async grabar() {
       this.$q.loading.show();
       console.log("grabar");
@@ -146,37 +149,32 @@ export default {
         for (let i = 0; i < this.info.length; i++) {
           const element = this.info[i];
           console.log("element", element);
-          if (element.il_selecc === true) {
-            console.log("element", element);
-            await this.call_grabar_transa_ingsal({
-              fe_regist: element.fe_regist,
-              co_person: "92",
-              il_unineg: "TD",
-              ti_ingsal: element.ti_ingsal,
-              co_empres: "19",
-              co_almace: "1",
-              no_coment: element.descripcion,
-              nu_docume: "TD",
-              co_arcadj: "XXXX"
-            });
-          }
+          await this.call_grabar_transa_ingsal({
+            fe_regist: element.fe_regist,
+            co_person: "92",
+            il_unineg: "TD",
+            ti_ingsal: "1",
+            co_empres: "19",
+            co_almace: "1",
+            no_coment: element.descripcion,
+            nu_guirem: element.guia,
+            co_arcadj: "XXXX"
+          });
         }
-        // await this.call_listar_docume_agrega_ingsal({
-        //   fe_regist: "2021-01-13",
-        //   co_person: "92",
-        //   il_unineg: "OP",
-        //   ti_ingsal: "1"
-        // });
-        // await this.call_listar_produc_agrega_ingsal({
-        //   fe_regist: "2021-01-13",
-        //   co_person: "92",
-        //   il_unineg: "OP",
-        //   ti_ingsal: "1"
-        // });
         // this.$store.commit("almacen/dialogSalidaOP", true);
         this.$q.notify({
           message: "Se grabo correctamente"
         });
+
+        await this.call_listar_produc_ordtra_ingres({
+          fe_regdes: "",
+          fe_reghas: "",
+          no_provee: "",
+          nu_ordtra: "",
+          co_barras: "",
+          il_ordtra: "TD"
+        });
+        this.$store.commit("almacen/dialogIngresoTD", false);
         this.$q.loading.hide();
       } catch (e) {
         console.log(e);
