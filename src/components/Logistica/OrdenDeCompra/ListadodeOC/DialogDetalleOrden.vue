@@ -195,8 +195,19 @@ export default {
     };
   },
   methods: {
-    cerrar() {
+    ...mapActions("logisticas", ["call_listar_ordcom"]),
+    async cerrar() {
+      this.$q.loading.show();
+      await this.call_listar_ordcom({
+        fe_emides: "",
+        fe_emihas: "",
+        no_provee: "",
+        nu_ordcom: "",
+        ti_estado: "",
+        co_barras: ""
+      });
       this.$store.commit("logisticas/dialogDetalleOrden", false);
+      this.$q.loading.hide();
     }
   }
 };

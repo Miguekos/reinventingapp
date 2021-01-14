@@ -145,7 +145,6 @@
                     option-value="value"
                     emit-value
                     map-options
-                    label="Seleccionar"
                     filled
                   />
                 </div>

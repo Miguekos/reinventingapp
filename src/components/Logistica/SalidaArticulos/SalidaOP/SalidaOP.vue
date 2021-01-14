@@ -9,21 +9,63 @@
           <div class="row">
             <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-input
-                autofocus
-                dense
+                clearable
                 filled
-                v-model="fe_regdes"
-                label="Registro Desde"
-              />
+                dense
+                v-model="fe_emides"
+                label="Fecha Inicio"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="fe_emides" mask="YYYY-MM-DD">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-input
-                autofocus
-                dense
+                clearable
                 filled
-                v-model="fe_reghas"
-                label="Registro Hasta"
-              />
+                dense
+                v-model="fe_emihas"
+                label="Fecha Inicio"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="fe_emihas" mask="YYYY-MM-DD">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">
               <q-input
@@ -94,7 +136,19 @@ export default {
     ...mapGetters("almacen", ["get_listar_produc_operac_salida"])
   },
   methods: {
-    ...mapActions("almacen", ["call_listar_produc_operac_salida"])
+    ...mapActions("almacen", ["call_listar_produc_operac_salida"]),
+    async buscarOperaciones() {
+      console.log("buscarOperaciones");
+      this.$q.loading.show();
+      await this.call_listar_produc_operac_salida({
+        fe_regdes: this.fe_regdes,
+        fe_reghas: this.fe_reghas,
+        co_operac: this.co_operac,
+        co_plaveh: this.co_plaveh,
+        il_despac: "OP"
+      });
+      this.$q.loading.hide();
+    }
   },
   components: {
     TablaPrincipal: () => import("./Tabla")

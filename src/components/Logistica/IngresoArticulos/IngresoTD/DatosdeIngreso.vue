@@ -20,7 +20,7 @@
       <template v-slot:top-right>
         <div class="row">
           <div class="q-pa-xs">
-            <q-btn color="primary" label="Grabar" />
+            <q-btn color="primary" label="Grabar" @click="grabar" />
           </div>
         </div>
       </template>
@@ -140,17 +140,48 @@ export default {
   methods: {
     ...mapActions("almacen", ["call_grabar_transa_ingsal"]),
     async grabar() {
-      await this.call_grabar_transa_ingsal({
-        fe_regist: "2020-01-11",
-        co_person: "2",
-        il_unineg: "TD",
-        ti_ingsal: "1",
-        co_empres: "19",
-        co_almace: "1",
-        no_coment: "COMENTARIO DE INGRESO O SALIDA",
-        nu_docume: "TD",
-        co_arcadj: "XXXX"
-      });
+      this.$q.loading.show();
+      console.log("grabar");
+      try {
+        for (let i = 0; i < this.info.length; i++) {
+          const element = this.info[i];
+          console.log("element", element);
+          if (element.il_selecc === true) {
+            console.log("element", element);
+            await this.call_grabar_transa_ingsal({
+              fe_regist: element.fe_regist,
+              co_person: "92",
+              il_unineg: "TD",
+              ti_ingsal: element.ti_ingsal,
+              co_empres: "19",
+              co_almace: "1",
+              no_coment: element.descripcion,
+              nu_docume: "TD",
+              co_arcadj: "XXXX"
+            });
+          }
+        }
+        // await this.call_listar_docume_agrega_ingsal({
+        //   fe_regist: "2021-01-13",
+        //   co_person: "92",
+        //   il_unineg: "OP",
+        //   ti_ingsal: "1"
+        // });
+        // await this.call_listar_produc_agrega_ingsal({
+        //   fe_regist: "2021-01-13",
+        //   co_person: "92",
+        //   il_unineg: "OP",
+        //   ti_ingsal: "1"
+        // });
+        // this.$store.commit("almacen/dialogSalidaOP", true);
+        this.$q.notify({
+          message: "Se grabo correctamente"
+        });
+        this.$q.loading.hide();
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
     }
   }
 };

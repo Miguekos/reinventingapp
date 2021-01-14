@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import { date } from "quasar";
+    let timeStamp = Date.now();
 import { storagelocal } from "../../../../mixins/mixin";
 import { mapActions, mapGetters } from "vuex";
 const stringOptions = ["Servicios", "Materiales"];
@@ -106,8 +108,8 @@ export default {
     ]),
     async eliminar() {
       await this.call_quitar_produc_agrega_ingsal({
-        co_person: "2",
-        fe_regist: "2020-01-11",
+        co_person: "92",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_prikey: "75",
         co_articu: null,
         ca_articu: null,
@@ -117,8 +119,8 @@ export default {
     },
     async grabar() {
       await this.call_grabar_transa_ingsal({
-        fe_regist: "2020-01-11",
-        co_person: "2",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_person: "92",
         il_unineg: "OC",
         ti_ingsal: "1",
         co_empres: "19",

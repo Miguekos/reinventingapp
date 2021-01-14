@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { date } from "quasar";
+let timeStamp = Date.now();
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   props: ["info"],
@@ -160,23 +162,23 @@ export default {
           if (element.ingresa) {
             await this.call_insert_produc_ingsal({
               co_person: "92",
-              fe_regist: "2021-01-11",
+              fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
               co_prikey: element.co_ordtra,
               co_articu: element.co_articu,
-              ca_articu: element.ca_articu,
+              ca_articu: element.ingresa,
               il_unineg: "TD",
-              ti_ingsal: element.ingresa
+              ti_ingsal: "1"
             });
           }
         }
         await this.call_listar_docume_agrega_ingsal({
-          fe_regist: "2021-01-11",
+          fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
           co_person: "92",
           il_unineg: "TD",
           ti_ingsal: "1"
         });
         await this.call_listar_produc_agrega_ingsal({
-          fe_regist: "2021-01-11",
+          fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
           co_person: "92",
           il_unineg: "TD",
           ti_ingsal: "1"

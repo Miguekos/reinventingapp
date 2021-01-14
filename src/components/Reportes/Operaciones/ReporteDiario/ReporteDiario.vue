@@ -6,20 +6,30 @@
         <q-form @submit="buscarOperaciones">
           <div class="row">
             <div class="col-xs-12 col-sm-4 q-pa-xs">
+              <!--              {{ get_tipo_agrupa }}-->
               <q-select
                 filled
                 dense
-                v-model="model"
-                :options="options"
+                v-model="tip_agr"
+                :options="get_tipo_agrupa.resultado"
+                option-value="co_catego"
+                option-label="no_catego"
+                map-options
+                emit-value
                 label="Tipo de Agrupamiento"
               />
             </div>
             <div class="col-xs-12 col-sm-4 q-pa-xs">
+              <!--              {{ get_fecha_actualizacion }}-->
               <q-select
                 filled
                 dense
-                v-model="model"
-                :options="options"
+                v-model="fec_act"
+                :options="get_fecha_actualizacion.resultado"
+                option-label="fec_act"
+                option-value="fec_act"
+                emit-value
+                map-options
                 label="Fecha de Actualizacion"
               />
             </div>
@@ -34,8 +44,8 @@
     <div>
       <div class="row">
         <div class="col">
-          <!--          {{ get_rep_kardex.resultado[0] }}-->
-          <Tabla :info="get_rep_kardex.resultado" />
+          <!--          {{ get_reporte_diario }}-->
+          <Tabla :info="get_reporte_diario.resultado" />
         </div>
       </div>
     </div>
@@ -47,12 +57,18 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "Kardex",
   computed: {
-    ...mapGetters("reportes", ["get_rep_kardex"])
+    ...mapGetters("reportes", [
+      "get_reporte_diario",
+      "get_tipo_agrupa",
+      "get_fecha_actualizacion"
+    ])
   },
   data() {
     return {
       fecha_ini: "",
       fecha_fin: "",
+      tip_agr: "",
+      fec_act: "",
       model: null,
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"]
     };
@@ -61,23 +77,30 @@ export default {
     Tabla: () => import("./Tabla")
   },
   methods: {
-    ...mapActions("reportes", ["call_rep_kardex"])
-  },
-  buscarOperaciones() {
-    console.log("buscarOperaciones");
+    ...mapActions("reportes", [
+      "call_reporte_diario",
+      "call_tipo_agrupa",
+      "call_fecha_actualizacion"
+    ]),
+    async buscarOperaciones() {
+      this.$q.loading.show();
+      console.log("buscarOperaciones");
+      await this.call_reporte_diario({
+        tip_agr: this.tip_agr,
+        fec_act: this.fec_act
+      });
+      this.$q.loading.hide();
+    }
   },
   async created() {
-      this.$q.loading.show()
-    await this.call_rep_kardex({
-      fec_des: "", // fecha inicio
-      fec_has: "", // fecha fin
-      cod_emp: "", // empresa (combo)
-      cod_alm: "", // codigo almacen (combo)
-      cod_art: "", // codigo articulo
-      nom_art: "", // nombre articulo
-      operaci: "" // Operacion
+    this.$q.loading.show();
+    await this.call_reporte_diario({
+      tip_agr: this.tip_agr,
+      fec_act: this.fec_act
     });
-      this.$q.loading.hide()
+    await this.call_tipo_agrupa();
+    await this.call_fecha_actualizacion();
+    this.$q.loading.hide();
   }
 };
 </script>

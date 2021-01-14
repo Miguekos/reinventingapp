@@ -6,7 +6,7 @@
         <q-form @submit="buscarOperaciones">
           <div class="row">
             <div class="col-xs-12 col-sm-2 q-pa-xs">
-              <q-input filled dense v-model="fec_des" label="Fecha Inicio">
+              <q-input clearable filled dense v-model="fec_des" label="Fecha Inicio">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy
@@ -30,7 +30,7 @@
               </q-input>
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">
-              <q-input filled dense v-model="fec_has" label="Fecha Fin">
+              <q-input clearable filled dense v-model="fec_has" label="Fecha Fin">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy

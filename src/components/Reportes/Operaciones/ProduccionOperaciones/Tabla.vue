@@ -6,7 +6,7 @@
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
-      title="Resultado del Reporte Diario"
+      title="Resultado de Produccion Operaciones"
       :data="info"
       dense
       :filter="filter"

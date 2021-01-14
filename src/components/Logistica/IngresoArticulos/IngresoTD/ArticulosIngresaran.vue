@@ -24,6 +24,7 @@
               round
               size="sm"
               color="red"
+              @click="borrar(props.row)"
               icon="delete"
             />
           </div>
@@ -33,6 +34,9 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import { date } from "quasar";
+let timeStamp = Date.now();
 export default {
   props: ["info"],
   data() {
@@ -103,6 +107,35 @@ export default {
 
       data: []
     };
+  },
+  methods: {
+    ...mapActions("almacen", [
+      "call_quitar_produc_agrega_ingsal",
+      "call_listar_produc_agrega_ingsal"
+    ]),
+    async borrar(val) {
+      this.$q.loading.show();
+      console.log(val);
+      await this.call_quitar_produc_agrega_ingsal({
+        co_person: "92",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_prikey: val.co_prikey,
+        co_articu: val.co_articu,
+        ca_articu: val.ca_articu,
+        il_unineg: "TD",
+        ti_ingsal: "1"
+      });
+      await this.call_listar_produc_agrega_ingsal({
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_person: "92",
+        il_unineg: "TD",
+        ti_ingsal: "1"
+      });
+      this.$q.notify({
+        message: "Se elimino correctamnete"
+      });
+      this.$q.loading.hide();
+    }
   }
 };
 </script>

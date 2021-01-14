@@ -18,7 +18,7 @@
       <template v-slot:top-right>
         <div class="row">
           <div class="q-pa-xs">
-            <q-btn color="primary" label="Ingresar" @click="ingresar" />
+            <q-btn color="primary" label="Despachar" @click="ingresar" />
           </div>
           <div class="q-pa-xs">
             <q-input
@@ -37,11 +37,12 @@
       </template>
       <template v-slot:body-cell-il_selecc="props">
         <q-td class="text-center" :props="props">
-          <q-checkbox
-            size="30px"
-            val="X"
-            v-model="props.row.il_selecc"
-          />
+          <div v-if="!props.row.il_selecc">
+            <q-checkbox size="30px" val="true" v-model="props.row.il_selecc" />
+          </div>
+          <div v-else>
+            {{ props.row.il_selecc }}
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -60,6 +61,8 @@
 </template>
 
 <script>
+import { date } from "quasar";
+let timeStamp = Date.now();
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   props: ["info"],
@@ -158,28 +161,29 @@ export default {
       try {
         for (let i = 0; i < this.info.length; i++) {
           const element = this.info[i];
-          console.log("element", element);
-          if (element.ingresa) {
+          // console.log("element", element);
+          if (element.il_selecc === true) {
+            console.log("element", element);
             await this.call_insert_produc_ingsal({
               co_person: "92",
-              fe_regist: "2021-01-11",
-              co_prikey: element.co_ordtra,
+              fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+              co_prikey: element.co_operac,
               co_articu: element.co_articu,
               ca_articu: element.ca_articu,
               il_unineg: "OP",
-              ti_ingsal: element.ingresa
+              ti_ingsal: "2"
             });
           }
         }
         await this.call_listar_docume_agrega_ingsal({
-          fe_regist: "2020-01-11",
-          co_person: "2",
+          fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+          co_person: "92",
           il_unineg: "OP",
           ti_ingsal: "2"
         });
         await this.call_listar_produc_agrega_ingsal({
-          fe_regist: "2020-01-11",
-          co_person: "2",
+          fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+          co_person: "92",
           il_unineg: "OP",
           ti_ingsal: "2"
         });

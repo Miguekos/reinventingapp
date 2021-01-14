@@ -11,7 +11,7 @@
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
-      title="Artículos que ingresarán"
+      title="Artículos a despachar"
       :data="info"
       :columns="columns"
       row-key="name"
@@ -19,7 +19,14 @@
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
-            <q-btn dense round size="sm" color="red" icon="delete" />
+            <q-btn
+              dense
+              round
+              size="sm"
+              color="red"
+              @click="borrar(props.row)"
+              icon="delete"
+            />
           </div>
         </q-td>
       </template>
@@ -27,6 +34,9 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import { date } from "quasar";
+let timeStamp = Date.now();
 export default {
   props: ["info"],
   data() {
@@ -95,6 +105,35 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    ...mapActions("almacen", [
+      "call_quitar_produc_agrega_ingsal",
+      "call_listar_produc_agrega_ingsal"
+    ]),
+    async borrar(val) {
+      this.$q.loading.show();
+      console.log(val);
+      await this.call_quitar_produc_agrega_ingsal({
+        co_person: "92",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_prikey: val.co_prikey,
+        co_articu: val.co_articu,
+        ca_articu: val.ca_articu,
+        il_unineg: "OP",
+        ti_ingsal: "2"
+      });
+      await this.call_listar_produc_agrega_ingsal({
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_person: "92",
+        il_unineg: "OP",
+        ti_ingsal: "2"
+      });
+      this.$q.notify({
+        message: "Se elimino correctamnete"
+      });
+      this.$q.loading.hide();
+    }
   }
 };
 </script>

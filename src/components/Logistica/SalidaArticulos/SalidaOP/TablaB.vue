@@ -2,14 +2,14 @@
   <div>
     <q-card class="full-height" square>
       <q-bar class="bg-primary text-white">
-        Datos Ingreso O/C
+        Datos de Salida OP
         <q-space />
         <q-btn dense flat icon="close" @click="cerrar">
           <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
-        {{ get_listar_docume_agrega_ingsal.message }}
+        <!--        {{ get_listar_docume_agrega_ingsal.message }}-->
         <DatosdeSalida :info="get_listar_docume_agrega_ingsal.message" />
       </q-card-section>
 
@@ -18,7 +18,7 @@
       <q-card-section>
         <!--        {{ get_buscar_operacion.result[0] }}-->
         <!--        <TablaBuscar :info="get_buscar_operacion.result" />-->
-        {{ get_listar_produc_agrega_ingsal }}
+        <!--        {{ get_listar_produc_agrega_ingsal }}-->
         <ArticulosIngresaran :info="get_listar_produc_agrega_ingsal.message" />
       </q-card-section>
 
@@ -102,25 +102,26 @@ export default {
   methods: {
     ...mapActions("almacen", [
       "call_quitar_produc_agrega_ingsal",
-      "call_listar_produc_ordtra_ingres"
+      "call_listar_produc_ordtra_ingres",
+      "call_listar_produc_operac_salida"
     ]),
     async eliminar() {
       await this.call_quitar_produc_agrega_ingsal({
         co_person: "2",
-        fe_regist: "2020-01-11",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_prikey: "75",
         co_articu: null,
         ca_articu: null,
         il_unineg: "OP",
-        ti_ingsal: "1"
+        ti_ingsal: "2"
       });
     },
     async grabar() {
       await this.call_grabar_transa_ingsal({
-        fe_regist: "2020-01-11",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_person: "2",
         il_unineg: "OP",
-        ti_ingsal: "1",
+        ti_ingsal: "2",
         co_empres: "19",
         co_almace: "1",
         no_coment: "COMENTARIO DE INGRESO O SALIDA",
@@ -130,13 +131,12 @@ export default {
     },
     async cerrar() {
       this.$q.loading.show();
-      await this.call_listar_produc_ordtra_ingres({
+      await this.call_listar_produc_operac_salida({
         fe_regdes: "",
         fe_reghas: "",
-        no_provee: "",
-        nu_ordtra: "",
-        co_barras: "",
-        il_ordtra: "OP"
+        co_operac: "",
+        co_plaveh: "",
+        il_despac: "OP"
       });
       this.$store.commit("almacen/dialogSalidaOP", false);
       this.$q.loading.hide();

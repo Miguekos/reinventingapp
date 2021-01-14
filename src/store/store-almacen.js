@@ -16,7 +16,6 @@ const state = {
   get_tcservic: [],
   get_catalogo_tcmoneda: [],
   get_insert_produc_ingsal: [],
-  get_quitar_produc_agrega_ingsal: [],
   get_listar_produc_agrega_ingsal: [],
   get_listar_docume_agrega_ingsal: [],
   get_listar_produc_operac_salida: [],

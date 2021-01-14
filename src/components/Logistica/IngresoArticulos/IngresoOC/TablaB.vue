@@ -16,8 +16,6 @@
       <q-separator />
 
       <q-card-section>
-        <!--        {{ get_buscar_operacion.result[0] }}-->
-        <!--        <TablaBuscar :info="get_buscar_operacion.result" />-->
         <!--        {{ get_listar_produc_agrega_ingsal }}-->
         <ArticulosIngresaran :info="get_listar_produc_agrega_ingsal.message" />
       </q-card-section>
@@ -33,6 +31,8 @@
 <script>
 import { storagelocal } from "../../../../mixins/mixin";
 import { mapActions, mapGetters } from "vuex";
+import { date } from "quasar";
+let timeStamp = Date.now();
 const stringOptions = ["Servicios", "Materiales"];
 export default {
   name: "DialogAddServicios",
@@ -106,25 +106,25 @@ export default {
     ]),
     async eliminar() {
       await this.call_quitar_produc_agrega_ingsal({
-        co_person: "2",
-        fe_regist: "2020-01-11",
+        co_person: "92",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_prikey: "75",
         co_articu: null,
         ca_articu: null,
-        il_unineg: "OC",
-        ti_ingsal: "1"
+        il_unineg: "OP",
+        ti_ingsal: "2"
       });
     },
     async grabar() {
       await this.call_grabar_transa_ingsal({
-        fe_regist: "2020-01-11",
-        co_person: "2",
-        il_unineg: "OC",
-        ti_ingsal: "1",
+        fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
+        co_person: "92",
+        il_unineg: "OP",
+        ti_ingsal: "2",
         co_empres: "19",
         co_almace: "1",
         no_coment: "COMENTARIO DE INGRESO O SALIDA",
-        nu_docume: "OC",
+        nu_docume: "OP",
         co_arcadj: "XXXX"
       });
     },
@@ -136,20 +136,20 @@ export default {
         no_provee: "",
         nu_ordtra: "",
         co_barras: "",
-        il_ordtra: "OC"
+        il_ordtra: "OP"
       });
       this.$store.commit("almacen/dialogIngresoOC", false);
       this.$q.loading.hide();
     }
   },
   async created() {
-    this.$q.loading.show();
+    // this.$q.loading.show();
 
     this.$q.notify({
       message: "Creando"
     });
     console.log("DialogBuscarOperacion.vue");
-    this.$q.loading.hide();
+    // this.$q.loading.hide();
   }
 };
 </script>

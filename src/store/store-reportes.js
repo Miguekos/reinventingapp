@@ -15,7 +15,10 @@ const state = {
   get_catalogo_tcmoneda: [],
   get_produccion_operaciones: [],
   get_seguimiento_mantenimiento: [],
-  get_tipo_trabajo: []
+  get_tipo_trabajo: [],
+  get_tipo_agrupa: [],
+  get_fecha_actualizacion: [],
+  get_reporte_diario: []
 };
 
 const mutations = {
@@ -63,6 +66,15 @@ const mutations = {
   },
   get_tipo_trabajo(state, payload) {
     state.get_tipo_trabajo = payload;
+  },
+  get_tipo_agrupa(state, payload) {
+    state.get_tipo_agrupa = payload;
+  },
+  get_fecha_actualizacion(state, payload) {
+    state.get_fecha_actualizacion = payload;
+  },
+  get_reporte_diario(state, payload) {
+    state.get_reporte_diario = payload;
   }
 };
 
@@ -158,12 +170,30 @@ const actions = {
     commit("get_seguimiento_mantenimiento", response.data);
   },
   async call_tipo_trabajo({ commit }, payload) {
-    const response = await axiosInstance.post(
-      `/reportes/tipo_trabajo`,
+    const response = await axiosInstance.get(`/reportes/tipo_trabajo`, payload);
+    // return response.data;
+    commit("get_tipo_trabajo", response.data);
+  },
+  async call_tipo_agrupa({ commit }, payload) {
+    const response = await axiosInstance.get(`/reportes/tipo_agrupa`, payload);
+    // return response.data;
+    commit("get_tipo_agrupa", response.data);
+  },
+  async call_fecha_actualizacion({ commit }, payload) {
+    const response = await axiosInstance.get(
+      `/reportes/fecha_actualizacion`,
       payload
     );
     // return response.data;
-    commit("get_tipo_trabajo", response.data);
+    commit("get_fecha_actualizacion", response.data);
+  },
+  async call_reporte_diario({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/reportes/reporte_diario`,
+      payload
+    );
+    // return response.data;
+    commit("get_reporte_diario", response.data);
   }
 };
 
@@ -203,6 +233,15 @@ const getters = {
   },
   get_tipo_trabajo(state) {
     return state.get_tipo_trabajo;
+  },
+  get_tipo_agrupa(state) {
+    return state.get_tipo_agrupa;
+  },
+  get_fecha_actualizacion(state) {
+    return state.get_fecha_actualizacion;
+  },
+  get_reporte_diario(state) {
+    return state.get_reporte_diario;
   }
 };
 

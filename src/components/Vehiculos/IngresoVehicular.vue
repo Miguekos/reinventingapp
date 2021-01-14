@@ -187,7 +187,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="text-left">Fecha</td>
+                      <td class="text-left">Fecha {{ fec_sal }}</td>
                       <td class="text-right">
                         <q-input filled dense v-model="fec_sal">
                           <template v-slot:prepend>
@@ -376,14 +376,15 @@ export default {
           direcci: this.direcci,
           det_ing: this.det_ing,
           swt_sal: this.swt_sal,
-          // fec_sal: this.fec_sal,
-          fec_sal: "2021-01-11"
+          fec_sal: this.fec_sal
+          // fec_sal: "2021-01-11"
         });
         if (responseIngresoV.res === "ok") {
           this.$q.notify({
             message: "Creando"
           });
           this.$store.commit("example/dialogIngresoVehicular", false);
+          this.$router.push("/operaciones?id=1");
           this.$q.loading.hide();
         } else if (responseIngresoV.res === "ko") {
           this.$q.notify({

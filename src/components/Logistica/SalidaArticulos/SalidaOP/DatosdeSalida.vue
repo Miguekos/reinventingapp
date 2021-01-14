@@ -11,7 +11,7 @@
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
-      title="Datos de Ingreso"
+      title="Datos de Salida"
       :data="info"
       :columns="columns"
       :filter="filter"
@@ -20,7 +20,7 @@
       <template v-slot:top-right>
         <div class="row">
           <div class="q-pa-xs">
-            <q-btn color="primary" label="Grabar" />
+            <q-btn color="primary" label="Grabar" @click="grabar" />
           </div>
         </div>
       </template>
@@ -51,16 +51,6 @@
           <q-input filled dense v-model="props.row.descripcion" />
         </q-td>
       </template>
-      <template v-slot:body-cell-guia="props">
-        <q-td :props="props">
-          <q-input filled dense v-model="props.row.guia" />
-        </q-td>
-      </template>
-      <template v-slot:body-cell-documento="props">
-        <q-td :props="props">
-          <q-btn color="primary" icon="attachment" />
-        </q-td>
-      </template>
       <template v-slot:body-cell-acciones="props">
         <q-td :props="props">
           <q-btn color="red" icon="delete" round />
@@ -76,6 +66,7 @@ export default {
   data() {
     return {
       filter: "",
+      options: [""],
       initialPagination: {
         sortBy: "name",
         descending: true,
@@ -86,7 +77,7 @@ export default {
         {
           name: "name",
           required: true,
-          label: "Orden Compra",
+          label: "Operacion",
           align: "left",
           field: row => row.co_prikey,
           format: val => `${val}`,
@@ -115,18 +106,6 @@ export default {
           sortable: true
         },
         {
-          name: "guia",
-          label: "Guia Remisión (*)",
-          field: "guia",
-          sortable: true
-        },
-        {
-          name: "documento",
-          label: "Documento (*) ",
-          field: "documento",
-          sortable: true
-        },
-        {
           name: "acciones",
           label: "Acciones",
           field: "acciones",
@@ -140,17 +119,48 @@ export default {
   methods: {
     ...mapActions("almacen", ["call_grabar_transa_ingsal"]),
     async grabar() {
-      await this.call_grabar_transa_ingsal({
-        fe_regist: "2020-01-11",
-        co_person: "2",
-        il_unineg: "OP",
-        ti_ingsal: "1",
-        co_empres: "19",
-        co_almace: "1",
-        no_coment: "COMENTARIO DE INGRESO O SALIDA",
-        nu_docume: "OP",
-        co_arcadj: "XXXX"
-      });
+      this.$q.loading.show();
+      console.log("grabar");
+      try {
+        for (let i = 0; i < this.info.length; i++) {
+          const element = this.info[i];
+          console.log("element", element);
+          if (element.il_selecc === true) {
+            console.log("element", element);
+            await this.call_grabar_transa_ingsal({
+              fe_regist: element.fe_regist,
+              co_person: "92",
+              il_unineg: "OP",
+              ti_ingsal: element.ti_ingsal,
+              co_empres: "19",
+              co_almace: "1",
+              no_coment: element.descripcion,
+              nu_docume: "OP",
+              co_arcadj: "XXXX"
+            });
+          }
+        }
+        // await this.call_listar_docume_agrega_ingsal({
+        //   fe_regist: "2021-01-13",
+        //   co_person: "92",
+        //   il_unineg: "OP",
+        //   ti_ingsal: "2"
+        // });
+        // await this.call_listar_produc_agrega_ingsal({
+        //   fe_regist: "2021-01-13",
+        //   co_person: "92",
+        //   il_unineg: "OP",
+        //   ti_ingsal: "2"
+        // });
+        // this.$store.commit("almacen/dialogSalidaOP", true);
+        this.$q.notify({
+          message: "Se grabo correctamente"
+        });
+        this.$q.loading.hide();
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
     }
   }
 };

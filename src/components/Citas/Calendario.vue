@@ -73,7 +73,7 @@
 
         <q-card-actions align="center">
           <q-btn label="Cerrar" color="negative" v-close-popup />
-          <q-btn label="Generar Operacion" color="primary" @click="confirm" />
+          <q-btn label="Generar ingreso" color="primary" @click="confirm" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -181,6 +181,8 @@ export default {
         })
         .onOk(() => {
           // console.log('>>>> OK')
+          this.$store.commit("example/dataIngresoVehicular", val);
+          this.$store.commit("example/dialogIngresoVehicular", true);
           this.fixed = false;
         })
         .onOk(() => {

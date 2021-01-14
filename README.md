@@ -182,3 +182,11 @@ export default {
 
 ### default
 import { mapActions, mapGetters, mapState } from "vuex";
+
+
+
+
+### date
+import { date } from "quasar";
+let timeStamp = Date.now();
+date.formatDate(timeStamp, "YYYY-MM-DD")
