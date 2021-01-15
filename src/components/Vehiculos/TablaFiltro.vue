@@ -47,7 +47,7 @@
             v-if="exportar"
             color="primary"
             icon-right="archive"
-            label="Export to csv"
+            label="Exportar"
             no-caps
             @click="exportTable"
           />
@@ -162,6 +162,8 @@
 
 <script>
 import { exportFile } from "quasar";
+import { date } from "quasar";
+let timeStamp = Date.now();
 import { mapActions, mapGetters, mapState } from "vuex";
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
@@ -240,7 +242,7 @@ export default {
       // naive encoding to csv format
       const content = [this.columns.map(col => wrapCsvValue(col.label))]
         .concat(
-          this.data.map(row =>
+          this.info.map(row =>
             this.columns
               .map(col =>
                 wrapCsvValue(
@@ -256,7 +258,7 @@ export default {
         .join("\r\n");
 
       const status = exportFile(
-        "employee_salary_list.csv",
+        `vehiculos_${date.formatDate(timeStamp, "YYYY_MM_DD_HH_mm")}.csv`,
         content,
         "text/csv"
       );

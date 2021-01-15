@@ -143,7 +143,7 @@
                   @click="URL('/logisticas/ordenesdecompra')"
                 >
                   <q-item-section avatar>
-                    <q-icon name="assignment" />
+                    <q-icon name="assignment_late" />
                   </q-item-section>
 
                   <q-item-section>
@@ -160,7 +160,7 @@
                   @click="URL('/logisticas/tramitedoc')"
                 >
                   <q-item-section avatar>
-                    <q-icon name="aspect_ratio" />
+                    <q-icon name="receipt" />
                   </q-item-section>
 
                   <q-item-section>
@@ -177,7 +177,7 @@
                   @click="URL('/logisticas/ingresoarticulos')"
                 >
                   <q-item-section avatar>
-                    <q-icon name="description" />
+                    <q-icon name="queue" />
                   </q-item-section>
 
                   <q-item-section>
@@ -193,7 +193,7 @@
                   @click="URL('/logisticas/salidaarticulos')"
                 >
                   <q-item-section avatar>
-                    <q-icon name="description" />
+                    <q-icon name="call_made" />
                   </q-item-section>
 
                   <q-item-section>
@@ -205,98 +205,114 @@
               <q-expansion-item
                 class="q-ma-sm navigation-item"
                 expand-separator
-                icon="receipt_long"
+                icon="plagiarism"
                 label="Reporte"
                 :content-inset-level="0.5"
               >
-                <q-item
+                <q-expansion-item
                   class="q-ma-sm navigation-item"
-                  clickable
-                  active-class="tab-active"
-                  v-ripple
-                  exact
-                  @click="URL('/reportes/kardex')"
+                  expand-separator
+                  icon="receipt_long"
+                  label="Logistica"
+                  :content-inset-level="0.5"
                 >
-                  <q-item-section avatar>
-                    <q-icon name="assignment" />
-                  </q-item-section>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/kardex')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="assignment" />
+                    </q-item-section>
 
-                  <q-item-section>
-                    <q-item-label>Kardex</q-item-label>
-                  </q-item-section>
-                </q-item>
+                    <q-item-section>
+                      <q-item-label>Kardex</q-item-label>
+                    </q-item-section>
+                  </q-item>
 
-                <q-item
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/inventariovalorizado')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="assignment" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Inventario Valorizado</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
+
+                <q-expansion-item
                   class="q-ma-sm navigation-item"
-                  clickable
-                  active-class="tab-active"
-                  v-ripple
-                  exact
-                  @click="URL('/reportes/inventariovalorizado')"
+                  expand-separator
+                  icon="receipt_long"
+                  label="Operaciones"
+                  :content-inset-level="0.5"
                 >
-                  <q-item-section avatar>
-                    <q-icon name="aspect_ratio" />
-                  </q-item-section>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/reportediario')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
 
-                  <q-item-section>
-                    <q-item-label>Inventario Valorizado</q-item-label>
-                  </q-item-section>
-                </q-item>
+                    <q-item-section>
+                      <q-item-label>Operaciones Reporte Diario</q-item-label>
+                    </q-item-section>
+                  </q-item>
 
-                <q-item
-                  class="q-ma-sm navigation-item"
-                  clickable
-                  active-class="tab-active"
-                  v-ripple
-                  exact
-                  @click="URL('/reportes/reportediario')"
-                >
-                  <q-item-section avatar>
-                    <q-icon name="description" />
-                  </q-item-section>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/produccionoperaciones')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
 
-                  <q-item-section>
-                    <q-item-label>Operaciones Reporte Diario</q-item-label>
-                  </q-item-section>
-                </q-item>
+                    <q-item-section>
+                      <q-item-label
+                        >Operaciones Produccion Operaciones</q-item-label
+                      >
+                    </q-item-section>
+                  </q-item>
 
-                <q-item
-                  class="q-ma-sm navigation-item"
-                  clickable
-                  active-class="tab-active"
-                  v-ripple
-                  exact
-                  @click="URL('/reportes/produccionoperaciones')"
-                >
-                  <q-item-section avatar>
-                    <q-icon name="description" />
-                  </q-item-section>
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/seguimientomantenimiento')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
 
-                  <q-item-section>
-                    <q-item-label
-                      >Operaciones Produccion Operaciones</q-item-label
-                    >
-                  </q-item-section>
-                </q-item>
-
-                <q-item
-                  class="q-ma-sm navigation-item"
-                  clickable
-                  active-class="tab-active"
-                  v-ripple
-                  exact
-                  @click="URL('/reportes/seguimientomantenimiento')"
-                >
-                  <q-item-section avatar>
-                    <q-icon name="description" />
-                  </q-item-section>
-
-                  <q-item-section>
-                    <q-item-label
-                      >Operaciones Seguimiento Mantenimiento</q-item-label
-                    >
-                  </q-item-section>
-                </q-item>
+                    <q-item-section>
+                      <q-item-label
+                        >Operaciones Seguimiento Mantenimiento</q-item-label
+                      >
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
               </q-expansion-item>
 
               <q-item

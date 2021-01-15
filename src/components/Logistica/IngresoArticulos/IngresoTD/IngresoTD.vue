@@ -82,7 +82,7 @@
                 dense
                 filled
                 v-model="nu_ordtra"
-                label="Orden de Compra"
+                label="Tramite Documentario"
               />
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">

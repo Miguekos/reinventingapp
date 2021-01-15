@@ -27,23 +27,47 @@
       <template v-slot:body-cell-empresa="props">
         <q-td :props="props">
           <q-select
-            style="width: 100px"
             filled
             dense
             v-model="props.row.empresa"
-            :options="options"
-          />
+            :options="get_empresas.empresa"
+            option-label="no_empres"
+            option-value="co_empres"
+            map-options
+            emit-value
+            label="Empresa"
+          >
+            <template v-if="props.row.empresa" v-slot:append>
+              <q-icon
+                name="cancel"
+                @click.stop="props.row.empresa = ''"
+                class="cursor-pointer"
+              />
+            </template>
+          </q-select>
         </q-td>
       </template>
       <template v-slot:body-cell-almacen="props">
         <q-td :props="props">
           <q-select
-            style="width: 100px"
             filled
             dense
             v-model="props.row.almacen"
-            :options="options"
-          />
+            :options="get_combo_almacen.resultado"
+            option-label="no_almace"
+            option-value="co_almace"
+            map-options
+            emit-value
+            label="Almacen"
+          >
+            <template v-if="props.row.almacen" v-slot:append>
+              <q-icon
+                name="cancel"
+                @click.stop="props.row.almacen = ''"
+                class="cursor-pointer"
+              />
+            </template>
+          </q-select>
         </q-td>
       </template>
       <template v-slot:body-cell-descripcion="props">
@@ -63,6 +87,13 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["info"],
+  computed: {
+    ...mapGetters("reportes", [
+      "get_rep_kardex",
+      "get_empresas",
+      "get_combo_almacen"
+    ])
+  },
   data() {
     return {
       filter: "",
@@ -119,7 +150,13 @@ export default {
   methods: {
     ...mapActions("almacen", [
       "call_grabar_transa_ingsal",
-      "call_listar_produc_ordtra_ingres"
+      "call_listar_produc_ordtra_ingres",
+      "call_listar_produc_operac_salida"
+    ]),
+    ...mapActions("reportes", [
+      "call_rep_kardex",
+      "call_empresas",
+      "call_combo_almacen"
     ]),
     async grabar() {
       this.$q.loading.show();
@@ -132,28 +169,25 @@ export default {
             fe_regist: element.fe_regist,
             co_person: "92",
             il_unineg: "OP",
-            ti_ingsal: "1",
+            ti_ingsal: "2",
             co_empres: "19",
             co_almace: "1",
             no_coment: element.descripcion,
-            nu_guirem: element.guia,
-            co_arcadj: "XXXX"
+            nu_guirem: "",
+            co_arcadj: ""
           });
         }
         // this.$store.commit("almacen/dialogSalidaOP", true);
+        await this.call_listar_produc_operac_salida({
+          fe_regdes: "",
+          fe_reghas: "",
+          co_operac: "",
+          co_plaveh: "",
+          il_despac: "OP"
+        });
         this.$q.notify({
           message: "Se grabo correctamente"
         });
-
-        await this.call_listar_produc_ordtra_ingres({
-          fe_regdes: "",
-          fe_reghas: "",
-          no_provee: "",
-          nu_ordtra: "",
-          co_barras: "",
-          il_ordtra: "OP"
-        });
-
         this.$store.commit("almacen/dialogSalidaOP", false);
         this.$q.loading.hide();
       } catch (e) {
@@ -161,6 +195,12 @@ export default {
         this.$q.loading.hide();
       }
     }
+  },
+  async created() {
+    this.$q.loading.show();
+    await this.call_combo_almacen();
+    await this.call_empresas();
+    this.$q.loading.hide();
   }
 };
 </script>

@@ -9,7 +9,7 @@
       :pagination="initialPagination"
       virtual-scroll
       class="my-sticky-header-table"
-      title="Treats"
+      title="Tramite Documentario"
       :data="info"
       :filter="filter"
       :columns="columns"
@@ -109,7 +109,7 @@ export default {
           field: "no_razsoc",
           sortable: true
         },
-        { name: "no_ordtra", label: "Orden Compra", field: "no_ordtra" },
+        { name: "no_ordtra", label: "Tramite Documentario", field: "no_ordtra" },
         { name: "co_barras", label: "Co_barras", field: "co_barras" },
         { name: "no_articu", label: "No_articu", field: "no_articu" },
         {

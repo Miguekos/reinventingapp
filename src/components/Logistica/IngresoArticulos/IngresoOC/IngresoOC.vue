@@ -166,6 +166,7 @@ export default {
     TablaPrincipal: () => import("./Tabla")
   },
   async created() {
+      this.$store.commit("example/location", "Almacen");
     this.$q.loading.show();
     await this.call_listar_produc_ordtra_ingres({
       fe_regdes: "",

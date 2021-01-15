@@ -399,11 +399,19 @@ export default {
     }
   },
   async created() {
-    // await this.call_serv_mater_mostrar_buscar({
-    //   cod_ope: this.$store.state.operaciones.numeroDeOperacion,
-    //   tip_fil: this.tip_fil ? this.tip_fil : "S",
-    //   descrip: this.descrip ? this.descrip : "",
-    // });
+    console.log("Agregar Servicios y Materiales");
+    this.$q.loading.show();
+    await this.call_serv_mater_mostrar_buscar({
+      cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+      tip_fil: "S",
+      descrip: ""
+    });
+    await this.call_serv_mater_mostrar_buscar({
+      cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+      tip_fil: "M",
+      descrip: ""
+    });
+    this.$q.loading.hide();
   }
 };
 </script>

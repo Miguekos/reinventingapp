@@ -104,6 +104,7 @@
       </q-banner>
     </div>
     <q-dialog
+      v-if="agregarServicios"
       v-model="agregarServicios"
       persistent
       :maximized="maximizedToggle"

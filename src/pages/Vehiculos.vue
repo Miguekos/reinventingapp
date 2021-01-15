@@ -9,7 +9,7 @@
       />
     </div>
     <q-separator color="green" />
-    {{ filtrosNuevos }}
+    <!--    {{ filtrosNuevos }}-->
     <div id="filtros">
       <div class="row q-gutter-xs q-pt-md q-px-md">
         <div class="col-12 col-md">
@@ -66,11 +66,11 @@
           >
           </q-select>
         </div>
-        <div class="col-12 col-md">
-          <q-btn @click="exportarData()" color="green-10" class="full-width">
-            Exportar
-          </q-btn>
-        </div>
+        <!--        <div class="col-12 col-md">-->
+        <!--          <q-btn @click="exportarData()" color="green-10" class="full-width">-->
+        <!--            Exportar-->
+        <!--          </q-btn>-->
+        <!--        </div>-->
       </div>
     </div>
     <!--    <div align="center">-->
@@ -85,7 +85,7 @@
         :info="filteredByAll"
         :columns="columns"
         paginas="15"
-        :exportar="false"
+        :exportar="true"
         gridactivate="false"
       />
     </div>
@@ -215,15 +215,11 @@ export default {
     }
   },
   async created() {
-    console.log("Vehiculos");
     this.$q.loading.show();
-    setTimeout(async () => {
-      console.log("asd");
-      this.$store.commit("example/location", "Vehiculos");
-      await this.callVehiculos("all");
-      console.log("Vehiculos - finnn");
-      this.$q.loading.hide();
-    }, 10000);
+    this.$store.commit("example/location", "Vehiculos");
+    await this.callVehiculos("all");
+    this.filtrosNuevos;
+    this.$q.loading.hide();
   }
 };
 </script>

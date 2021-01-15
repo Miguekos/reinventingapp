@@ -9,7 +9,7 @@ export async function callPersonas({ commit }) {
 export async function callPersonasFilter({ commit }, payload) {
   const response = await axiosInstance.get(`/personas/natural/${payload}`);
   console.log(response.data);
-  commit("getPersonasFilter", response.data.personas);
+  commit("getPersonasFilter", response.data);
 }
 
 export async function callPersonasAdd({ commit }, payload) {

@@ -92,7 +92,53 @@
                     <tr>
                       <td class="text-left">Documento de Identidad</td>
                       <td class="text-right">
-                        <q-input filled dense v-model="doc_ide" />
+                        <q-select
+                          v-if="seleccliente"
+                          filled
+                          dense
+                          @input="buscarPersonas"
+                          v-model="clienteSelect"
+                          clearable
+                          use-input
+                          hide-selected
+                          fill-input
+                          input-debounce="0"
+                          label="Cliente o Propietario"
+                          :options="options"
+                          option-value="co_person"
+                          option-label="no_person"
+                          emit-value
+                          map-options
+                          @filter="filterFn"
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                No results
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                          <template v-slot:append>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="add"
+                              @click="seleccliente = !seleccliente"
+                            />
+                          </template>
+                        </q-select>
+                        <q-input v-else filled dense v-model="doc_ide">
+                          <template v-slot:append>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="add"
+                              @click="seleccliente = !seleccliente"
+                            />
+                          </template>
+                        </q-input>
                       </td>
                     </tr>
                     <tr>
@@ -275,10 +321,13 @@ export default {
     // TablaB: () => import("./ArticulosIngresaran")
   },
   computed: {
-    ...mapState("example", ["dataIngresoVehicular"])
+    ...mapState("example", ["dataIngresoVehicular"]),
+    ...mapGetters("operaciones", ["get_combo_cliente"]),
+    ...mapGetters("personas", ["getPersonasFilter"])
   },
   data() {
     return {
+      seleccliente: true,
       maximizedToggle: false,
       per_reg: 92,
       cod_veh: "",
@@ -310,7 +359,7 @@ export default {
           value: 1
         }
       ],
-      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
+      options: [],
       Kilometraje: "",
       cod_ope: "",
       pla_veh: "",
@@ -360,7 +409,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions("operaciones", ["call_ingreso_vehicular"]),
+    ...mapActions("operaciones", [
+      "call_ingreso_vehicular",
+      "call_combo_cliente"
+    ]),
+    ...mapActions("personas", ["callPersonasFilter"]),
     async onSubmit() {
       this.$q.loading.show();
       try {
@@ -384,7 +437,7 @@ export default {
             message: "Creando"
           });
           this.$store.commit("example/dialogIngresoVehicular", false);
-          this.$router.push("/operaciones?id=1");
+          await this.$router.push("/operaciones?id=1");
           this.$q.loading.hide();
         } else if (responseIngresoV.res === "ko") {
           this.$q.notify({
@@ -402,13 +455,35 @@ export default {
         this.$q.loading.hide();
       }
     },
+    filterFn(val, update, abort) {
+      let asd = [];
+      for (let index = 0; index < this.newoptions.length; index++) {
+        const element = this.newoptions[index];
+        if (element.no_person) {
+          asd.push(element);
+        }
+      }
+      // console.log("asd", asd);
+      update(() => {
+        const needle = val.toLowerCase();
+        // console.log(needle);
+        this.options = asd.filter(
+          v => v.no_person.toLowerCase().indexOf(needle) > -1
+        );
+      });
+    },
     cerrar() {
       this.$store.commit("example/dialogIngresoVehicular", false);
+    },
+    async buscarPersonas() {
+      await this.callPersonasFilter(this.clienteSelect);
     }
   },
   async created() {
     this.$q.loading.show();
-
+    await this.call_combo_cliente();
+    this.options = this.get_combo_cliente.client;
+    this.newoptions = this.get_combo_cliente.client;
     this.$q.notify({
       message: "Creando"
     });
