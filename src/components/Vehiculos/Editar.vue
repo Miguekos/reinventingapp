@@ -148,7 +148,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions("vehiculos", ["callVehiculosAdd", "callVehiculos"]),
+    ...mapActions("vehiculos", [
+      "callVehiculosAdd",
+      "callVehiculos",
+      "callVehiculosUpdate"
+    ]),
     ...mapActions("marcas", ["callMarcas"]),
     ...mapActions("modelos", ["callModelosFilter", "callModelosFilterMarca"]),
     async traerModelos(val) {
@@ -168,7 +172,7 @@ export default {
     },
     async onSubmit() {
       this.loadboton = true;
-      console.log("asdasdasd");
+      console.log("UPDATEEEE VIHICULO");
       // this.$refs.username.validate();
       // this.$refs.dni.validate();
       // this.$refs.password.validate();
@@ -185,8 +189,9 @@ export default {
       //   console.log("es un error");
       // } else {
       try {
-        const responseAddUser = await this.callVehiculosAdd({
+        const responseAddUser = await this.callVehiculosUpdate({
           co_plaveh: this.placa,
+          co_vehicu: this.info.co_vehicu,
           co_modveh: this.modelo,
           nu_anofab: this.anio,
           nu_serveh: this.chasis,
@@ -194,15 +199,15 @@ export default {
           no_colveh: this.color
         });
         console.log("responseAddUser", responseAddUser);
-        if (responseAddUser.res == "ok") {
+        if (responseAddUser.res === "ok") {
           this.loadboton = false;
-          this.onResert();
+          // this.onResert();
           this.$q.notify({
             message: responseAddUser.message
           });
           this.callVehiculos("all");
-          this.$store.commit("vehiculos/dialogCrear", false);
-        } else if (responseAddUser.res == "ko") {
+          this.$store.commit("vehiculos/dialogEdit", false);
+        } else if (responseAddUser.res === "ko") {
           this.loadboton = false;
           this.$q.notify({
             message: `${responseAddUser.message} - verifique los campos`
@@ -214,7 +219,8 @@ export default {
         // });
       } catch (e) {
         this.loadboton = false;
-        this.onResert();
+        console.log(e);
+        // this.onResert();
         this.$q.notify({
           message: "Error controlado"
         });

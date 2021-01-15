@@ -92,6 +92,7 @@
                     <tr>
                       <td class="text-left">Documento de Identidad</td>
                       <td class="text-right">
+                        <!--                        {{ clienteSelect }}-->
                         <q-select
                           v-if="seleccliente"
                           filled
@@ -105,7 +106,6 @@
                           input-debounce="0"
                           label="Cliente o Propietario"
                           :options="options"
-                          option-value="co_person"
                           option-label="no_person"
                           emit-value
                           map-options
@@ -419,7 +419,7 @@ export default {
       try {
         const responseIngresoV = await this.call_ingreso_vehicular({
           per_reg: this.per_reg,
-          cod_veh: this.dataIngresoVehicular.co_vehicu,
+          cod_veh: 19813,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,
           ape_pat: this.ape_pat,
@@ -476,7 +476,10 @@ export default {
       this.$store.commit("example/dialogIngresoVehicular", false);
     },
     async buscarPersonas() {
-      await this.callPersonasFilter(this.clienteSelect);
+      this.doc_ide = this.clienteSelect.co_docide;
+      this.ape_pat = this.clienteSelect.no_apepat;
+      this.ape_mat = this.clienteSelect.no_apemat;
+      this.nom_cli = this.clienteSelect.no_nombre;
     }
   },
   async created() {
