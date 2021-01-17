@@ -158,6 +158,7 @@ export default {
       co_plaveh: this.co_plaveh,
       il_despac: "OP"
     });
+    this.$router.replace("/logisticas/salidaarticulos?id=1");
     this.$q.loading.hide();
   }
 };

@@ -12,11 +12,7 @@
         <q-tab name="1" label="1. Listado de O/C" />
         <q-tab name="2" label="2. Visado Jefatura" />
         <q-tab name="3" label="3. Visado Gerencia" />
-        <q-tab
-          name="4"
-          disable
-          label="4. Asignar Proveedor"
-        />
+        <q-tab name="4" disable label="4. Asignar Proveedor" />
         <q-tab name="5" disable label="5. Requerimientos Compras" />
         <!-- <q-tab name="6" label="6. Pendiente de Finalizar Servicio" /> -->
       </q-tabs>
@@ -28,7 +24,11 @@
           transition-next="fade"
         >
           <q-tab-panel name="1">
-            <ListadodeOC />
+            <div class="row">
+              <div class="col">
+                <ListadodeOC />
+              </div>
+            </div>
           </q-tab-panel>
 
           <q-tab-panel name="2">

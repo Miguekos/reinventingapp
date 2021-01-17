@@ -9,3 +9,7 @@ export function dialogIngresoVehicular(state, payload) {
 export function dataIngresoVehicular(state, payload) {
   state.dataIngresoVehicular = payload;
 }
+
+export function UploadBasic(state, payload) {
+  state.UploadBasic = payload;
+}

@@ -9,7 +9,6 @@
       />
     </div>
     <q-separator color="indigo" />
-    {{ filtrosNuevos }}
     <div id="filtros">
       <div class="row q-gutter-xs q-pt-md q-px-md">
         <div class="col-12 col-md">
@@ -54,11 +53,11 @@
           >
           </q-select>
         </div>
-        <div class="col-12 col-md">
-          <q-btn @click="exportarData()" color="indigo-10" class="full-width">
-            Exportar
-          </q-btn>
-        </div>
+        <!--        <div class="col-12 col-md">-->
+        <!--          <q-btn @click="exportarData()" color="indigo-10" class="full-width">-->
+        <!--            Exportar-->
+        <!--          </q-btn>-->
+        <!--        </div>-->
       </div>
     </div>
     <div v-if="getMateriales" align="center">
@@ -71,7 +70,7 @@
         :info="filteredByAll"
         :columns="columns"
         paginas="15"
-        :exportar="false"
+        :exportar="true"
         gridactivate="false"
       />
     </div>
@@ -134,6 +133,7 @@ export default {
     this.$q.loading.show();
     this.$store.commit("example/location", "Materiales");
     await this.callMateriales("all");
+    await this.filtrosNuevos;
     this.$q.loading.hide();
   }
 };

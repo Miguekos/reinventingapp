@@ -171,23 +171,28 @@ export default {
     }
   },
   async created() {
-    this.$q.loading.show();
-    // await this.call_mostrar_ingreso();
-    await this.call_listar_ordcom({
-      fe_emides: `${this.fe_emides}`,
-      fe_emihas: `${this.fe_emihas}`,
-      no_provee: `${this.no_provee}`,
-      nu_ordcom: `${this.nu_ordcom}`,
-      ti_estado: `${this.ti_estado}`,
-      co_barras: `${this.co_barras}`
-    });
-    this.$router.replace("/logisticas/ordenesdecompra?id=1");
-    this.$store.commit("example/location", "Logistica / Listado de OC");
+    try {
+      this.$q.loading.show();
+      // await this.call_mostrar_ingreso();
+      await this.call_listar_ordcom({
+        fe_emides: `${this.fe_emides}`,
+        fe_emihas: `${this.fe_emihas}`,
+        no_provee: `${this.no_provee}`,
+        nu_ordcom: `${this.nu_ordcom}`,
+        ti_estado: `${this.ti_estado}`,
+        co_barras: `${this.co_barras}`
+      });
+      await this.$router.replace("/logisticas/ordenesdecompra?id=1");
+      this.$store.commit("example/location", "Logistica / Listado de OC");
 
-    // this.$q.notify({
-    //   message: "1. Nueva Operacion"
-    // });
-    this.$q.loading.hide();
+      // this.$q.notify({
+      //   message: "1. Nueva Operacion"
+      // });
+      // this.$q.loading.hide();
+    } catch (e) {
+      console.log(e);
+      // this.$q.loading.hide();
+    }
   }
 };
 </script>

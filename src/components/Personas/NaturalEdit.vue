@@ -2,6 +2,8 @@
   <div>
     <q-form @submit="onSubmit()" @reset.prevent.stop="onReset">
       <q-card-section class="row items-center q-gutter-sm">
+        <!--        {{ info }}-->
+        <!--        {{ natural }}-->
         <div class="col-12">
           <q-input
             dense
@@ -68,22 +70,30 @@
         </div>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn color="negative" @click="cerrar" outline>Cerrar </q-btn>
+        <q-btn color="negative" @click="cerrar" outline>Cerrar</q-btn>
         <!-- <q-btn color="warning" @click="cerrar" outline>reset</q-btn> -->
         <q-btn color="positive" type="submit" :loading="loadboton" outline
-          >Guardar</q-btn
-        >
+          >Guardar
+        </q-btn>
       </q-card-actions>
     </q-form>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex";
+
 export default {
+  props: {
+    info: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
       loadboton: false,
       natural: {
+        co_person: "",
         doc_ide: "",
         nombres: "",
         ape_pat: "",
@@ -96,7 +106,7 @@ export default {
   methods: {
     ...mapActions("personas", ["callPersonasAddNatural", "callPersonas"]),
     cerrar() {
-      this.$store.commit("personas/dialogCrear", false);
+      this.$store.commit("personas/dialogEdit", false);
       //   this.$emit("click");
     },
     async onSubmit() {
@@ -111,7 +121,7 @@ export default {
           });
           this.loadboton = false;
           await this.callPersonas("all");
-          this.$store.commit("personas/dialogCrear", false);
+          this.$store.commit("personas/dialogEdit", false);
         } else if (respAdd.res == "ko") {
           this.$q.notify({
             message: `${respAdd.message}`
@@ -136,6 +146,20 @@ export default {
       this.name = null;
       this.age = null;
       this.accept = false;
+    }
+  },
+  created() {
+    console.log(this.info);
+    if (this.info) {
+      // this.natural = this.info;
+      this.natural.doc_ide = this.info.co_docide;
+      this.natural.nombres = this.info.no_nombre;
+      this.natural.ape_pat = this.info.no_apepat;
+      this.natural.ape_mat = this.info.no_apemat;
+      this.natural.telefon = this.info.nu_teléfo;
+      // this.natural.co_person = this.info.co_person;
+    } else {
+      console.log("Naturtal para nuevos");
     }
   }
 };

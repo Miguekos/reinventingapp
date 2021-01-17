@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--    <q-dialog v-model="$store.state.materiales.dialogCrear" position="top">-->
+    <!--    <q-dialog v-model="$store.state.materiales.dialogEdit" position="top">-->
     <q-dialog v-model="dialogEdit" persistent position="top">
       <q-card style="width: 700px; max-width: 80vw;">
         <!--        {{ info }}-->
@@ -38,25 +38,60 @@
               <q-select
                 filled
                 dense
-                v-model="modelo"
-                :options="getModelosFilterMarca"
-                option-label="no_modveh"
-                option-value="co_modveh"
+                @input="traerCategorias"
+                v-model="empresa"
+                :options="getMaterialesEmpresas.empresa"
+                option-label="no_empres"
+                option-value="co_empres"
                 emit-value
                 map-options
-                label="Modelo"
-                hint="Ingresa tu Modelo"
+                label="Empresa"
+                hint="Selecciona la empresa"
               />
             </div>
             <div class="col-12">
+              <!--              {{ getMaterialesCategorias }}-->
+              <!--              {{ options2 }}-->
+              <!--              {{ typeof categoria }}-->
+              <!--              {{ categoria }}-->
               <q-select
                 filled
+                v-model="categoria"
+                clearable
+                use-input
                 dense
-                v-model="versioncar"
-                :options="options"
-                label="Version"
-                hint="Ingresa tu Version"
-              />
+                hide-selected
+                fill-input
+                input-debounce="0"
+                :options="options2"
+                option-label="no_catego"
+                option-value="co_catego"
+                emit-value
+                map-options
+                label="Categoria"
+                hint="Selecciona la categoria"
+                @filter="filterFn"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      No results
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <!-- <q-select
+                filled
+                dense
+                v-model="categoria"
+                :options="options2"
+                option-label="no_catego"
+                option-value="co_catego"
+                emit-value
+                map-options
+                label="Categoria"
+                hint="Selecciona la categoria"
+              /> -->
             </div>
           </q-card-section>
           <q-card-actions align="right">
@@ -81,28 +116,66 @@ export default {
   props: ["info"],
   computed: {
     ...mapState("materiales", ["dialogEdit"]),
+    ...mapGetters("materiales", [
+      "getMaterialesEmpresas",
+      "getMaterialesCategorias"
+    ]),
     ...mapGetters("marcas", ["getMarcas"]),
     ...mapGetters("modelos", ["getModelosFilter", "getModelosFilterMarca"])
   },
   name: "EditVehiculos",
   data() {
     return {
+      options2: this.getMaterialesCategorias,
       options: ["v1.1", "v1.2", "v1.3", "v1.4", "v1.4"],
       loadboton: false,
       placa: "",
+      categoria: "",
       marca: "",
       modelo: "",
       versioncar: "",
       anio: "",
       color: "",
       chasis: "",
-      motor: ""
+      motor: "",
+      codigoBarra: "",
+      empresa: "",
+      nombreArticulo: ""
     };
   },
   methods: {
-    ...mapActions("materiales", ["callVehiculosAdd", "callVehiculos"]),
+    ...mapActions("materiales", [
+      "callMaterialesEmpresas",
+      "callMaterialesCategorias",
+      "callMaterialesAdd"
+    ]),
     ...mapActions("marcas", ["callMarcas"]),
     ...mapActions("modelos", ["callModelosFilter", "callModelosFilterMarca"]),
+    filterFn(val, update, abort) {
+      console.log("filterFn", val);
+      let asd = [];
+      for (
+        let index = 0;
+        index < this.getMaterialesCategorias.length;
+        index++
+      ) {
+        const element = this.getMaterialesCategorias[index];
+        if (element.no_catego) {
+          asd.push(element);
+        }
+      }
+      // console.log("asd", asd);
+      update(() => {
+        const needle = val.toLowerCase();
+        // console.log(needle);
+        this.options2 = asd.filter(
+          v => v.no_catego.toLowerCase().indexOf(needle) > -1
+        );
+      });
+    },
+    async traerCategorias() {
+      await this.callMaterialesCategorias(this.empresa);
+    },
     async traerModelos(val) {
       console.log("Buscando modelos");
       await this.callModelosFilterMarca(val);
@@ -120,30 +193,13 @@ export default {
     },
     async onSubmit() {
       this.loadboton = true;
-      console.log("asdasdasd");
-      // this.$refs.username.validate();
-      // this.$refs.dni.validate();
-      // this.$refs.password.validate();
-      // this.$refs.nombre.validate();
-      // this.$refs.ape_pat.validate();
-      // this.$refs.ape_mat.validate();
-      //
-      // if (
-      //   this.$refs.username.hasError ||
-      //   this.$refs.dni.hasError ||
-      //   this.$refs.password.hasError
-      // ) {
-      //   this.formHasError = true;
-      //   console.log("es un error");
-      // } else {
       try {
-        const responseAddUser = await this.callVehiculosAdd({
-          co_plaveh: this.placa,
-          co_modveh: this.modelo,
-          nu_anofab: this.anio,
-          nu_serveh: this.chasis,
-          nu_motveh: this.motor,
-          no_colveh: this.color
+        const responseAddUser = await this.callMaterialesAdd({
+          cod_art: null,
+          nom_art: this.nombreArticulo,
+          cod_bar: null,
+          cod_emp: this.empresa,
+          cod_cat: this.categoria
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res == "ok") {
@@ -152,54 +208,46 @@ export default {
           this.$q.notify({
             message: responseAddUser.message
           });
-          this.callVehiculos("all");
-          this.$store.commit("materiales/dialogCrear", false);
+          this.callMateriales();
+          this.$store.commit("materiales/dialogEdit", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
             message: `${responseAddUser.message} - verifique los campos`
           });
         }
-
-        // this.q$.notify({
-        //   message: responseAddUser
-        // });
       } catch (e) {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: "Error controlado"
+          message: `${e} - Error controlado`
         });
-        console.log("se paso, en el excel");
+        console.log(e);
       }
       // }
     }
   },
   async mounted() {
-    await this.callMarcas("all");
-    console.log(this.info);
-    this.placa = this.info.co_plaveh;
-    this.marca = this.info.co_marveh;
-    this.modelo = this.info.co_modveh;
-    this.versioncar = "";
-    this.anio = this.info.nu_anofab;
-    this.color = this.info.no_colveh;
-    this.chasis = this.info.nu_motveh;
-    this.motor = this.info.nu_serveh;
-    // co_marveh: "80"
-    // co_modveh: "1011"
-    // co_plaveh: "F3J632"
-    // co_vehicu: 1002
-    // co_verveh: "8"
-    // no_colveh: "NEGRO"
-    // no_marveh: "BYD"
-    // no_modveh: "F3"
-    // no_verveh: "GLI"
-    // nu_anofab: "2013"
-    // nu_anomod: "2013"
-    // nu_asiveh: "5"
-    // nu_motveh: "BYD473QD713300172"
-    // nu_serveh: "LGXC16AF6D0073589"
+    try {
+      this.$q.loading.show();
+      console.log(this.info);
+      console.log("mounted - crear - materiales");
+      await this.callMaterialesEmpresas();
+      this.nombreArticulo = this.info.no_descri;
+      this.codigoBarra = this.info.co_barras;
+      this.empresa = Number(this.info.co_empres);
+      await this.traerCategorias();
+      console.log("this.empresa", this.empresa);
+      // setTimeout(() => {
+      this.categoria = this.info.co_catego;
+      this.options2 = this.getMaterialesCategorias;
+      // }, 2000);
+      // this.mostrarFormulario = true;
+      this.$q.loading.hide();
+    } catch (e) {
+      console.log(e);
+      this.$q.loading.hide();
+    }
   }
 };
 </script>

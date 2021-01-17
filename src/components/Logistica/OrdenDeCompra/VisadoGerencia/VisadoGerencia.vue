@@ -160,7 +160,7 @@ export default {
       co_ordcom: `${this.co_ordcom}`,
       co_tipvis: "G"
     });
-    this.$router.replace("/logisticas/ordenesdecompra?id=3");
+    await this.$router.replace("/logisticas/ordenesdecompra?id=3");
     this.$store.commit("example/location", "Logistica / Visado Gerencia");
     // this.$q.notify({
     //   message: "1. Nueva Operacion"

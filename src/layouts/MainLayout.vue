@@ -389,6 +389,35 @@
     >
       <DialogIngresoVehicular />
     </q-dialog>
+    <q-dialog
+      v-model="UploadBasic"
+      persistent
+      transition-show="flip-down"
+      transition-hide="flip-up"
+    >
+      <q-card class="bg-primary text-white">
+        <q-bar>
+          <q-icon name="network_wifi" />
+          <q-icon name="network_cell" />
+          <q-icon name="battery_full" />
+          <div>9:34</div>
+
+          <q-space />
+
+          <q-btn dense flat icon="close" @click="cerrarUpdaloadBasic">
+            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <TagUploadBasic />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 
@@ -460,14 +489,15 @@ export default {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
     },
-    ...mapState("example", ["dialogIngresoVehicular"])
+    ...mapState("example", ["dialogIngresoVehicular", "UploadBasic"])
   },
   components: {
     EssentialLink,
     Profile: () => import("pages/Profile"),
     Test: () => import("pages/Test"),
     DialogIngresoVehicular: () =>
-      import("components/Vehiculos/IngresoVehicular")
+      import("components/Vehiculos/IngresoVehicular"),
+    TagUploadBasic: () => import("components/Upload/UploadBasic")
   },
   data() {
     return {
@@ -487,6 +517,9 @@ export default {
     };
   },
   methods: {
+    cerrarUpdaloadBasic() {
+      this.$store.commit("example/UploadBasic", false);
+    },
     URL(arg) {
       this.$router.push(arg);
     },

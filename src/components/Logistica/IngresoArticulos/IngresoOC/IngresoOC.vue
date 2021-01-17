@@ -166,7 +166,7 @@ export default {
     TablaPrincipal: () => import("./Tabla")
   },
   async created() {
-      this.$store.commit("example/location", "Almacen");
+    this.$store.commit("example/location", "Almacen");
     this.$q.loading.show();
     await this.call_listar_produc_ordtra_ingres({
       fe_regdes: "",
@@ -176,6 +176,7 @@ export default {
       co_barras: "",
       il_ordtra: "OC"
     });
+    this.$router.replace("/logisticas/ingresoarticulos?id=1");
     this.$q.loading.hide();
   }
 };

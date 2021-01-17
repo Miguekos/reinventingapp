@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="row" align="center">
       <div class="col-2"></div>
-      <div class="col-8 q-pb-md">
+      <div class="col-12 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
             <div class="col-xs-12 col-sm-2 q-pa-xs">

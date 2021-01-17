@@ -1,40 +1,40 @@
 
 /**
  * Quasar QUploaderBase component
- * 
+ *
  * @see {@link https://v1.quasar-framework.org/vue-components/uploader-base|Quasar Docs} (Generated link, may not always work)
- */  
+ */
 export default {
   name: 'QUploaderBase',
   props: {
     /**
      * Emitted after files are picked and some do not pass the validation props (accept, max-file-size, max-total-size, filter, etc)
-     * @param {Array} rejectedEntries Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation 
-     */      
+     * @param {Array} rejectedEntries Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation
+     */
     '@rejected': function (rejectedEntries) {},
 
     /**
      * Emitted when files are added into the list
-     * @param {Array} files Array of files that were added 
-     */      
+     * @param {Array} files Array of files that were added
+     */
     '@added': function (files) {},
 
     /**
      * Emitted when files are removed from the list
-     * @param {Array} files Array of files that were removed 
-     */      
+     * @param {Array} files Array of files that were removed
+     */
     '@removed': function (files) {},
 
     /**
      * Started working
 
-     */      
+     */
     '@start': function () {},
 
     /**
      * Finished working (regardless of success or fail)
 
-     */      
+     */
     '@finish': function () {},
     /**
      * Allow multiple file uploads
@@ -163,7 +163,7 @@ export default {
       type: Boolean,
     },
     /**
-     * Don't show the upload button
+     * Don't show the Upload button
      * @type {Boolean}
      */
     hideUploadBtn: {

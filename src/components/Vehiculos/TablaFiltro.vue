@@ -13,6 +13,10 @@
         :pagination.sync="pagination"
         virtual-scroll
         class="my-sticky-header-table"
+        color="primary"
+        card-class="bg-green-1 text-brown"
+        table-header-class="text-brown"
+        title="Lista de Vehiculos"
       >
         <template v-slot:top-right="props">
           <q-input

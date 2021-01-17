@@ -5,7 +5,8 @@ const MixinDefault = {
   data() {
     return {};
   },
-  created: function() {
+  async created() {
+    // this.$q.loading.show();
     console.log("Cargando Mixin Default");
     // console.log("this.info", this.info[0]);
     // const labels = {

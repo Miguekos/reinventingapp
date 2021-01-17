@@ -112,9 +112,7 @@
               >Cerrar
             </q-btn>
             <q-btn color="warning" type="reset" outline>reset</q-btn>
-            <q-btn color="positive" type="submit" :loading="loadboton" outline
-              >Guardar</q-btn
-            >
+            <q-btn color="positive" type="submit" outline>Guardar</q-btn>
           </q-card-actions>
         </form>
       </q-card>
@@ -136,7 +134,6 @@ export default {
   data() {
     return {
       options: ["v1.1", "v1.2", "v1.3", "v1.4", "v1.4"],
-      loadboton: false,
       placa: "",
       marca: "",
       modelo: "",
@@ -171,7 +168,7 @@ export default {
       this.color = "";
     },
     async onSubmit() {
-      this.loadboton = true;
+      this.$q.loading.show();
       console.log("UPDATEEEE VIHICULO");
       // this.$refs.username.validate();
       // this.$refs.dni.validate();
@@ -200,25 +197,24 @@ export default {
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res === "ok") {
-          this.loadboton = false;
           // this.onResert();
           this.$q.notify({
             message: responseAddUser.message
           });
           this.callVehiculos("all");
           this.$store.commit("vehiculos/dialogEdit", false);
+          this.$q.loading.hide();
         } else if (responseAddUser.res === "ko") {
-          this.loadboton = false;
           this.$q.notify({
             message: `${responseAddUser.message} - verifique los campos`
           });
+          this.$q.loading.hide();
         }
 
         // this.q$.notify({
         //   message: responseAddUser
         // });
       } catch (e) {
-        this.loadboton = false;
         console.log(e);
         // this.onResert();
         this.$q.notify({
@@ -227,19 +223,20 @@ export default {
         console.log("se paso, en el excel");
       }
       // }
+      this.$q.loading.hide();
     }
   },
   async mounted() {
     await this.callMarcas("all");
     console.log(this.info);
     this.placa = this.info.co_plaveh;
-    this.marca = this.info.co_marveh;
-    this.modelo = this.info.co_modveh;
+    this.marca = Number(this.info.co_marveh);
+    this.modelo = Number(this.info.co_modveh);
     this.versioncar = "";
     this.anio = this.info.nu_anofab;
     this.color = this.info.no_colveh;
-    this.chasis = this.info.nu_motveh;
-    this.motor = this.info.nu_serveh;
+    this.chasis = this.info.nu_serveh;
+    this.motor = this.info.nu_motveh;
     // co_marveh: "80"
     // co_modveh: "1011"
     // co_plaveh: "F3J632"

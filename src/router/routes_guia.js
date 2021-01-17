@@ -15,7 +15,7 @@ const routes = [
         path: "/registrar",
         component: () => import("pages/Registro/Registro.vue")
       },
-      { path: "upload", component: () => import("components/upload.vue") },
+      { path: "upload", component: () => import("components/UploadBasic.vue") },
       { path: "test", component: () => import("components/CamaraMobil.vue") },
       { path: "/usuarios", component: () => import("pages/Users/Index.vue") },
       {

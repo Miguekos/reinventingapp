@@ -27,7 +27,7 @@ export async function callMaterialesUpdate({ commit }, payload) {
 export async function callMaterialesEmpresas({ commit }) {
   const response = await axiosInstance.get(`/articulo/empresas`);
   // console.log(response.data);
-  commit("setMaterialesEmpresas", response.data.articulo);
+  commit("setMaterialesEmpresas", response.data);
 }
 
 export async function callMaterialesCategorias({ commit }, payload) {

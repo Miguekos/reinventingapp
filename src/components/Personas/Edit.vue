@@ -1,94 +1,32 @@
 <template>
   <div>
-    <!--    <q-dialog v-model="$store.state.usuarios.dialogCrear" position="top">-->
-    <q-dialog v-model="dialogCrear" persistent position="top">
-      <q-card v-if="mostrarFormulario" style="width: 700px; max-width: 80vw;">
-        <q-card-section class="row items-center">
-          <div>
-            <div v-if="tipo == 1" class="text-h5">Agregar Vehiculos</div>
-            <div v-else-if="tipo == 2" class="text-h5">Editar Vehiculos</div>
-          </div>
-        </q-card-section>
-        <q-separator />
-        <form @submit.prevent="onSubmit" @reset.prevent.stop="onReset">
-          <q-card-section class="row items-center q-gutter-sm">
-            <div class="col-12">
-              <q-input
-                dense
-                ref="placa"
-                filled
-                v-model="placa"
-                label="Placa"
-                hint="Ingresa tu Placa"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
+    <!--        <q-dialog v-model="$store.state.personas.dialogEdit" position="top">-->
+    <!--    {{ $store.state.personas.dialogEdit }}-->
+    <q-dialog v-model="dialogEdit" persistent position="top">
+      <q-card v-if="mostrarFormulario">
+        <q-card>
+          <q-tabs
+            v-model="tab"
+            dense
+            class="bg-grey-3 text-grey-7"
+            active-color="primary"
+            indicator-color="purple"
+            align="justify"
+          >
+            <q-tab name="mails" label="Persona Natural" />
+            <q-tab name="alarms" label="Persona Juridica" />
+          </q-tabs>
 
-            <div class="col-12">
-              <q-select
-                filled
-                dense
-                v-model="versioncar"
-                :options="options"
-                label="Version"
-                hint="Ingresa tu Version"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                ref="anio"
-                filled
-                v-model="anio"
-                label="Año *"
-                hint="Ingresa Año"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                ref="color"
-                filled
-                v-model="color"
-                label="Color *"
-                hint="Ingresa Color"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                ref="chasis"
-                filled
-                v-model="chasis"
-                label="Chasis *"
-                hint="Ingresa Chasis"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                ref="motor"
-                filled
-                v-model="motor"
-                label="Motor *"
-                hint="Ingresa Motor"
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
-              />
-            </div>
-          </q-card-section>
-          <q-card-actions align="right">
-            <q-btn color="negative" @click="cerrarDialogCrearUser" outline
-              >Cerrar
-            </q-btn>
-            <q-btn color="warning" type="reset" outline>reset</q-btn>
-            <q-btn color="positive" type="submit" :loading="loadboton" outline
-              >Guardar
-            </q-btn>
-          </q-card-actions>
-        </form>
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="mails">
+              <Natural :info="info" @click="cerrarDialogCrearUser" />
+            </q-tab-panel>
+
+            <q-tab-panel name="alarms">
+              <Juridica />
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
       </q-card>
     </q-dialog>
   </div>
@@ -99,8 +37,12 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   props: ["tipo", "info"],
+  components: {
+    Natural: () => import("./NaturalEdit"),
+    Juridica: () => import("./Juridica.vue")
+  },
   computed: {
-    ...mapState("usuarios", ["dialogCrear"])
+    ...mapState("personas", ["dialogEdit"])
   },
   name: "CrearUsuario",
   data() {
@@ -115,6 +57,7 @@ export default {
       anio: "",
       color: "",
       chasis: "",
+      tab: "mails",
       co_vehicu: "",
       motor: "",
       username: "",
@@ -126,9 +69,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions("usuarios", ["callUsersAdd", "callUsers"]),
+    ...mapActions("personas", ["callUsersAdd", "callUsers"]),
     cerrarDialogCrearUser() {
-      this.$store.commit("usuarios/dialogCrear", false);
+      this.$store.commit("personas/dialogEdit", false);
     },
     async onResert() {
       this.username = "";
@@ -176,7 +119,7 @@ export default {
             message: responseAddUser.message
           });
           this.callUsers("all");
-          this.$store.commit("usuarios/dialogCrear", false);
+          this.$store.commit("personas/dialogEdit", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({

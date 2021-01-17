@@ -169,9 +169,9 @@ const FiltrosMateriales = {
       // return list.filter(item => item.registro == id);
       return list.filter(
         item =>
-          item.co_vehicu
+          item.co_barras
             .toString()
-            .toLowerCase()
+            .toUpperCase()
             .indexOf(search) > -1
       );
       // return list.filter((id) => id > 0 && id % parseInt(id) === 0 ).map( (id) => Math.pow(id, 5));

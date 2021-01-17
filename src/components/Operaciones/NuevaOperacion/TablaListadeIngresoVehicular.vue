@@ -3,7 +3,6 @@
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
-      table-class="text-grey-8"
       table-header-class="text-brown"
       title="Lista de Ingreso Vehicular"
       :data="info"

@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-card>
+      {{ $store.state.personas.dialogEdit }}
       <q-table
         dense
         :data="info"
@@ -11,15 +12,10 @@
         :filter="filter"
         :loading="loadtable"
         :pagination.sync="pagination"
-        virtual-scroll
-        class="my-sticky-header-table"
-        color="primary"
-        card-class="bg-green-1 text-brown"
-        table-header-class="text-brown"
       >
         <template v-slot:top-right="props">
           <q-input
-            filled
+            outlined
             dense
             debounce="300"
             v-model="filter"
@@ -50,7 +46,7 @@
             v-if="exportar"
             color="primary"
             icon-right="archive"
-            label="Exportar"
+            label="Export to csv"
             no-caps
             @click="exportTable"
           />
@@ -150,17 +146,12 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <div v-if="dialogEdit">
-      <DialogEdit :tipo="tipo" :info="dataEdit" />
-    </div>
   </div>
 </template>
 
 <script>
 import { exportFile } from "quasar";
-import { mapState } from "vuex";
-import { date } from "quasar";
-let timeStamp = Date.now();
+
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
@@ -173,6 +164,7 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
+  name: "TablaPersona",
   props: [
     "info",
     "columns",
@@ -183,11 +175,7 @@ export default {
     "tool",
     "loadtable"
   ],
-  components: {
-    DialogEdit: () => import("./Editar")
-  },
   computed: {
-    ...mapState("materiales", ["dialogEdit"]),
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.data_employee_dialog.co_fotper) {
@@ -199,8 +187,6 @@ export default {
   },
   data() {
     return {
-      tipo: 2,
-      dataEdit: {},
       filter: "",
       mode: "list",
       invoice: {},
@@ -221,21 +207,19 @@ export default {
       this.employee_dialog = true;
     },
     editar(val) {
-      this.dataEdit = val;
-      console.log("Edit Materiales", val);
-      // this.$store.commit("vehiculos/dataEdit", val);
-      this.$store.commit("materiales/dialogEdit", true);
-      // this.$emit("click", 2);
-      // console.log(val);
+      this.$store.commit("personas/dataEdit", val);
+      // this.$store.commit("personas/activarEdit", true);
+      this.$emit("click", 2);
+      console.log(val);
       this.$q.notify({
-        message: val.no_descri
+        message: val.co_docide
       });
     },
     exportTable() {
       // naive encoding to csv format
       const content = [this.columns.map(col => wrapCsvValue(col.label))]
         .concat(
-          this.info.map(row =>
+          this.data.map(row =>
             this.columns
               .map(col =>
                 wrapCsvValue(
@@ -251,7 +235,7 @@ export default {
         .join("\r\n");
 
       const status = exportFile(
-        `materiales_${date.formatDate(timeStamp, "YYYY_MM_DD_HH_mm")}.csv`,
+        "employee_salary_list.csv",
         content,
         "text/csv"
       );
@@ -264,6 +248,9 @@ export default {
         });
       }
     }
+  },
+  async created() {
+    this.$q.loading.show();
   }
 };
 </script>

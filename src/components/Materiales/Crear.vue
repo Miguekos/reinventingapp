@@ -20,9 +20,7 @@
                 label="Nombre del articulo"
                 hint="Ingresa nombre de articulo"
                 lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Campo obligatorio',
-                ]"
+                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
@@ -42,7 +40,7 @@
                 dense
                 @input="traerCategorias"
                 v-model="empresa"
-                :options="getMaterialesEmpresas"
+                :options="getMaterialesEmpresas.empresa"
                 option-label="no_empres"
                 option-value="co_empres"
                 emit-value
@@ -116,7 +114,7 @@ export default {
     ...mapState("materiales", ["dialogCrear", "dataEdit"]),
     ...mapGetters("materiales", [
       "getMaterialesCategorias",
-      "getMaterialesEmpresas",
+      "getMaterialesEmpresas"
     ]),
     foo: {
       get() {
@@ -124,8 +122,8 @@ export default {
       },
       set(value) {
         this.$store.commit("main/foo", value);
-      },
-    },
+      }
+    }
   },
   name: "CreaVehiculos",
   data() {
@@ -146,7 +144,7 @@ export default {
       color: "",
       chasis: "",
       co_vehicu: "",
-      motor: "",
+      motor: ""
     };
   },
   methods: {
@@ -154,7 +152,7 @@ export default {
       "callMaterialesCategorias",
       "callMaterialesEmpresas",
       "callMaterialesAdd",
-      "callMateriales",
+      "callMateriales"
     ]),
     filterFn(val, update, abort) {
       let asd = [];
@@ -173,7 +171,7 @@ export default {
         const needle = val.toLowerCase();
         // console.log(needle);
         this.options2 = asd.filter(
-          (v) => v.no_catego.toLowerCase().indexOf(needle) > -1
+          v => v.no_catego.toLowerCase().indexOf(needle) > -1
         );
       });
     },
@@ -197,41 +195,41 @@ export default {
           nom_art: this.nombreArticulo,
           cod_bar: null,
           cod_emp: this.empresa,
-          cod_cat: this.categoria,
+          cod_cat: this.categoria
         });
         console.log("responseAddUser", responseAddUser);
         if (responseAddUser.res == "ok") {
           this.loadboton = false;
           this.onResert();
           this.$q.notify({
-            message: responseAddUser.message,
+            message: responseAddUser.message
           });
           this.callMateriales();
           this.$store.commit("materiales/dialogCrear", false);
         } else if (responseAddUser.res == "ko") {
           this.loadboton = false;
           this.$q.notify({
-            message: `${responseAddUser.message} - verifique los campos`,
+            message: `${responseAddUser.message} - verifique los campos`
           });
         }
       } catch (e) {
         this.loadboton = false;
         this.onResert();
         this.$q.notify({
-          message: `${e} - Error controlado`,
+          message: `${e} - Error controlado`
         });
         console.log(e);
       }
       // }
-    },
+    }
   },
-  async mounted() {
+  async created() {
     this.$q.loading.show();
     console.log("mounted - crear - materiales");
     await this.callMaterialesEmpresas();
     this.mostrarFormulario = true;
     this.$q.loading.hide();
-  },
+  }
 };
 </script>
 

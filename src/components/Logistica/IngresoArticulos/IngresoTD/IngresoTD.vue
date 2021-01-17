@@ -173,6 +173,7 @@ export default {
       co_barras: "",
       il_ordtra: "TD"
     });
+    this.$router.replace("/logisticas/ingresoarticulos?id=2");
     this.$q.loading.hide();
   }
 };
