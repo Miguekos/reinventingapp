@@ -190,3 +190,8 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { date } from "quasar";
 let timeStamp = Date.now();
 date.formatDate(timeStamp, "YYYY-MM-DD")
+
+
+
+### arcadj
+this.$store.state.example.arcadj

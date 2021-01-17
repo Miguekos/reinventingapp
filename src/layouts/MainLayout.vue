@@ -342,6 +342,7 @@
     <q-dialog v-model="dialogPerfil">
       <div style="width: 80%">
         <q-card>
+          <!--          <q-card-section @click="alert = true" align="center">-->
           <q-card-section @click="alert = true" align="center">
             <q-img width="200px" class="rounded-borders" :src="fotoPerfil" />
           </q-card-section>
@@ -397,10 +398,11 @@
     >
       <q-card class="bg-primary text-white">
         <q-bar>
-          <q-icon name="network_wifi" />
-          <q-icon name="network_cell" />
-          <q-icon name="battery_full" />
-          <div>9:34</div>
+          <!--          <q-icon name="network_wifi" />-->
+          <!--          <q-icon name="network_cell" />-->
+          <!--          <q-icon name="battery_full" />-->
+
+          <div>Archivos Multiples {{ fechaActual }}</div>
 
           <q-space />
 
@@ -408,10 +410,6 @@
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-
-        <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section>
 
         <q-card-section class="q-pt-none">
           <TagUploadBasic />
@@ -425,7 +423,9 @@
 import { storagelocal } from "../mixins/mixin";
 import EssentialLink from "components/EssentialLink.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
-
+import { date } from "quasar";
+let timeStamp = Date.now();
+let formattedString = date.formatDate(timeStamp, "YYYY-MM-DD");
 const linksData = [
   // {
   //   title: "Usuarios",
@@ -481,10 +481,13 @@ export default {
   name: "MainLayout",
   mixins: [storagelocal],
   computed: {
+    fechaActual() {
+      return formattedString;
+    },
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.userLocal.co_fotper) {
-        return `https://api.reinventing.com.pe/fileserver/myfiles/getfile/${this.userLocal.co_fotper}`;
+        return `https://api.reinventing.com.pe/files/${this.userLocal.co_fotper}`;
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }

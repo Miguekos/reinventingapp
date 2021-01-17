@@ -145,6 +145,11 @@ const actions = {
     const response = await axiosInstance.post(`/tradoc/delete_tradoc`, payload);
     return response.data;
     // commit("get_update_tradoc", response.data);
+  },
+  async call_insert_arcadj({ commit }, payload) {
+    const response = await axiosInstance.post(`/tradoc/insert_tradoc`, payload);
+    return response.data;
+    // commit("get_update_tradoc", response.data);
   }
 };
 

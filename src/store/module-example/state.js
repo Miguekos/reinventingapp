@@ -3,6 +3,8 @@ export default function() {
     location: "",
     dialogIngresoVehicular: false,
     dataIngresoVehicular: "",
-    UploadBasic: true
+    UploadBasic: false,
+    UploadBasicData: "",
+    arcadj: ""
   };
 }

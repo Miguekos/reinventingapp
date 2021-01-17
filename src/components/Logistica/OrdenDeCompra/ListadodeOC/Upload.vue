@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { storagelocal } from "../mixins/mixin";
+import { storagelocal } from "../../../../mixins/mixin";
 import { mapActions } from "vuex";
 export default {
   mixins: [storagelocal],
@@ -51,30 +51,31 @@ export default {
       };
     },
     async guardar() {
-      this.loadboton = true;
-      console.log("this.archivo", this.archivo);
-      if (this.$store.state.example.arcadj.length > 0) {
-        this.callCambioFotper({
-          id: this.userLocal.co_usuari,
-          fot_per: this.$store.state.example.arcadj
-        })
-          .then(async resp => {
-            console.log("resp", resp);
-            await this.callUsers("all");
-            this.$emit("click");
-            this.loadboton = false;
-          })
-          .catch(error => {
-            console.log("error", error);
-            this.$emit("click");
-            this.loadboton = false;
-          });
-      } else {
-        this.$q.notify({
-          message: "Debes subir una imagen antes de guardar"
-        });
-        this.loadboton = false;
-      }
+      this.$emit("click", 1);
+      // this.loadboton = true;
+      // console.log("this.archivo", this.archivo);
+      // if (this.$store.state.example.arcadj.length > 0) {
+      //   this.callCambioFotper({
+      //     id: this.userLocal.co_usuari,
+      //     fot_per: this.archivo
+      //   })
+      //     .then(async resp => {
+      //       console.log("resp", resp);
+      //       await this.callUsers("all");
+      //       this.$emit("click");
+      //       this.loadboton = false;
+      //     })
+      //     .catch(error => {
+      //       console.log("error", error);
+      //       this.$emit("click");
+      //       this.loadboton = false;
+      //     });
+      // } else {
+      //   this.$q.notify({
+      //     message: "Debes subir una imagen antes de guardar"
+      //   });
+      //   this.loadboton = false;
+      // }
     },
     factoryFnNew(files) {
       // returning a Promise

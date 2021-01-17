@@ -2,7 +2,8 @@
   <div class="q-pa-md">
     <div class="q-gutter-sm row items-start">
       <q-uploader
-        url="http://127.0.0.1:4444/api/upload"
+        url="https://api.reinventing.com.pe/upload"
+        @uploaded="uploaded"
         label="Custom header"
         multiple
       >
@@ -16,7 +17,7 @@
               dense
               flat
             >
-              <q-tooltip>Clear All</q-tooltip>
+              <q-tooltip>Limpiar todo</q-tooltip>
             </q-btn>
             <q-btn
               v-if="scope.uploadedFiles.length > 0"
@@ -30,7 +31,7 @@
             </q-btn>
             <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
             <div class="col">
-              <div class="q-uploader__title">Upload your files</div>
+              <div class="q-uploader__title">Sube tus archivos</div>
               <div class="q-uploader__subtitle">
                 {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
               </div>
@@ -44,7 +45,7 @@
               flat
             >
               <q-uploader-add-trigger />
-              <q-tooltip>Pick Files</q-tooltip>
+              <q-tooltip>Selecciona archivos</q-tooltip>
             </q-btn>
             <q-btn
               v-if="scope.canUpload"
@@ -54,7 +55,7 @@
               dense
               flat
             >
-              <q-tooltip>Upload Files</q-tooltip>
+              <q-tooltip>Subir archivos</q-tooltip>
             </q-btn>
 
             <q-btn
@@ -71,53 +72,53 @@
         </template>
       </q-uploader>
 
-      <q-uploader
-        url="http://127.0.0.1:4444/api/upload"
-        style="max-width: 300px"
-        v-model="fileUploadBasic"
-      />
+      <!--      <q-uploader-->
+      <!--        url="https://api.reinventing.com.pe/upload"-->
+      <!--        style="max-width: 300px"-->
+      <!--        v-model="fileUploadBasic"-->
+      <!--      />-->
 
-      asd {{ fileUploadBasic }}
+      <!--      asd {{ fileUploadBasic }}-->
 
-      <q-uploader
-        url="http://127.0.0.1:4444/api/upload"
-        color="teal"
-        flat
-        bordered
-        style="max-width: 300px"
-        v-model="fileUploadBasic"
-      />
+      <!--      <q-uploader-->
+      <!--        url="https://api.reinventing.com.pe/upload"-->
+      <!--        color="teal"-->
+      <!--        flat-->
+      <!--        bordered-->
+      <!--        style="max-width: 300px"-->
+      <!--        v-model="fileUploadBasic"-->
+      <!--      />-->
 
-      <q-uploader
-        url="http://127.0.0.1:4444/api/upload"
-        label="Upload files"
-        color="purple"
-        square
-        flat
-        bordered
-        style="max-width: 300px"
-        v-model="fileUploadBasic"
-      />
+      <!--      <q-uploader-->
+      <!--        url="https://api.reinventing.com.pe/upload"-->
+      <!--        label="Upload files"-->
+      <!--        color="purple"-->
+      <!--        square-->
+      <!--        flat-->
+      <!--        bordered-->
+      <!--        style="max-width: 300px"-->
+      <!--        v-model="fileUploadBasic"-->
+      <!--      />-->
 
-      <q-uploader
-        url="http://127.0.0.1:4444/api/upload"
-        label="No thumbnails"
-        color="amber"
-        text-color="black"
-        no-thumbnails
-        style="max-width: 300px"
-        v-model="fileUploadBasic"
-      />
-      <q-uploader
-        v-model="fileUploadBasic"
-        :factory="factoryFn"
-        multiple
-        max-files="2"
-        style="max-width: 300px"
-        @uploaded="onUploaded"
-        @failed="onFailed"
-        @rejected="onRejected"
-      />
+      <!--      <q-uploader-->
+      <!--        url="https://api.reinventing.com.pe/upload"-->
+      <!--        label="No thumbnails"-->
+      <!--        color="amber"-->
+      <!--        text-color="black"-->
+      <!--        no-thumbnails-->
+      <!--        style="max-width: 300px"-->
+      <!--        v-model="fileUploadBasic"-->
+      <!--      />-->
+      <!--      <q-uploader-->
+      <!--        v-model="fileUploadBasic"-->
+      <!--        :factory="factoryFn"-->
+      <!--        multiple-->
+      <!--        max-files="2"-->
+      <!--        style="max-width: 300px"-->
+      <!--        @uploaded="onUploaded"-->
+      <!--        @failed="onFailed"-->
+      <!--        @rejected="onRejected"-->
+      <!--      />-->
     </div>
   </div>
 </template>
@@ -131,9 +132,19 @@ export default {
     };
   },
   methods: {
+    uploaded(files) {
+      console.log("subio");
+      console.log(files);
+      const response = JSON.parse(files.xhr.response).name;
+      this.$q.notify({
+        message: response
+      });
+      console.log(response);
+      this.$store.commit("example/arcadj", response);
+    },
     factoryFn(files) {
       // return {
-      //   url: "http://127.0.0.1:4444/api/upload",
+      //   url: "https://api.reinventing.com.pe/upload",
       //   method: "POST"
       // };
       return new Promise((resolve, reject) => {
@@ -172,6 +183,9 @@ export default {
         message: `${rejectedEntries.length} file(s) did not pass validation constraints`
       });
     }
+  },
+  async created() {
+    console.log("Upload Basic");
   }
 };
 </script>

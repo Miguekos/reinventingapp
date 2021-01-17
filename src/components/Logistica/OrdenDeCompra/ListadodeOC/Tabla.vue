@@ -81,12 +81,18 @@
     >
       <DialogGenerarOperacion />
     </q-dialog>
+    <q-dialog v-model="upload">
+      <q-card>
+        <Upload @click="guardararcadj" />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import { MixinDefault } from "../../../../mixins/mixin";
 import { Fechas } from "src/directives/formatFecha";
+
 export default {
   mixins: [MixinDefault],
   props: {
@@ -100,14 +106,17 @@ export default {
   },
   components: {
     DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
-    DialogCrear: () => import("./NuevaOC")
+    DialogCrear: () => import("./NuevaOC"),
+    Upload: () => import("./Upload")
   },
   data() {
     return {
+      upload: false,
       filter: "",
       tipo: 1,
       orden: null,
       dataEdit: [],
+      select_to_arca: {},
       maximizedToggle: false,
       initialPagination: {
         sortBy: "name",
@@ -193,14 +202,29 @@ export default {
       "call_listar_produc_encont",
       "call_listar_detall_ordcom",
       "call_delete_ordcom",
-      "call_listar_ordcom"
+      "call_listar_ordcom",
+      "call_insert_arcadj"
     ]),
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("logisticas/dialogCrear", true);
     },
+    async guardararcadj() {
+      this.$q.loading.show();
+      console.log("Se guardo");
+      await this.call_insert_arcadj({
+        nu_ordcom: this.select_to_arca.co_ordcom,
+        co_arcadj: this.$store.state.example.arcadj,
+        ti_accion: "I"
+      });
+      this.upload = false;
+      this.$q.loading.hide();
+    },
     async arcadj(val) {
+      this.$store.commit("example/UploadBasicData", val);
+      this.select_to_arca = val;
       console.log("arcadj", val);
+      this.upload = true;
     },
     async eliminar(val) {
       this.$q

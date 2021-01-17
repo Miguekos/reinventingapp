@@ -13,3 +13,11 @@ export function dataIngresoVehicular(state, payload) {
 export function UploadBasic(state, payload) {
   state.UploadBasic = payload;
 }
+
+export function UploadBasicData(state, payload) {
+  state.UploadBasicData = payload;
+}
+
+export function arcadj(state, payload) {
+  state.arcadj = payload;
+}

@@ -119,6 +119,18 @@
                 hint="¿Con IGV?"
               />
             </div>
+            <div class="col-12">
+              <q-uploader
+                auto-upload
+                url="https://api.reinventing.com.pe/upload"
+                label="Adjuntar Archivo"
+                color="primary"
+                text-color="black"
+                no-thumbnails
+                class="full-width"
+                @uploaded="uploaded"
+              />
+            </div>
           </q-card-section>
           <q-card-actions align="right">
             <q-btn color="negative" @click="cerrarDialogCrearUser" outline
@@ -207,6 +219,16 @@ export default {
       "call_listar_tradoc",
       "call_catalogo_tcsolici"
     ]),
+    uploaded(files) {
+      console.log("subio");
+      console.log(files);
+      const response = JSON.parse(files.xhr.response).name;
+      this.$q.notify({
+        message: response
+      });
+      console.log(response);
+      // this.$store.commit("example/arcadj", response);
+    },
     filterFn(val, update, abort) {
       let asd = [];
       for (

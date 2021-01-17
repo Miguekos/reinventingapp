@@ -81,6 +81,11 @@
     >
       <DialogGenerarOperacion />
     </q-dialog>
+    <q-dialog v-model="upload">
+      <q-card>
+        <Upload @click="guardararcadj" />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -99,14 +104,17 @@ export default {
   },
   components: {
     DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
-    DialogCrear: () => import("./NuevaOC")
+    DialogCrear: () => import("./NuevaOC"),
+    Upload: () => import("./Upload")
   },
   data() {
     return {
+      upload: false,
       filter: "",
       tipo: 1,
       orden: null,
       dataEdit: [],
+      select_to_arca: {},
       maximizedToggle: false,
       initialPagination: {
         sortBy: "no_tradoc",
@@ -197,14 +205,34 @@ export default {
       "call_listar_produc_encont",
       "call_listar_detall_tradoc",
       "call_delete_tradoc",
-      "call_listar_tradoc"
+      "call_listar_tradoc",
+      "call_insert_arcadj"
     ]),
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("tramites/dialogCrear", true);
     },
+    async guardararcadj() {
+      try {
+        this.$q.loading.show();
+        console.log("Se guardo");
+        await this.call_insert_arcadj({
+          nu_tradoc: this.select_to_arca.co_tradoc,
+          co_arcadj: this.$store.state.example.arcadj,
+          ti_accion: "I"
+        });
+        this.upload = false;
+        this.$q.loading.hide();
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
+    },
     async arcadj(val) {
+      this.$store.commit("example/UploadBasicData", val);
+      this.select_to_arca = val;
       console.log("arcadj", val);
+      this.upload = true;
     },
     async eliminar(val) {
       this.$q
