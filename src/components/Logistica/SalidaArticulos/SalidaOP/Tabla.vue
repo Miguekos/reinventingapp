@@ -40,6 +40,9 @@
           <div v-if="!props.row.il_selecc">
             <q-checkbox size="30px" val="true" v-model="props.row.il_selecc" />
           </div>
+          <div v-else-if="props.row.il_selecc == true">
+            <q-checkbox size="30px" val="true" color="green" v-model="props.row.il_selecc" />
+          </div>
           <div v-else>
             {{ props.row.il_selecc }}
           </div>

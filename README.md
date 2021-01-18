@@ -195,3 +195,8 @@ date.formatDate(timeStamp, "YYYY-MM-DD")
 
 ### arcadj
 this.$store.state.example.arcadj
+
+docker build -t reinventing:2.0 .
+docker-compose -f docker-compose_pro.yml down
+docker-compose -f docker-compose_pro.yml up -d
+docker-compose -f docker-compose_pro.yml logs -f
