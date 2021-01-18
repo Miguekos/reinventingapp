@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--    {{ dataIngresoVehicular }}-->
-    <q-card v-if="dataIngresoVehicular.co_vehicu" class="full-height" square>
+    <q-card v-if="tieneCodigo === 1" class="full-height" square>
       <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
         <q-bar class="bg-primary text-white">
           Ingreso Vehicular
@@ -306,8 +306,8 @@
         </q-card-actions>
       </q-form>
     </q-card>
-    <q-card v-else class="full-height" square>
-      <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
+    <q-card v-if="tieneCodigo === 2" class="full-height" square>
+      <q-form @submit="onSubmitCita" @reset.prevent.stop="onReset">
         <q-bar class="bg-primary text-white">
           Ingreso Vehicular
           <q-space />
@@ -366,13 +366,13 @@
                     <tr>
                       <td class="text-left">Chasis</td>
                       <td class="text-right">
-                        {{ dataIngresoVehicular.nu_serveh }}
+                        <q-input filled dense v-model="nu_serveh" />
                       </td>
                     </tr>
                     <tr>
                       <td class="text-left">Motor</td>
                       <td class="text-right">
-                        {{ dataIngresoVehicular.nu_motveh }}
+                        <q-input filled dense v-model="nu_motveh" />
                       </td>
                     </tr>
                     <tr>
@@ -503,6 +503,8 @@
                       <td class="text-right">
                         <q-input
                           filled
+                          autogrow
+                          clearable
                           type="textarea"
                           dense
                           v-model="det_ing"
@@ -628,10 +630,14 @@ export default {
   computed: {
     ...mapState("example", ["dataIngresoVehicular"]),
     ...mapGetters("operaciones", ["get_combo_cliente"]),
-    ...mapGetters("personas", ["getPersonasFilter"])
+    ...mapGetters("personas", ["getPersonasFilter"]),
+    ...mapGetters("vehiculos", ["getVehiculosFilter"])
   },
   data() {
     return {
+      nu_serveh: "",
+      nu_motveh: "",
+      tieneCodigo: 0,
       seleccliente: true,
       maximizedToggle: false,
       nu_anofab: "",
@@ -720,6 +726,55 @@ export default {
       "call_combo_cliente"
     ]),
     ...mapActions("personas", ["callPersonasFilter"]),
+    ...mapActions("vehiculos", ["callVehiculosFilter"]),
+    ...mapActions("citas", ["call_ingresar_vehicu"]),
+    async onSubmitCita() {
+      console.log("onSubmitCita", this.dataIngresoVehicular);
+      this.$q.loading.show();
+      try {
+        const responseIngresoV = await this.call_ingresar_vehicu({
+          per_reg: "92",
+          pla_veh: this.dataIngresoVehicular.co_plaveh,
+          mod_veh: this.dataIngresoVehicular.co_modveh,
+          ano_veh: this.nu_anofab,
+          col_veh: this.dataIngresoVehicular.no_colveh,
+          ser_veh: this.nu_serveh,
+          mot_veh: this.nu_motveh,
+          val_kil: this.val_kil,
+          doc_ide: this.doc_ide,
+          ape_pat: this.ape_pat,
+          ape_mat: this.ape_mat,
+          nom_cli: this.nom_cli,
+          cen_ope: this.cen_ope,
+          direcci: this.direcci,
+          det_ing: this.det_ing,
+          swt_sal: this.swt_sal,
+          fec_sal: this.fec_sal,
+          co_citope: this.dataIngresoVehicular.co_citope
+        });
+        if (responseIngresoV.res === "ok") {
+          this.$q.notify({
+            message: "Creando"
+          });
+          this.$store.commit("example/dialogIngresoVehicular", false);
+          await this.$router.push("/operaciones?id=1");
+          this.$q.loading.hide();
+        } else if (responseIngresoV.res === "ko") {
+          this.$q.notify({
+            message: "Creando"
+          });
+          this.$q.loading.hide();
+        } else {
+          this.$q.notify({
+            message: "Creando"
+          });
+          this.$q.loading.hide();
+        }
+      } catch (e) {
+        console.log(e);
+        this.$q.loading.hide();
+      }
+    },
     async onSubmit() {
       this.$q.loading.show();
       try {
@@ -790,6 +845,25 @@ export default {
   },
   async created() {
     this.$q.loading.show();
+    console.log("this.dataIngresoVehicular", this.dataIngresoVehicular);
+    if (this.dataIngresoVehicular.co_vehicu) {
+      console.log("Paso this.tieneCodigo = 1");
+      this.tieneCodigo = 1;
+    } else {
+      console.log("Paso this.tieneCodigo = 2");
+      await this.callVehiculosFilter(this.dataIngresoVehicular.co_plaveh);
+      console.log("respVehicu", this.getVehiculosFilter.length);
+      console.log("respVehicuData", this.getVehiculosFilter[0]);
+      if (this.getVehiculosFilter.length > 0) {
+        this.$store.commit(
+          "example/dataIngresoVehicular",
+          this.getVehiculosFilter[0]
+        );
+        this.tieneCodigo = 1;
+      } else {
+        this.tieneCodigo = 2;
+      }
+    }
     await this.call_combo_cliente();
     this.options = this.get_combo_cliente.client;
     this.newoptions = this.get_combo_cliente.client;

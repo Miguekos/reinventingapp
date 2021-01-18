@@ -3,9 +3,9 @@ version: "2"
 services:
   app_pro:
     image: reinventing:3.0
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
+    #    build:
+    #      context: .
+    #      dockerfile: Dockerfile
     restart: always
     expose:
       - "80"
