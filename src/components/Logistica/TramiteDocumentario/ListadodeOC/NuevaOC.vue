@@ -122,7 +122,7 @@
             <div class="col-12">
               <q-uploader
                 auto-upload
-                url="https://api.reinventing.com.pe/upload"
+                :url="urlimagen"
                 label="Adjuntar Archivo"
                 color="primary"
                 text-color="black"
@@ -167,6 +167,9 @@ export default {
       set(value) {
         this.$store.commit("main/foo", value);
       }
+    },
+    urlimagen() {
+      return `${process.env.Imagen_URL}/upload`;
     }
   },
   name: "CreaVehiculos",

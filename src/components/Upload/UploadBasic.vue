@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-sm row items-start">
       <q-uploader
-        url="https://api.reinventing.com.pe/upload"
+        :url="urlimagen"
         @uploaded="uploaded"
         label="Custom header"
         multiple
@@ -71,54 +71,6 @@
           </div>
         </template>
       </q-uploader>
-
-      <!--      <q-uploader-->
-      <!--        url="https://api.reinventing.com.pe/upload"-->
-      <!--        style="max-width: 300px"-->
-      <!--        v-model="fileUploadBasic"-->
-      <!--      />-->
-
-      <!--      asd {{ fileUploadBasic }}-->
-
-      <!--      <q-uploader-->
-      <!--        url="https://api.reinventing.com.pe/upload"-->
-      <!--        color="teal"-->
-      <!--        flat-->
-      <!--        bordered-->
-      <!--        style="max-width: 300px"-->
-      <!--        v-model="fileUploadBasic"-->
-      <!--      />-->
-
-      <!--      <q-uploader-->
-      <!--        url="https://api.reinventing.com.pe/upload"-->
-      <!--        label="Upload files"-->
-      <!--        color="purple"-->
-      <!--        square-->
-      <!--        flat-->
-      <!--        bordered-->
-      <!--        style="max-width: 300px"-->
-      <!--        v-model="fileUploadBasic"-->
-      <!--      />-->
-
-      <!--      <q-uploader-->
-      <!--        url="https://api.reinventing.com.pe/upload"-->
-      <!--        label="No thumbnails"-->
-      <!--        color="amber"-->
-      <!--        text-color="black"-->
-      <!--        no-thumbnails-->
-      <!--        style="max-width: 300px"-->
-      <!--        v-model="fileUploadBasic"-->
-      <!--      />-->
-      <!--      <q-uploader-->
-      <!--        v-model="fileUploadBasic"-->
-      <!--        :factory="factoryFn"-->
-      <!--        multiple-->
-      <!--        max-files="2"-->
-      <!--        style="max-width: 300px"-->
-      <!--        @uploaded="onUploaded"-->
-      <!--        @failed="onFailed"-->
-      <!--        @rejected="onRejected"-->
-      <!--      />-->
     </div>
   </div>
 </template>
@@ -131,6 +83,11 @@ export default {
       fileUploadBasic: ""
     };
   },
+  computed: {
+    urlimagen() {
+      return `${process.env.Imagen_URL}/upload`;
+    }
+  },
   methods: {
     uploaded(files) {
       console.log("subio");
@@ -141,47 +98,6 @@ export default {
       });
       console.log(response);
       this.$store.commit("example/arcadj", response);
-    },
-    factoryFn(files) {
-      // return {
-      //   url: "https://api.reinventing.com.pe/upload",
-      //   method: "POST"
-      // };
-      return new Promise((resolve, reject) => {
-        // simulating a delay of 2 seconds
-        // setTimeout(() => {
-        const asd = resolve({
-          url: "http://localhost:4444/api/upload"
-        });
-        console.log(asd);
-        // }, 2000);
-      });
-    },
-    onUploaded(info) {
-      let files = info.files;
-      files.forEach(item => {
-        this.$q.notify({
-          type: "positive",
-          message: `${item.name} successfully uploaded`
-        });
-      });
-    },
-    onFailed(info) {
-      let err = JSON.parse(info.xhr.response);
-      console.log(err);
-      let files = info.files;
-      files.forEach(item => {
-        this.$q.notify({
-          type: "negative",
-          message: `${item.name} - ${err.error} Error ${err.message}`
-        });
-      });
-    },
-    onRejected(rejectedEntries) {
-      this.$q.notify({
-        type: "negative",
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      });
     }
   },
   async created() {

@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!--    <q-uploader-->
-    <!--      url="https://api.reinventing.com.pe/fileserver/myfiles/upload"-->
-    <!--      method="POST"-->
-    <!--      field-name="file"-->
-    <!--    />-->
-    <!--    <q-uploader-->
-    <!--      v-model="archivo"-->
-    <!--      extensions=".gif,.jpg,.jpeg,.png"-->
-    <!--      :factory="factoryFnNew"-->
-    <!--    />-->
     <Uploadbasic />
     <q-btn
       :loading="loadboton"
@@ -38,62 +28,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions("usuarios", ["callCambioFotper", "callUsers"]),
-    factoryFn(files) {
-      console.log(files[0]);
-      return {
-        // url: 'http://192.168.0.30:9776/envios//upload',
-        url: () =>
-          `https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/`,
-        method: "POST",
-        // headers: () => [{name: 'Content-Type', value: 'multipart/form-data'}],
-        fieldName: "files"
-      };
-    },
-    async guardar() {
-      this.$emit("click", 1);
-      // this.loadboton = true;
-      // console.log("this.archivo", this.archivo);
-      // if (this.$store.state.example.arcadj.length > 0) {
-      //   this.callCambioFotper({
-      //     id: this.userLocal.co_usuari,
-      //     fot_per: this.archivo
-      //   })
-      //     .then(async resp => {
-      //       console.log("resp", resp);
-      //       await this.callUsers("all");
-      //       this.$emit("click");
-      //       this.loadboton = false;
-      //     })
-      //     .catch(error => {
-      //       console.log("error", error);
-      //       this.$emit("click");
-      //       this.loadboton = false;
-      //     });
-      // } else {
-      //   this.$q.notify({
-      //     message: "Debes subir una imagen antes de guardar"
-      //   });
-      //   this.loadboton = false;
-      // }
-    },
-    factoryFnNew(files) {
-      // returning a Promise
-      console.log(files[0].name);
-      this.archivo = files[0].name;
-      return new Promise(resolve => {
-        // simulating a delay of 2 seconds
-        // setTimeout(() => {
-        resolve({
-          url: "https://api.reinventing.com.pe/fileserver/myfiles/uploadfiles/",
-          method: "POST",
-          fieldName: "files"
-        });
-        // console.log("asdasd");
-        // }, 2000);
-      });
-      // console.log("files");
-    }
+      ...mapActions("usuarios", ["callCambioFotper", "callUsers"]),
+      async guardar() {
+          this.$emit("click", 1);
+      }
   }
 };
 // Get archivo

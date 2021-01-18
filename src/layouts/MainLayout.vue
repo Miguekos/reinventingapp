@@ -31,7 +31,6 @@
         >
           <q-avatar>
             <img width="50px" :src="fotoPerfil" />
-            <!--            <q-badge color="negative" floating>-->
             <!--              4-->
             <!--            </q-badge>-->
           </q-avatar>
@@ -485,9 +484,8 @@ export default {
       return formattedString;
     },
     fotoPerfil() {
-      // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.userLocal.co_fotper) {
-        return `https://api.reinventing.com.pe/files/${this.userLocal.co_fotper}`;
+        return `${process.env.Imagen_URL}/files/${this.userLocal.co_fotper}`;
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }

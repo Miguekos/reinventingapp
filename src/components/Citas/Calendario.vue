@@ -3,7 +3,7 @@
     <DaykeepCalendar
       :event-array="info"
       :tab-labels="labelsCalendar"
-      :sunday-first-day-of-week="true"
+      :sunday-first-day-of-week="false"
       calendar-locale="es"
       calendar-timezone="America/Lima"
       :allow-editing="false"

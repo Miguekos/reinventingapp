@@ -179,7 +179,7 @@ export default {
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.data_employee_dialog.co_fotper) {
-        return `https://api.reinventing.com.pe/files/${this.data_employee_dialog.co_fotper}`;
+        return `${process.env.Imagen_URL}/${this.data_employee_dialog.co_fotper}`;
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
