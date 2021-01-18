@@ -27,7 +27,7 @@ export function getCitas(state) {
       element.fe_progra,
       "YYYY-MM-DDTHH:mm:ss"
     );
-    // console.log(fechaNueva);
+    console.log("fechaNueva", fechaNueva);
     const fechaFin = date.addToDate(element.fe_progra, { hours: 1 });
     const fechaFinF = date.formatDate(fechaFin, "YYYY-MM-DDTHH:mm:ss");
     // console.log(fechaFinF);
