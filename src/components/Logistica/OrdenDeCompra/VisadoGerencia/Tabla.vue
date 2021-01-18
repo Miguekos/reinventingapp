@@ -61,7 +61,12 @@
         <q-td :props="props">
           <div class="row">
             <div class="col">
-              <q-btn size="xs" color="primary" icon="map" />
+              <q-btn
+                size="xs"
+                color="primary"
+                icon="map"
+                @click="generarOperacionVisado(props.row)"
+              />
             </div>
             <div class="col">
               <q-btn size="xs" color="primary" icon="delete" />
@@ -70,20 +75,17 @@
         </q-td>
       </template>
     </q-table>
-    <!--    <div>-->
-    <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
-    <!--    </div>-->
-    <!--    <q-dialog-->
-    <!--      v-model="operacionesid4"-->
-    <!--      persistent-->
-    <!--      :maximized="maximizedToggle"-->
-    <!--      transition-show="slide-up"-->
-    <!--      transition-hide="slide-down"-->
-    <!--      full-height-->
-    <!--      full-width-->
-    <!--    >-->
-    <!--      <DialogGenerarOperacion />-->
-    <!--    </q-dialog>-->
+    <q-dialog
+      v-model="dialogDetalleOrden"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-up"
+      full-height
+      full-width
+    >
+      <DialogGenerarOperacion />
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -95,11 +97,11 @@ export default {
     }
   },
   computed: {
-    ...mapState("logisticas", ["dialogCrear"]),
+    ...mapState("logisticas", ["dialogCrear", "dialogDetalleOrden"]),
     ...mapGetters("logisticas", ["get_listar_pendie_visado_gerencia"])
   },
   components: {
-    // DialogGenerarOperacion: () => import("./DialogAsignarServicios")
+    DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
     DialogCrear: () => import("./NuevaOC")
   },
   data() {
@@ -170,7 +172,14 @@ export default {
   methods: {
     ...mapActions("logisticas", [
       "call_visrec_ordcom",
-      "call_listar_pendie_visado_gerencia"
+      "call_listar_pendie_visado_gerencia",
+      "call_inform_ordcom",
+      "call_listar_produc_encont",
+      "call_listar_detall_ordcom",
+      "call_delete_ordcom",
+      "call_listar_ordcom",
+      "call_insert_arcadj",
+      "call_listar_arcadj_ordcom"
     ]),
 
     async confirmar() {
@@ -194,6 +203,31 @@ export default {
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("logisticas/dialogCrear", true);
+    },
+    async generarOperacionVisado(val) {
+      console.log("asdaasd");
+      this.$q.loading.show();
+      this.$store.commit("logisticas/ordenCompra", val.co_ordcom);
+      await this.call_inform_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
+      await this.call_listar_produc_encont({
+        co_ordcom: `${val.co_ordcom}`,
+        co_catego: "",
+        co_subcat: "",
+        no_produc: ""
+      });
+      await this.call_listar_detall_ordcom({
+        co_ordcom: `${val.co_ordcom}`
+      });
+      // await this.call_combo_cliente();
+      // await this.call_lista_vehiculo_ingreso(val.co_aduana);
+      console.log(val);
+      this.$q.notify({
+        message: `${val.co_ordcom}`
+      });
+      this.$store.commit("logisticas/dialogDetalleOrden", true);
+      this.$q.loading.hide();
     },
     async generarOperacion(val) {
       this.$q.loading.show();

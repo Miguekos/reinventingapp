@@ -60,7 +60,12 @@
         <q-td :props="props">
           <div class="row">
             <div class="col">
-              <q-btn size="xs" color="primary" icon="map" />
+              <q-btn
+                size="xs"
+                color="primary"
+                icon="map"
+                @click="generarOperacionVisado(props.row)"
+              />
             </div>
             <div class="col">
               <q-btn size="xs" color="primary" icon="delete" />
@@ -69,20 +74,17 @@
         </q-td>
       </template>
     </q-table>
-    <!--    <div>-->
-    <!--      <DialogCrear :tipo="tipo" :info="dataEdit" />-->
-    <!--    </div>-->
-    <!--    <q-dialog-->
-    <!--      v-model="operacionesid4"-->
-    <!--      persistent-->
-    <!--      :maximized="maximizedToggle"-->
-    <!--      transition-show="slide-up"-->
-    <!--      transition-hide="slide-down"-->
-    <!--      full-height-->
-    <!--      full-width-->
-    <!--    >-->
-    <!--      <DialogGenerarOperacion />-->
-    <!--    </q-dialog>-->
+    <q-dialog
+      v-model="dialogDetalleOrden"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-up"
+      full-height
+      full-width
+    >
+      <DialogGenerarOperacion />
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -94,11 +96,11 @@ export default {
     }
   },
   computed: {
-    ...mapState("tramites", ["dialogCrear"]),
+    ...mapState("tramites", ["dialogCrear", "dialogDetalleOrden"]),
     ...mapGetters("tramites", ["get_listar_pendie_visado_gerencia"])
   },
   components: {
-    // DialogGenerarOperacion: () => import("./DialogAsignarServicios")
+    DialogGenerarOperacion: () => import("./DialogDetalleOrden"),
     DialogCrear: () => import("./NuevaOC")
   },
   data() {
@@ -170,7 +172,14 @@ export default {
     ...mapActions("tramites", [
       "call_manten_produc_tradoc",
       "call_visrec_tradoc",
-      "call_listar_pendie_visado_gerencia"
+      "call_listar_pendie_visado_gerencia",
+      "call_inform_tradoc",
+      "call_listar_produc_encont",
+      "call_listar_detall_tradoc",
+      "call_delete_tradoc",
+      "call_listar_tradoc",
+      "call_insert_arcadj",
+      "call_listar_arcadj_tradoc"
     ]),
     async agregar() {
       await this.call_manten_produc_tradoc({
@@ -203,6 +212,29 @@ export default {
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("tramites/dialogCrear", true);
+    },
+    async generarOperacionVisado(val) {
+      console.log("generarOperacion", val);
+      this.$q.loading.show();
+      this.$store.commit("tramites/tramiteDoc", val.co_tradoc);
+      await this.call_inform_tradoc({
+        co_tradoc: `${val.co_tradoc}`
+      });
+      await this.call_listar_produc_encont({
+        co_tradoc: `${val.co_tradoc}`,
+        co_catego: "",
+        co_subcat: "",
+        no_produc: ""
+      });
+      await this.call_listar_detall_tradoc({
+        co_tradoc: `${val.co_tradoc}`
+      });
+      console.log(val);
+      this.$q.notify({
+        message: `${val.co_tradoc}`
+      });
+      this.$store.commit("tramites/dialogDetalleOrden", true);
+      this.$q.loading.hide();
     },
     async generarOperacion(val) {
       this.$q.loading.show();
