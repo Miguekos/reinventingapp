@@ -419,7 +419,7 @@ export default {
       try {
         const responseIngresoV = await this.call_ingreso_vehicular({
           per_reg: this.per_reg,
-          cod_veh: 19813,
+          cod_veh: this.dataIngresoVehicular.co_vehicu,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,
           ape_pat: this.ape_pat,

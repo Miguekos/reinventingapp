@@ -57,13 +57,26 @@
       </template>
       <template v-slot:body-cell-accion="props">
         <q-td :props="props">
-          <q-btn
-            size="xs"
-            round
-            icon="delete"
-            color="red"
-            @click="eliminar(props.row)"
-          />
+          <div class="row q-gutter-xs">
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="visibility"
+                color="info"
+                @click="verarchivos(props.row)"
+              />
+            </div>
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="delete"
+                color="red"
+                @click="eliminar(props.row)"
+              />
+            </div>
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -206,8 +219,39 @@ export default {
       "call_listar_detall_tradoc",
       "call_delete_tradoc",
       "call_listar_tradoc",
-      "call_insert_arcadj"
+      "call_insert_arcadj",
+      "call_listar_arcadj_tradoc"
     ]),
+    async verarchivos(val) {
+      try {
+        console.log(val);
+        // co_ordcom
+        const archivo = await this.call_listar_arcadj_tradoc({
+          co_tradoc: val.co_tradoc
+        });
+        console.log(archivo);
+        var win = window.open(
+          `${process.env.Imagen_URL}/files/${archivo.operac[0].co_arcadj}`,
+          "_blank"
+        );
+        if (win) {
+          //Browser has allowed it to be opened
+          win.focus();
+          console.log("cargo");
+        } else {
+          //Browser has blocked it
+          alert("Please allow popups for this website");
+        }
+        // this.data_visor = archivo;
+        // this.visor = true;
+        // alert(JSON.stringify(archivo));
+      } catch (e) {
+        console.log(e);
+        this.$q.notify({
+          message: "Intente en otro momento"
+        });
+      }
+    },
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("tramites/dialogCrear", true);
