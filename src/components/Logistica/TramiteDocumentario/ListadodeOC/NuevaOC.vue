@@ -269,7 +269,7 @@ export default {
       this.loadboton = true;
       try {
         const responseService = await this.call_insert_tradoc({
-          pn_regist: 95,
+          pn_regist: this.$q.localStorage.getAll().UserDetalle.co_person,
           pn_solici: `${this.solicitante}`,
           co_perjur: `${this.proveedor}`,
           co_moneda: `${this.moneda}`,
