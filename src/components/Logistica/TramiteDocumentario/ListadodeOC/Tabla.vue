@@ -224,27 +224,36 @@ export default {
     ]),
     async verarchivos(val) {
       try {
+        let URLS = [];
         console.log(val);
-        // co_ordcom
+        // co_tradoc
         const archivo = await this.call_listar_arcadj_tradoc({
           co_tradoc: val.co_tradoc
         });
-        console.log(archivo);
-        var win = window.open(
-          `${process.env.Imagen_URL}/files/${archivo.operac[0].co_arcadj}`,
-          "_blank"
-        );
-        if (win) {
-          //Browser has allowed it to be opened
-          win.focus();
-          console.log("cargo");
-        } else {
-          //Browser has blocked it
-          alert("Please allow popups for this website");
+        const array = archivo.operac;
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index];
+          console.log(element);
+          const conteo = `${element.co_arcadj}`;
+          const conteoNuevo = conteo.length;
+          console.log("conteo", conteo.length);
+          console.log("elemento", element);
+          if (conteoNuevo > 7) {
+            console.log(`${process.env.Imagen_URL}/files/${element.co_arcadj}`);
+            URLS.push({
+              url: `${process.env.Imagen_URL}/files/${element.co_arcadj}`
+            });
+          } else {
+            console.log(
+              `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            );
+            URLS.push({
+              url: `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            });
+          }
         }
-        // this.data_visor = archivo;
-        // this.visor = true;
-        // alert(JSON.stringify(archivo));
+        this.arcadjs = URLS;
+        this.visor = true;
       } catch (e) {
         console.log(e);
         this.$q.notify({
