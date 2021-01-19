@@ -186,15 +186,15 @@ export default {
           sortable: true
         },
         {
-          name: "fe_autori",
+          name: "fe_solici",
           label: "Visado Solicitante",
-          field: "fe_autori",
+          field: "fe_solici",
           sortable: true
         },
         {
-          name: "fe_gerenc",
+          name: "fe_jefaut",
           label: "Visado Jefatura",
-          field: "fe_gerenc",
+          field: "fe_jefaut",
           sortable: true
         },
         {
