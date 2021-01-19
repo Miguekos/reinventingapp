@@ -230,7 +230,7 @@ export default {
         message: response
       });
       console.log(response);
-      // this.$store.commit("example/arcadj", response);
+      this.$store.commit("example/arcadj", response);
     },
     filterFn(val, update, abort) {
       let asd = [];
@@ -277,7 +277,7 @@ export default {
           fe_tradoc: `${this.fechadetramite}`,
           il_conigv: `${this.conigv}`,
           ti_docume: `${this.tipodedocumento}`,
-          co_arcadj: `${this.co_arcadj}`
+          co_arcadj: `${this.$store.state.example.arcadj}`
         });
         console.log("responseService", responseService);
         if (responseService.res == "ok") {

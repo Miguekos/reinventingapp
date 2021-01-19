@@ -147,7 +147,7 @@ const actions = {
     // commit("get_update_tradoc", response.data);
   },
   async call_insert_arcadj({ commit }, payload) {
-    const response = await axiosInstance.post(`/tradoc/insert_tradoc`, payload);
+    const response = await axiosInstance.post(`/tradoc/insert_arcadj`, payload);
     return response.data;
     // commit("get_update_tradoc", response.data);
   },
