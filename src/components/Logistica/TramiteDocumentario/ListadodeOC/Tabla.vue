@@ -99,6 +99,15 @@
         <Upload @click="guardararcadj" />
       </q-card>
     </q-dialog>
+    <q-dialog v-model="visor">
+      <q-card>
+        <div v-for="item in arcadjs">
+          <a :href="item.url" target="_blank">{{ item.url }}</a>
+        </div>
+
+        <!--        {{ arcadjs }}-->
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -122,6 +131,8 @@ export default {
   },
   data() {
     return {
+      arcadjs: "",
+      visor: false,
       upload: false,
       filter: "",
       tipo: 1,
