@@ -305,7 +305,7 @@ export default {
             console.log("Eliminar", val);
             const responseEliminar = await this.call_delete_ordcom({
               co_ordcom: val.co_ordcom,
-                co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person
             });
             console.log(responseEliminar.res);
             if (responseEliminar.res === "ok") {

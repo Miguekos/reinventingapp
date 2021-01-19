@@ -293,7 +293,7 @@ export default {
             console.log("Eliminar", val);
             const responseEliminar = await this.call_delete_tradoc({
               co_tradoc: val.co_tradoc,
-              co_person: 95
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
             });
             if (responseEliminar.res === "ok") {
               await this.call_listar_tradoc({

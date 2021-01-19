@@ -198,7 +198,7 @@ export default {
         const element = array[index];
         await this.call_visrec_ordcom({
           co_ordcom: element.co_ordcom,
-          co_person: 95,
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           ti_person: "J",
           ti_visado: element.visar
         });
