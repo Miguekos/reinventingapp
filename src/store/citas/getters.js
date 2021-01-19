@@ -22,12 +22,12 @@ export function getCitas(state) {
   // console.log(formattedString);
   for (let index = 0; index < state.getCitas.length; index++) {
     const element = state.getCitas[index];
-    console.log("Fecha de la tabla", element.co_plaveh, element.fe_progra);
+    // console.log("Fecha de la tabla", element.co_plaveh, element.fe_progra);
     const fechaNueva = date.formatDate(
       element.fe_progra,
       "YYYY-MM-DDTHH:mm:ss"
     );
-    console.log("fechaNueva", fechaNueva);
+    // console.log("fechaNueva", fechaNueva);
     const fechaFin = date.addToDate(element.fe_progra, { hours: 1 });
     const fechaFinF = date.formatDate(fechaFin, "YYYY-MM-DDTHH:mm:ss");
     // console.log(fechaFinF);

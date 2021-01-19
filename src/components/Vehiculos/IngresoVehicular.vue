@@ -641,7 +641,7 @@ export default {
       seleccliente: true,
       maximizedToggle: false,
       nu_anofab: "",
-      per_reg: 92,
+      per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
       cod_veh: "",
       val_kil: "",
       doc_ide: "",
@@ -730,10 +730,11 @@ export default {
     ...mapActions("citas", ["call_ingresar_vehicu"]),
     async onSubmitCita() {
       console.log("onSubmitCita", this.dataIngresoVehicular);
+      console.log(this.$q.localStorage);
       this.$q.loading.show();
       try {
         const responseIngresoV = await this.call_ingresar_vehicu({
-          per_reg: "92",
+          per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
           pla_veh: this.dataIngresoVehicular.co_plaveh,
           mod_veh: this.dataIngresoVehicular.co_modveh,
           ano_veh: this.nu_anofab,
@@ -776,10 +777,14 @@ export default {
       }
     },
     async onSubmit() {
+      console.log(
+        "Codigo de persona",
+        this.$q.localStorage.getAll().UserDetalle.co_person
+      );
       this.$q.loading.show();
       try {
         const responseIngresoV = await this.call_ingreso_vehicular({
-          per_reg: this.per_reg,
+          per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
           cod_veh: this.dataIngresoVehicular.co_vehicu,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,

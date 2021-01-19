@@ -82,7 +82,11 @@
       </template>
       <template v-slot:body-cell-documento="props">
         <q-td :props="props">
-          <q-btn color="primary" icon="attachment" />
+          <q-file dense filled v-model="props.row.documento">
+            <template v-slot:prepend>
+              <q-icon name="attach_file" />
+            </template>
+          </q-file>
         </q-td>
       </template>
       <template v-slot:body-cell-acciones="props">
@@ -179,23 +183,47 @@ export default {
       "call_empresas",
       "call_combo_almacen"
     ]),
+    factoryFnNew(files) {
+      console.log(files.name);
+      const formData = new FormData();
+      formData.append(files.name, files);
+      return this.$axios
+        .post(`${process.env.Imagen_URL}/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(resp => {
+          console.log(resp);
+          return resp.data.name;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     async grabar() {
       this.$q.loading.show();
       console.log("grabar");
       try {
         for (let i = 0; i < this.info.length; i++) {
           const element = this.info[i];
-          console.log("element", element);
+          // console.log("element", element);
+          // console.log(
+          //   "asdasdasdasd",
+          //   element.documento ? await this.factoryFnNew(element.documento) : ""
+          // );
           await this.call_grabar_transa_ingsal({
             fe_regist: element.fe_regist,
-            co_person: "92",
+            co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
             il_unineg: "OC",
             ti_ingsal: "1",
             co_empres: "19",
             co_almace: "1",
             no_coment: element.descripcion,
             nu_guirem: element.guia,
-            co_arcadj: "XXXX"
+            co_arcadj: element.documento
+              ? await this.factoryFnNew(element.documento)
+              : ""
           });
         }
         // this.$store.commit("almacen/dialogSalidaOP", true);

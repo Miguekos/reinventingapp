@@ -197,7 +197,7 @@ export default {
           cod_ope: `${element.co_operac}`,
           tip_ser: `${element.ti_servic}`,
           tip_opc: `${element.opcion}`,
-          cod_per: "92",
+          cod_per: this.$q.localStorage.getAll().UserDetalle.co_person,
         });
       }
       // await this.call_lista_sermat_evalua(

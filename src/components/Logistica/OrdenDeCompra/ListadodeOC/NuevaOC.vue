@@ -246,7 +246,7 @@ export default {
       this.loadboton = true;
       try {
         const responseService = await this.call_insert_ordcom({
-          pn_regist: 92,
+          pn_regist: this.$q.localStorage.getAll().UserDetalle.co_person,
           pj_provee: this.proveedor,
           co_moneda: this.moneda,
           co_tippro: this.tipodecompra,

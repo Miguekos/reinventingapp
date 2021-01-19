@@ -168,7 +168,7 @@ export default {
           if (element.il_selecc === true) {
             console.log("element", element);
             await this.call_insert_produc_ingsal({
-              co_person: "92",
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
               fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
               co_prikey: element.co_operac,
               co_articu: element.co_articu,
@@ -180,13 +180,13 @@ export default {
         }
         await this.call_listar_docume_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "OP",
           ti_ingsal: "2"
         });
         await this.call_listar_produc_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "OP",
           ti_ingsal: "2"
         });
