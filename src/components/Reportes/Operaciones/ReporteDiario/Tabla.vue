@@ -95,19 +95,19 @@ export default {
         },
         {
           name: "ca_rechaz",
-          label: "ca_rechaz",
+          label: "Cant. Rechazo",
           align: "left",
           field: "ca_rechaz"
         },
         {
           name: "im_rechaz",
-          label: "im_rechaz",
+          label: "Imp. Rechazo",
           align: "left",
           field: "im_rechaz"
         },
         {
           name: "un_rechaz",
-          label: "un_rechaz",
+          label: "Prom. Rechazo",
           align: "left",
           field: "un_rechaz"
         },
@@ -119,13 +119,13 @@ export default {
         },
         {
           name: "im_pendie",
-          label: "im_pendie",
+          label: "Imp. Pendiente",
           align: "left",
           field: "im_pendie"
         },
         {
           name: "un_pendie",
-          label: "un_pendie",
+          label: "Prom. Pendiente",
           align: "left",
           field: "un_pendie"
         },
@@ -137,49 +137,49 @@ export default {
         },
         {
           name: "im_autori",
-          label: "im_autori",
+          label: "Imp. Autorizado",
           align: "left",
           field: "im_autori"
         },
         {
           name: "un_autori",
-          label: "un_autori",
+          label: "Prom Autorizado",
           align: "left",
           field: "un_autori"
         },
         {
           name: "ca_proces",
-          label: "ca_proces",
+          label: "Cant. Proceso",
           align: "left",
           field: "ca_proces"
         },
         {
           name: "im_proces",
-          label: "im_proces",
+          label: "Imp. Proceso",
           align: "left",
           field: "im_proces"
         },
         {
           name: "un_proces",
-          label: "un_proces",
+          label: "Prom. Proceso",
           align: "left",
           field: "un_proces"
         },
         {
           name: "ca_cerrad",
-          label: "ca_cerrad",
+          label: "Cant. Cerrado",
           align: "left",
           field: "ca_cerrad"
         },
         {
           name: "im_cerrad",
-          label: "im_cerrad",
+          label: "Imp. Cerrado",
           align: "left",
           field: "im_cerrad"
         },
         {
           name: "un_cerrad",
-          label: "un_cerrad",
+          label: "Prom. Cerrado",
           align: "left",
           field: "un_cerrad"
         },
@@ -191,31 +191,31 @@ export default {
         },
         {
           name: "im_totale",
-          label: "im_totale",
+          label: "Imp. Total",
           align: "left",
           field: "im_totale"
         },
         {
           name: "un_totale",
-          label: "un_totale",
+          label: "Prom. Total",
           align: "left",
           field: "un_totale"
         },
         {
           name: "ca_dispon",
-          label: "ca_dispon",
+          label: "Cant. Disponible",
           align: "left",
           field: "ca_dispon"
         },
         {
           name: "im_dispon",
-          label: "im_dispon",
+          label: "Imp. Disponible",
           align: "left",
           field: "im_dispon"
         },
         {
           name: "un_dispon",
-          label: "un_dispon",
+          label: "Prom. Disponible",
           align: "left",
           field: "un_dispon"
         }
