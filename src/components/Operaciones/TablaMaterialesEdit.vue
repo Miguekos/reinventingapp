@@ -12,7 +12,6 @@
       row-key="name"
       :pagination="pagination"
       :hide-header="hideheader"
-      :hide-bottom="hidebottom"
     >
       <template v-slot:top-right>
         <q-btn
