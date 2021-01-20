@@ -90,7 +90,7 @@ export default {
           field: "co_articu",
           sortable: true
         },
-        { name: "no_articu", label: "Nombre Artículo", field: "no_articu" },
+        { name: "no_articu", label: "Nombre Artículo", field: "Nombre Artículo" },
         { name: "fe_movini", label: "Fecha", field: "fe_movini" },
         { name: "co_docume", label: "Documento", field: "co_docume" },
         {

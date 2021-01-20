@@ -1,6 +1,7 @@
 <template>
   <div>
     <!--    {{ get_rep_kardex }}-->
+    <!--    {{ info }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
@@ -8,6 +9,7 @@
       table-header-class="text-brown"
       title="Resultado de Produccion Operaciones"
       :data="info"
+      :columns="columns"
       dense
       :filter="filter"
       row-key="name"
@@ -15,17 +17,13 @@
       virtual-scroll
       class="my-sticky-header-table"
     >
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ titulos(col.label) }}
-          </q-th>
-        </q-tr>
-      </template>
+      <!--      <template v-slot:header="props">-->
+      <!--        <q-tr :props="props">-->
+      <!--          <q-th v-for="col in props.cols" :key="col.name" :props="props">-->
+      <!--            {{ titulos(col.label) }}-->
+      <!--          </q-th>-->
+      <!--        </q-tr>|-->
+      <!--      </template>-->
       <template v-slot:top-right>
         <q-input
           class="q-pl-sm"
@@ -56,6 +54,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
+
 export default {
   props: ["info"],
   name: "Tabla",
@@ -78,50 +77,97 @@ export default {
       },
       columns: [
         {
-          name: "name",
-          required: true,
-          label: "Empresa",
+          name: "no_period",
+          label: "no_period",
           align: "left",
-          field: row => row.fe_regist,
-          format: val => `${val}`,
-          sortable: true
+          field: "no_period"
         },
         {
-          name: "co_docide",
-          align: "center",
-          label: "Almacén",
-          field: "co_docide",
-          sortable: true
+          name: "se_ventas",
+          label: "Servicios Venta",
+          align: "left",
+          field: "se_ventas"
         },
         {
-          name: "no_razsoc",
-          label: "Código",
-          field: "no_razsoc",
-          sortable: true
-        },
-        { name: "no_ordcom", label: "Artículo", field: "no_ordcom" },
-        { name: "no_estado", label: "Cantidad", field: "no_estado" },
-        { name: "co_moneda", label: "Precio Unitario", field: "co_moneda" },
-        {
-          name: "im_baseim",
-          label: "Precio Total",
-          field: "im_baseim",
-          sortable: true
+          name: "se_costos",
+          label: "Servicios Costo",
+          align: "left",
+          field: "se_costos"
         },
         {
-          name: "accion",
-          label: "Accion",
-          field: "accion",
-          sortable: true
+          name: "se_margen",
+          label: "Servicios Margen",
+          align: "left",
+          field: "se_margen"
+        },
+        {
+          name: "se_rentab",
+          label: "Servicios Rentabilidad",
+          align: "left",
+          field: "se_rentab"
+        },
+        {
+          name: "ma_ventas",
+          label: "Materiales Venta",
+          align: "left",
+          field: "ma_ventas"
+        },
+        {
+          name: "ma_costos",
+          label: "Materiales Costo",
+          align: "left",
+          field: "ma_costos"
+        },
+        {
+          name: "ma_margen",
+          label: "Materiales Margen",
+          align: "left",
+          field: "ma_margen"
+        },
+        {
+          name: "ma_rentab",
+          label: "Materiales Rentabilidad",
+          align: "left",
+          field: "ma_rentab"
+        },
+        {
+          name: "ma_sd",
+          label: "Sin Despachar",
+          align: "left",
+          field: "ma_sd"
+        },
+        {
+          name: "to_ventas",
+          label: "Total Venta",
+          align: "left",
+          field: "to_ventas"
+        },
+        {
+          name: "to_costos",
+          label: "Total Costo",
+          align: "left",
+          field: "to_costos"
+        },
+        {
+          name: "to_margen",
+          label: "Total Margen",
+          align: "left",
+          field: "to_margen"
+        },
+        {
+          name: "to_rentab",
+          label: "Total Rentabilidad",
+          align: "left",
+          field: "to_rentab"
         }
       ]
     };
   },
-    methods: {
-        titulos(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-        }
+  methods: {
+    titulos(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
+  }
 };
 </script>
 

@@ -43,6 +43,18 @@
           />
         </q-td>
       </template>
+      <template v-slot:body-cell-accion="props">
+        <q-td :props="props">
+          <!--          <input style="width: 44px" type="text">-->
+          <q-btn
+            rounded
+            size="sm"
+            color="red"
+            icon="delete"
+            @click="eliminar(props.row)"
+          />
+        </q-td>
+      </template>
       <template v-slot:top-right>
         <q-btn
           size="sm"
@@ -194,13 +206,37 @@ export default {
           label: "Tipo de Servicio",
           field: "no_tipser",
           sortable: true
+        },
+        {
+          name: "accion",
+          align: "right",
+          label: "Accion",
+          field: "accion",
+          sortable: true
         }
       ],
       data: []
     };
   },
   methods: {
-    ...mapActions("operaciones", ["call_servic_opera"]),
+    ...mapActions("operaciones", [
+      "call_servic_opera",
+      "call_delete_servic_opera",
+      "call_serv_mater_mostrar_buscar"
+    ]),
+    async eliminar(val) {
+      this.$q.loading.show();
+      console.log(val);
+      await this.call_delete_servic_opera({
+        ope_ser: val.co_opeser,
+        cod_ope: val.co_operac
+      });
+      await this.call_serv_mater_mostrar_buscar({
+        cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+        tip_fil: "S"
+      });
+      this.$q.loading.hide();
+    },
     async actualziarServicios() {
       this.$q.loading.show();
       // console.log(this.info);

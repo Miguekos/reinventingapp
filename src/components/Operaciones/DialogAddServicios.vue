@@ -53,6 +53,8 @@
       <q-card-section class="scroll">
         <div v-if="tipodebusqueda == 'S'" class="q-pa-xs">
           <q-table
+            flat
+            bordered
             dense
             :grid="$q.screen.xs"
             title="Servicios"
@@ -94,6 +96,8 @@
         </div>
         <div v-if="tipodebusqueda == 'M'" class="q-pa-xs">
           <q-table
+            flat
+            bordered
             dense
             :grid="$q.screen.xs"
             title="Materiales"
