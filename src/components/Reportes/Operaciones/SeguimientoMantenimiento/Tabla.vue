@@ -125,14 +125,14 @@ export default {
         },
         {
           name: "km_priing",
-          label: "km_priing",
-          field: "Kilometraje",
+          label: "KM Ingreso",
+          field: "km_priing",
           align: "left"
         },
         {
           name: "no_tipser",
-          label: "no_tipser",
-          field: "Tipo Servicio",
+          label: "Tipo Servicio",
+          field: "no_tipser",
           align: "left"
         },
         { name: "fec_1k", label: "1000 KM", field: "fec_1k", align: "left" },
