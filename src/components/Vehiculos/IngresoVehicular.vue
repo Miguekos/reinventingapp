@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--    {{ dataIngresoVehicular }}-->
+    {{ dataIngresoVehicular }}
     <q-card v-if="tieneCodigo === 1" class="full-height" square>
       <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
         <q-bar class="bg-primary text-white">
@@ -737,10 +737,16 @@ export default {
           per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
           pla_veh: this.dataIngresoVehicular.co_plaveh,
           mod_veh: this.dataIngresoVehicular.co_modveh,
-          ano_veh: this.nu_anofab,
+          ano_veh: this.nu_anofab
+            ? this.nu_anofab
+            : this.dataIngresoVehicular.nu_anofab,
           col_veh: this.dataIngresoVehicular.no_colveh,
-          ser_veh: this.nu_serveh,
-          mot_veh: this.nu_motveh,
+          ser_veh: this.nu_serveh
+            ? this.nu_serveh
+            : this.dataIngresoVehicular.nu_serveh,
+          mot_veh: this.nu_motveh
+            ? this.nu_motveh
+            : this.dataIngresoVehicular.nu_motveh,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,
           ape_pat: this.ape_pat,
@@ -777,15 +783,28 @@ export default {
       }
     },
     async onSubmit() {
+      console.log("onSubmit", this.dataIngresoVehicular);
+      console.log(this.$q.localStorage);
       console.log(
         "Codigo de persona",
         this.$q.localStorage.getAll().UserDetalle.co_person
       );
       this.$q.loading.show();
       try {
-        const responseIngresoV = await this.call_ingreso_vehicular({
+        const responseIngresoV = await this.call_ingresar_vehicu({
           per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
-          cod_veh: this.dataIngresoVehicular.co_vehicu,
+          pla_veh: this.dataIngresoVehicular.co_plaveh,
+          mod_veh: this.dataIngresoVehicular.co_modveh,
+          ano_veh: this.nu_anofab
+            ? this.nu_anofab
+            : this.dataIngresoVehicular.nu_anofab,
+          col_veh: this.dataIngresoVehicular.no_colveh,
+          ser_veh: this.nu_serveh
+            ? this.nu_serveh
+            : this.dataIngresoVehicular.nu_serveh,
+          mot_veh: this.nu_motveh
+            ? this.nu_motveh
+            : this.dataIngresoVehicular.nu_motveh,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,
           ape_pat: this.ape_pat,
@@ -795,8 +814,8 @@ export default {
           direcci: this.direcci,
           det_ing: this.det_ing,
           swt_sal: this.swt_sal,
-          fec_sal: this.fec_sal
-          // fec_sal: "2021-01-11"
+          fec_sal: this.fec_sal,
+          co_citope: this.dataIngresoVehicular.co_citope
         });
         if (responseIngresoV.res === "ok") {
           this.$q.notify({
@@ -860,10 +879,10 @@ export default {
       console.log("respVehicu", this.getVehiculosFilter.length);
       console.log("respVehicuData", this.getVehiculosFilter[0]);
       if (this.getVehiculosFilter.length > 0) {
-        this.$store.commit(
-          "example/dataIngresoVehicular",
-          this.getVehiculosFilter[0]
-        );
+        this.$store.commit("example/dataIngresoVehicular", {
+          ...this.dataIngresoVehicular,
+          ...this.getVehiculosFilter[0]
+        });
         this.tieneCodigo = 1;
       } else {
         this.tieneCodigo = 2;

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--    <q-card class="full-height" square>-->
     <q-card class="full-height" square>
       <q-bar class="bg-primary text-white">
         Agregar Servicios y Materiales
@@ -106,14 +107,14 @@
             row-key="name"
             :filter="filter"
           >
-            <template v-slot:body-cell-precioUnitario="props">
+            <template v-slot:body-cell-im_preuni="props">
               <q-td class="campoeditartd" :props="props">
                 <div>
                   <q-input
                     dense
                     filled
                     style="height: 10px"
-                    v-model="props.row.precioUnitario"
+                    v-model="props.row.im_preuni"
                     mask="#.##"
                     fill-mask="0"
                     reverse-fill-mask
@@ -122,14 +123,14 @@
                 </div>
               </q-td>
             </template>
-            <template v-slot:body-cell-cantidad="props">
+            <template v-slot:body-cell-va_cantid="props">
               <q-td class="campoeditartd" :props="props">
                 <div>
                   <q-input
                     dense
                     filled
                     class="campoeditar"
-                    v-model="props.row.cantidad"
+                    v-model="props.row.va_cantid"
                     mask="#"
                     fill-mask="0"
                     reverse-fill-mask
@@ -137,13 +138,13 @@
                 </div>
               </q-td>
             </template>
-            <template v-slot:body-cell-opciones="props">
+            <template v-slot:body-cell-ti_opcion="props">
               <q-td class="campoeditartd" :props="props">
                 <div>
                   <q-select
                     dense
                     class="campoeditar"
-                    v-model="props.row.opciones"
+                    v-model="props.row.ti_opcion"
                     :options="optionsCV"
                     option-label="name"
                     option-value="value"
@@ -154,34 +155,41 @@
                 </div>
               </q-td>
             </template>
-            <template v-slot:body-cell-acciones="props">
-              <q-td :props="props">
-                <div>
-                  <!-- <q-badge color="purple" :label="props.value" /> -->
+            <!--            <template v-slot:body-cell-acciones="props">-->
+            <!--              <q-td :props="props">-->
+            <!--                <div>-->
+            <!--                  <q-btn-->
+            <!--                    size="sm"-->
+            <!--                    color="primary"-->
+            <!--                    icon="add"-->
+            <!--                    @click="agregarMateriales(props.row)"-->
+            <!--                  />-->
+            <!--                </div>-->
+            <!--              </q-td>-->
+            <!--            </template>-->
+            <template v-slot:top-right>
+              <div class="row">
+                <div class="q-pr-sm">
+                  <q-input
+                    dense
+                    debounce="300"
+                    v-model="filter"
+                    placeholder="Buscar"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="q-pl-sm" style="align-self: center">
                   <q-btn
                     size="sm"
-                    color="positive"
-                    icon="add"
-                    @click="agregarMateriales(props.row)"
+                    color="orange"
+                    @click="agregarMateriales"
+                    label="Agregar"
                   />
                 </div>
-                <!-- <div class="my-table-details">
-                  {{ props.row.carbs }}
-                </div> -->
-              </q-td>
-            </template>
-            <template v-slot:top-right>
-              <q-input
-                borderless
-                dense
-                debounce="300"
-                v-model="filter"
-                placeholder="Buscar"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
+              </div>
             </template>
           </q-table>
         </div>
@@ -323,19 +331,23 @@ export default {
           field: "co_vehicu"
         },
         {
-          name: "precioUnitario",
+          name: "im_preuni",
           label: "Precio Unitario",
           align: "left",
-          field: "precioUnitario"
+          field: "im_preuni"
         },
         {
-          name: "cantidad",
+          name: "va_cantid",
           align: "left",
           label: "Cantidad",
-          field: "cantidad"
+          field: "va_cantid"
         },
-        { name: "opciones", align: "left", label: "Opción", field: "opciones" },
-        { name: "acciones", align: "left", label: "Accion", field: "acciones" }
+        {
+          name: "ti_opcion",
+          align: "left",
+          label: "Opción",
+          field: "ti_opcion"
+        }
       ],
       data: []
     };
@@ -378,20 +390,47 @@ export default {
       });
       this.$q.loading.hide();
     },
-    async agregarMateriales(val) {
-      console.log("agregar");
-      console.log(val);
+    async agregarMateriales() {
+      console.log("agregar Materiales");
       try {
-        const responseMaterialesAdd = await this.call_add_materi_opera({
-          cod_ope: this.$store.state.operaciones.numeroDeOperacion,
-          cod_mat: `${val.co_articu}`,
-          cantida: val.cantidad,
-          imp_uni: parseFloat(val.precioUnitario),
-          cos_ven: val.opciones
-        });
-        this.$q.notify({
-          massage: responseMaterialesAdd.message
-        });
+        console.log();
+        const array = this.get_serv_mater_mostrar_buscar.lis_bus_mat;
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index];
+          console.log("element", element.va_cantid);
+          if (element.va_cantid > 0) {
+            const responseMaterialesAdd = await this.call_add_materi_opera({
+              cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+              cod_mat: `${element.co_articu}`,
+              cantida: element.va_cantid,
+              imp_uni: parseFloat(element.im_preuni),
+              cos_ven: element.ti_opcion
+            });
+            this.$q.notify({
+              massage: responseMaterialesAdd.message
+            });
+          } else {
+            console.log("no se procesa");
+          }
+          // console.log("element", element.cantidad);
+          // if (element.cantidad === undefined) {
+          //   console.log("Cantidad vacia");
+          // } else {
+          //   console.log(element);
+          // }
+          // if (Number(element.cantidad) > 0) {
+          //   const responseMaterialesAdd = await this.call_add_materi_opera({
+          //     cod_ope: this.$store.state.operaciones.numeroDeOperacion,
+          //     cod_mat: `${element.co_articu}`,
+          //     cantida: element.cantidad,
+          //     imp_uni: parseFloat(element.precioUnitario),
+          //     cos_ven: element.opciones
+          //   });
+          //   this.$q.notify({
+          //     massage: responseMaterialesAdd.message
+          //   });
+          // }
+        }
         this.buscarSM();
       } catch (error) {
         console.log(error);
@@ -415,6 +454,7 @@ export default {
       tip_fil: "M",
       descrip: ""
     });
+
     this.$q.loading.hide();
   }
 };
@@ -422,19 +462,19 @@ export default {
 
 <style>
 /* .my-table-details {
-    font-size: 0.85em;
-    font-style: italic;
-    max-width: 200px;
-    white-space: normal;
-    color: #555;
-    margin-top: 4px;
-  } */
+      font-size: 0.85em;
+      font-style: italic;
+      max-width: 200px;
+      white-space: normal;
+      color: #555;
+      margin-top: 4px;
+    } */
 /* .q-field--dense .q-field__control,
-  .q-field--dense .q-field__marginal {
-    height: 15px;
-    border-bottom: 1px solid black;
-    width: 50px;
-  } */
+    .q-field--dense .q-field__marginal {
+      height: 15px;
+      border-bottom: 1px solid black;
+      width: 50px;
+    } */
 .campoeditartd {
   text-align: -webkit-center;
   /* text-align: center; */
