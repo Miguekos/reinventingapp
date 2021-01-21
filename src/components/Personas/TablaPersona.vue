@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-card>
-      {{ $store.state.personas.dialogEdit }}
+      <!--      {{ $store.state.personas.dialogEdit }}-->
       <q-table
         dense
         :data="info"

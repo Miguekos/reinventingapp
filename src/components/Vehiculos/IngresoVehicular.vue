@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ dataIngresoVehicular }}
+    <!--    {{ dataIngresoVehicular }}-->
     <q-card v-if="tieneCodigo === 1" class="full-height" square>
       <q-form @submit="onSubmit" @reset.prevent.stop="onReset">
         <q-bar class="bg-primary text-white">
