@@ -393,11 +393,10 @@ export default {
     async agregarMateriales() {
       console.log("agregar Materiales");
       try {
-        console.log();
         const array = this.get_serv_mater_mostrar_buscar.lis_bus_mat;
         for (let index = 0; index < array.length; index++) {
           const element = array[index];
-          console.log("element", element.va_cantid);
+          // console.log("element", element.va_cantid);
           if (element.va_cantid > 0) {
             const responseMaterialesAdd = await this.call_add_materi_opera({
               cod_ope: this.$store.state.operaciones.numeroDeOperacion,
@@ -410,7 +409,7 @@ export default {
               massage: responseMaterialesAdd.message
             });
           } else {
-            console.log("no se procesa");
+            // console.log("no se procesa");
           }
           // console.log("element", element.cantidad);
           // if (element.cantidad === undefined) {

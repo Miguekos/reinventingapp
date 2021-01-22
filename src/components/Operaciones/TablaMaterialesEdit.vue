@@ -199,7 +199,7 @@ export default {
       this.$q.loading.show();
       console.log(val);
       await this.call_delete_materi_opera({
-        ope_mat: val.ope_mat,
+        ope_mat: val.co_opemat,
         cod_ope: val.co_operac
       });
       await this.call_serv_mater_mostrar_buscar({
