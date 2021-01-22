@@ -59,10 +59,10 @@ export default {
           sortable: true
         },
         {
-          name: "no_nombre",
+          name: "no_comple",
           align: "left",
           label: "Nombre",
-          field: "no_nombre",
+          field: "no_comple",
           sortable: true
         },
         {
