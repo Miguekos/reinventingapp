@@ -9,7 +9,6 @@
       table-header-class="text-brown"
       title="Resultado de Produccion Operaciones"
       :data="info"
-      :columns="columns"
       dense
       :filter="filter"
       row-key="name"

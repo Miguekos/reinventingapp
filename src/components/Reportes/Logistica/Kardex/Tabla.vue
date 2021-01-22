@@ -10,7 +10,6 @@
       :data="info"
       dense
       :filter="filter"
-      :columns="columns"
       row-key="name"
       :pagination="initialPagination"
       virtual-scroll
