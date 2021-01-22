@@ -1098,6 +1098,7 @@ export default {
       try {
         const responseIngresoV = await this.call_ingreso_vehicular({
           per_reg: this.$q.localStorage.getAll().UserDetalle.co_person,
+          cod_veh: this.dataIngresoVehicular.co_vehicu,
           val_kil: this.val_kil,
           doc_ide: this.doc_ide,
           ape_pat: this.ape_pat,
@@ -1224,7 +1225,6 @@ export default {
       console.log("Paso this.tieneCodigo = 1");
       this.tieneCodigo = 1;
     } else {
-      console.log("Paso this.tieneCodigo = 2");
       await this.callVehiculosFilter(this.dataIngresoVehicular.co_plaveh);
       console.log("respVehicu", this.getVehiculosFilter.length);
       console.log("respVehicuData", this.getVehiculosFilter[0]);
@@ -1233,8 +1233,10 @@ export default {
           ...this.dataIngresoVehicular,
           ...this.getVehiculosFilter[0]
         });
+        console.log("Paso this.tieneCodigo = 3");
         this.tieneCodigo = 3;
       } else {
+        console.log("Paso this.tieneCodigo = 2");
         this.tieneCodigo = 2;
       }
     }
