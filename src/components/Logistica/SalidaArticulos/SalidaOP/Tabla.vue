@@ -109,24 +109,24 @@ export default {
           field: "no_client",
           sortable: true
         },
-        { name: "no_operac", label: "No_operac", field: "no_operac" },
-        { name: "co_plaveh", label: "Co_plaveh", field: "co_plaveh" },
-        { name: "no_marveh", label: "No_marmod", field: "no_marveh" },
+        { name: "no_operac", label: "Operacion", field: "no_operac" },
+        { name: "co_plaveh", label: "Placa", field: "co_plaveh" },
+        { name: "no_marveh", label: "Marca", field: "no_marveh" },
         {
           name: "co_barras",
-          label: "Co_barras",
+          label: "Codigo",
           field: "co_barras",
           sortable: true
         },
         {
           name: "no_articu",
-          label: "No_articu",
+          label: "Nombre",
           field: "no_articu",
           sortable: true
         },
         {
           name: "ca_articu",
-          label: "Ca_articu",
+          label: "Cant. Articulos",
           field: "ca_articu",
           sortable: true
         },

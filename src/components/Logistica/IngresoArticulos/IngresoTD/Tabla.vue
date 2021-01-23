@@ -109,30 +109,34 @@ export default {
           field: "no_razsoc",
           sortable: true
         },
-        { name: "no_ordtra", label: "Tramite Documentario", field: "no_ordtra" },
-        { name: "co_barras", label: "Co_barras", field: "co_barras" },
-        { name: "no_articu", label: "No_articu", field: "no_articu" },
+        {
+          name: "no_ordtra",
+          label: "Tramite Documentario",
+          field: "no_ordtra"
+        },
+        { name: "co_barras", label: "Codigo", field: "co_barras" },
+        { name: "no_articu", label: "Nombre", field: "no_articu" },
         {
           name: "co_unimed",
-          label: "Co_unimed",
+          label: "Unidad de Medida",
           field: "co_unimed",
           sortable: true
         },
         {
           name: "ca_articu",
-          label: "Ca_articu",
+          label: "Can. Artículo",
           field: "ca_articu",
           sortable: true
         },
         {
           name: "ca_ingres",
-          label: "Ca_ingres",
+          label: "Can. Ingresado",
           field: "ca_ingres",
           sortable: true
         },
         {
           name: "ca_pendie",
-          label: "Ca_pendie",
+          label: "Can. Pendiente",
           field: "ca_pendie",
           sortable: true
         },

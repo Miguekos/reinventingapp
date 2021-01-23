@@ -200,3 +200,50 @@ docker build -t reinventing:2.0 .
 docker-compose -f docker-compose_pro.yml down
 docker-compose -f docker-compose_pro.yml up -d
 docker-compose -f docker-compose_pro.yml logs -f
+
+
+### autopintar cabeceras de las tablas
+
+import { MixinDefault } from "../../../../mixins/mixin";
+
+ mixins: [MixinDefault],
+
+ props: {
+    info: {
+      type: Array,
+      default: () => []
+    }
+  },
+  
+    computed: {
+      ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
+      dataTable() {
+        let data = [];
+        console.log("this.info.length", this.info.length);
+        for (let index = 0; index < this.info.length; index++) {
+          const element = this.info[index];
+          data.push({
+            ...this.ObjKeyRename(element, this.labels)
+          });
+        }
+        console.log("asdasdasd", data);
+        return data;
+      }
+    },
+
+  methods: {
+    titulos(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    },
+    asdasd(val) {
+      console.log(val);
+    }
+  }
+        
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              {{ titulos(col.label) }}
+            </q-th>
+          </q-tr>
+        </template>

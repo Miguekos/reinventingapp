@@ -7,8 +7,7 @@
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Kardex"
-      :data="info"
-      :columns="columns"
+      :data="dataTable"
       dense
       :filter="filter"
       row-key="name"
@@ -16,6 +15,13 @@
       virtual-scroll
       class="my-sticky-header-table"
     >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ titulos(col.label) }}
+          </q-th>
+        </q-tr>
+      </template>
       <template v-slot:top-right>
         <q-input
           class="q-pl-sm"
@@ -50,8 +56,30 @@
 </template>
 
 <script>
+import { MixinDefault } from "../../../../mixins/mixin";
 export default {
-  props: ["info"],
+  mixins: [MixinDefault],
+
+  props: {
+    info: {
+      type: Array,
+      default: () => []
+    }
+  },
+  computed: {
+    dataTable() {
+      let data = [];
+      console.log("this.info.length", this.info.length);
+      for (let index = 0; index < this.info.length; index++) {
+        const element = this.info[index];
+        data.push({
+          ...this.ObjKeyRename(element, this.labels)
+        });
+      }
+      // console.log("asdasdasd", data);
+      return data;
+    }
+  },
   name: "Tabla",
   data() {
     return {
@@ -161,6 +189,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    titulos(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
   }
 };
 </script>
