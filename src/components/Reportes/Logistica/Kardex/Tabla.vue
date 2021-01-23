@@ -8,6 +8,7 @@
       table-header-class="text-brown"
       title="Kardex"
       :data="info"
+      :columns="columns"
       dense
       :filter="filter"
       row-key="name"
@@ -89,7 +90,7 @@ export default {
           field: "co_articu",
           sortable: true
         },
-        { name: "no_articu", label: "Nombre Artículo", field: "Nombre Artículo" },
+        { name: "no_articu", label: "Nombre Artículo", field: "no_articu" },
         { name: "fe_movini", label: "Fecha", field: "fe_movini" },
         { name: "co_docume", label: "Documento", field: "co_docume" },
         {
