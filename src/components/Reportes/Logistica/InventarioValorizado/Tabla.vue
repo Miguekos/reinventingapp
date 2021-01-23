@@ -95,8 +95,8 @@ export default {
           field: "co_articu",
           sortable: true
         },
-        { name: "no_articu", label: "Artículo", field: "Nombre Artículo" },
-        { name: "ca_articu", label: "Cantidad", field: "Cantidad Artículo" },
+        { name: "no_articu", label: "Artículo", field: "no_articu" },
+        { name: "ca_articu", label: "Cantidad", field: "ca_articu" },
         { name: "im_preuni", label: "Precio Unitario", field: "im_preuni" },
         {
           name: "im_pretot",
