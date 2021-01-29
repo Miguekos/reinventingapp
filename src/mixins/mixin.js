@@ -5,6 +5,11 @@ const MixinDefault = {
   data() {
     return {
       labels: {
+        co_docide: "Documento",
+        no_apepat: "Ap. Paterno",
+        no_apemat: "Ap. Materno",
+        no_nombre: "Nombres",
+        fe_regist: "Fecha de registro",
         co_empres: "Cod. Empresa",
         co_almace: "Cod. Almacen",
         no_empres: "Empresa",
