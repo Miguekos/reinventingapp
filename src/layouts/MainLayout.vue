@@ -314,6 +314,31 @@
                 </q-expansion-item>
               </q-expansion-item>
 
+              <q-expansion-item
+                class="q-ma-sm navigation-item"
+                expand-separator
+                icon="chrome_reader_mode"
+                label="Landing"
+                :content-inset-level="0.5"
+              >
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/chapatumototaxi')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="electric_rickshaw" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Moto taxi</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-expansion-item>
+
               <q-item
                 class="q-ma-sm navigation-item"
                 clickable
@@ -436,7 +461,7 @@ const linksData = [
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
-    link: "/vehiculos"
+    link: "/vehiculos",
   },
   // {
   //   title: "Personas",
@@ -448,7 +473,7 @@ const linksData = [
     title: "Citas",
     caption: "github.com/quasarframework",
     icon: "event",
-    link: "/citas"
+    link: "/citas",
   },
   // {
   //   title: "Materiales",
@@ -460,8 +485,8 @@ const linksData = [
     title: "Operaciones",
     caption: "github.com/quasarframework",
     icon: "rule",
-    link: "/operaciones"
-  }
+    link: "/operaciones",
+  },
   // {
   //   title: "Logistica",
   //   caption: "github.com/quasarframework",
@@ -490,7 +515,7 @@ export default {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
     },
-    ...mapState("example", ["dialogIngresoVehicular", "UploadBasic"])
+    ...mapState("example", ["dialogIngresoVehicular", "UploadBasic"]),
   },
   components: {
     EssentialLink,
@@ -498,7 +523,7 @@ export default {
     Test: () => import("pages/Test"),
     DialogIngresoVehicular: () =>
       import("components/Vehiculos/IngresoVehicular"),
-    TagUploadBasic: () => import("components/Upload/UploadBasic")
+    TagUploadBasic: () => import("components/Upload/UploadBasic"),
   },
   data() {
     return {
@@ -510,11 +535,11 @@ export default {
         last_name: "",
         age: null,
         email: "",
-        phone: ""
+        phone: "",
       },
       dialogPerfil: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
     };
   },
   methods: {
@@ -546,12 +571,12 @@ export default {
         // icon: "favorite",
         color: "white",
         textColor: "blue-5",
-        position: "top"
+        position: "top",
       });
       this.$q.loading.hide();
       // }, 2000);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
