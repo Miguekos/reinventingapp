@@ -20,8 +20,8 @@
                 ref="dni"
                 filled
                 v-model="dni"
-                label="DNI"
-                hint="Ingresa tu DNI"
+                label="Documento"
+                hint="Ingresa tu Documento"
                 maxlength="11"
                 counter
                 :rules="[val => (val && val.length >= 8) || 'Campo obligatorio']"
