@@ -424,7 +424,7 @@ export default {
     async onSubmit() {
       try {
         const resp = await this.call_insert_bitges({
-          co_landin: 114,
+          co_landin: this.clietneSelect.CodLanding,
           ps_regist: this.$q.localStorage.getAll().UserDetalle.co_person,
           co_estlla: this.tcestlla,
           co_resges: this.tcresges,
