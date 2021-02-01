@@ -24,13 +24,12 @@
           flat
           dense
           round
-          size="sm"
           color="black"
           aria-label="Menu"
           @click="activarProfile"
         >
           <q-avatar>
-            <img width="50px" :src="fotoPerfil" />
+            <q-img :src="fotoPerfil" />
             <!--              4-->
             <!--            </q-badge>-->
           </q-avatar>
