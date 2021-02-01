@@ -302,7 +302,7 @@ export default {
       "call_tcrescvr",
       "call_tcresges",
       "call_tcresult",
-      "call_listar_landin"
+      "call_listar_landin",
     ]),
     titulos(string) {
       return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -310,7 +310,7 @@ export default {
     async onSubmit() {
       try {
         const resp = await this.call_insert_bitges({
-          co_landin: 1,
+          co_landin: 114,
           ps_regist: this.$q.localStorage.getAll().UserDetalle.co_person,
           co_estlla: this.tcestlla,
           co_resges: this.tcresges,
@@ -331,7 +331,8 @@ export default {
           fe_reghas: date.formatDate(timeStamp, "YYYY-MM-DD"),
           ti_landin: "1",
         });
-        this.confirm = false;
+        this.cerrar();
+        // this.confirm = false;
       } catch (error) {
         console.log(error);
       }
