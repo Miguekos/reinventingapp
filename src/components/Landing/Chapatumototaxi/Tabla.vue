@@ -43,13 +43,22 @@
         </q-td>
       </template>
       <template v-slot:body-cell-accion="props">
-        <q-td class="text-right" :props="props">
-          <q-btn
-            size="xs"
-            color="primary"
-            label="Gestionar"
-            @click="gestionar(props.row)"
-          />
+        <q-td :props="props">
+          <div class="q-pr-xs q-gutter-sm">
+            <q-btn
+              size="xs"
+              color="green"
+              label="Ver"
+              @click="ver(props.row)"
+            />
+
+            <q-btn
+              size="xs"
+              color="primary"
+              label="Gestionar"
+              @click="gestionar(props.row)"
+            />
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -214,6 +223,62 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogver" persistent full-width>
+      <q-card class="bg-primary text-white">
+        <q-bar class="bg-primary">
+          <q-space />
+
+          <q-btn
+            dense
+            flat
+            icon="minimize"
+            @click="maximizedToggle = false"
+            :disable="!maximizedToggle"
+          >
+            <q-tooltip
+              v-if="maximizedToggle"
+              content-class="bg-white text-primary"
+              >Minimizar</q-tooltip
+            >
+          </q-btn>
+          <q-btn
+            dense
+            flat
+            icon="crop_square"
+            @click="maximizedToggle = true"
+            :disable="maximizedToggle"
+          >
+            <q-tooltip
+              v-if="!maximizedToggle"
+              content-class="bg-white text-primary"
+              >Maximizar</q-tooltip
+            >
+          </q-btn>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip content-class="bg-white text-primary">Cerrar</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <!-- <q-card-section>
+          <div class="text-h6">Historico de Gestion para: Miguel Rodriguez</div>
+        </q-card-section> -->
+
+        <q-card-section class="q-pt-none">
+          <!-- {{ get_listar_bitaco.resultado }} -->
+          <q-table
+            dense
+            flat
+            color="primary"
+            card-class="bg-amber-1 text-brown"
+            table-class="text-grey-8"
+            table-header-class="text-brown"
+            title="Bitácora"
+            :data="dataTableBitacora"
+            row-key="name"
+          />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -242,6 +307,7 @@ export default {
       "get_tcrescvr",
       "get_tcresges",
       "get_tcresult",
+      "get_listar_bitaco",
     ]),
     dataTable() {
       let data = [];
@@ -256,9 +322,33 @@ export default {
       // console.log("asdasdasd", data);
       return data;
     },
+    dataTableBitacora() {
+      let data = [];
+      try {
+        console.log(
+          "this.info.length",
+          this.get_listar_bitaco.resultado.length
+        );
+        for (
+          let index = 0;
+          index < this.get_listar_bitaco.resultado.length;
+          index++
+        ) {
+          const element = this.get_listar_bitaco.resultado[index];
+          data.push(this.ObjKeyRename(element, this.labels));
+        }
+        // console.log("asdasdasd", data);
+        return data;
+      } catch (error) {
+        console.log(error);
+        return data;
+      }
+    },
   },
   data() {
     return {
+      maximizedToggle: false,
+      dialogver: false,
       tcresges: "",
       tcestlla: "",
       tcvalcvr: "",
@@ -279,7 +369,6 @@ export default {
       tipo: 1,
       orden: null,
       dataEdit: [],
-      maximizedToggle: false,
       initialPagination: {
         sortBy: "desc",
         descending: false,
@@ -303,9 +392,34 @@ export default {
       "call_tcresges",
       "call_tcresult",
       "call_listar_landin",
+      "call_listar_bitaco",
     ]),
     titulos(string) {
       return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    },
+    async ver(val) {
+      try {
+        this.$q.loading.show();
+        console.log(val);
+        await this.call_listar_bitaco({
+          co_landin: val.CodLanding,
+        });
+        if (this.get_listar_bitaco.resultado.length > 0) {
+          this.dialogver = true;
+        } else {
+          this.dialogver = false;
+          this.$q.notify({
+            message: "No tiene gestion",
+          });
+        }
+        this.$q.loading.hide();
+      } catch (error) {
+        console.log(error);
+        this.$q.notify({
+          message: "Error controlado",
+        });
+        this.$q.loading.hide();
+      }
     },
     async onSubmit() {
       try {

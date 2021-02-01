@@ -5,10 +5,20 @@ const MixinDefault = {
   data() {
     return {
       labels: {
-        co_landin: "Cod. Landing",
+        no_coment: "Comentario",
+        no_estlla: "Est. llamada",
+        no_estdoc: "Est. Documento",
+        co_landin: "CodLanding",
+        no_expsis: "Exp. Sistema",
         no_tiplan: "landing",
+        no_resges: "Resul. Gestion",
+        co_expedi: "Cod. Expediente",
+        il_conver: "Converus",
+        fe_citcvr: "Fecha Cita",
+        no_rescvr: "Resp. Converus",
         fe_nacimi: "Fecha de naciemiento",
         no_estciv: "Estado civil",
+        no_result: "Resultado",
         no_liccon: "Licencia de Conducir",
         no_depart: "Departamento",
         no_provin: "Provincia",

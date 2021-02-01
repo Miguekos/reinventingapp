@@ -10,7 +10,8 @@ const state = {
   get_tcrescvr: [],
   get_tcresges: [],
   get_tcresult: [],
-  dialogCrear: false
+  dialogCrear: false,
+  get_listar_bitaco: []
 };
 
 const mutations = {
@@ -40,6 +41,9 @@ const mutations = {
   },
   get_tcresult(state, payload) {
     state.get_tcresult = payload;
+  },
+  get_listar_bitaco(state, payload) {
+    state.get_listar_bitaco = payload;
   }
 };
 
@@ -83,6 +87,10 @@ const actions = {
   async call_tcresult({ commit }) {
     const response = await axiosInstance.get(`comerc/tcresult`);
     commit("get_tcresult", response.data);
+  },
+  async call_listar_bitaco({ commit }, payload) {
+    const response = await axiosInstance.post(`comerc/listar_bitaco`, payload);
+    commit("get_listar_bitaco", response.data);
   }
 };
 
@@ -113,6 +121,9 @@ const getters = {
   },
   get_tcresult(state) {
     return state.get_tcresult;
+  },
+  get_listar_bitaco(state) {
+    return state.get_listar_bitaco;
   }
 };
 
