@@ -5,6 +5,16 @@ const MixinDefault = {
   data() {
     return {
       labels: {
+        co_landin: "Cod. Landing",
+        no_tiplan: "landing",
+        fe_nacimi: "Fecha de naciemiento",
+        no_estciv: "Estado civil",
+        no_liccon: "Licencia de Conducir",
+        no_depart: "Departamento",
+        no_provin: "Provincia",
+        no_distri: "Distrito",
+        de_experi: "Experiencia",
+        no_estado: "Estado",
         co_docide: "Documento",
         no_apepat: "Ap. Paterno",
         no_apemat: "Ap. Materno",
