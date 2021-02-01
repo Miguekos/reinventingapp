@@ -22,9 +22,9 @@
                 v-model="dni"
                 label="DNI"
                 hint="Ingresa tu DNI"
-                maxlength="8"
+                maxlength="11"
                 counter
-                :rules="[val => (val && val.length > 0) || 'Campo obligatorio']"
+                :rules="[val => (val && val.length >= 8) || 'Campo obligatorio']"
               />
             </div>
             <div class="col-12">
