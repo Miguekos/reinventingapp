@@ -336,6 +336,23 @@
                     <q-item-label>Moto taxi</q-item-label>
                   </q-item-section>
                 </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/motolineal')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="two_wheeler" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Moto lineal</q-item-label>
+                  </q-item-section>
+                </q-item>
               </q-expansion-item>
 
               <q-item
