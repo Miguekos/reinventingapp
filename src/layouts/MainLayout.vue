@@ -380,7 +380,7 @@
                   @click="URL('/landing/efectivoaltoque')"
                 >
                   <q-item-section avatar>
-                    <q-icon name="local_taxi" />
+                    <q-icon name="local_atm" />
                   </q-item-section>
 
                   <q-item-section>
