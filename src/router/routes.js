@@ -75,6 +75,11 @@ const routes = [
       {
         path: "landing/taxipropio",
         component: () => import("components/Landing/Taxipropio/Taxipropio")
+      },
+      {
+        path: "landing/efectivoaltoque",
+        component: () =>
+          import("components/Landing/Efectivoaltoque/Efectivoaltoque")
       }
     ]
   },
