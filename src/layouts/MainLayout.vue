@@ -311,6 +311,31 @@
                     </q-item-section>
                   </q-item>
                 </q-expansion-item>
+
+                <q-expansion-item
+                  class="q-ma-sm navigation-item"
+                  expand-separator
+                  icon="receipt_long"
+                  label="Landing"
+                  :content-inset-level="0.5"
+                >
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/landing')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Gestion Landing</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
               </q-expansion-item>
 
               <q-expansion-item
