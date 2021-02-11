@@ -64,6 +64,10 @@ const routes = [
           )
       },
       {
+        path: "reportes/landing",
+        component: () => import("components/Reportes/Landing/Landing")
+      },
+      {
         path: "landing/chapatumototaxi",
         component: () =>
           import("components/Landing/Chapatumototaxi/Chapatumototaxi")

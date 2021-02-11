@@ -11,7 +11,8 @@ const state = {
   get_tcresges: [],
   get_tcresult: [],
   dialogCrear: false,
-  get_listar_bitaco: []
+  get_listar_bitaco: [],
+  get_report_gestio: []
 };
 
 const mutations = {
@@ -44,6 +45,9 @@ const mutations = {
   },
   get_listar_bitaco(state, payload) {
     state.get_listar_bitaco = payload;
+  },
+  get_report_gestio(state, payload) {
+    state.get_report_gestio = payload;
   }
 };
 
@@ -91,6 +95,10 @@ const actions = {
   async call_listar_bitaco({ commit }, payload) {
     const response = await axiosInstance.post(`comerc/listar_bitaco`, payload);
     commit("get_listar_bitaco", response.data);
+  },
+  async call_report_gestio({ commit }, payload) {
+    const response = await axiosInstance.post(`comerc/report_gestio`, payload);
+    commit("get_report_gestio", response.data);
   }
 };
 
@@ -124,6 +132,9 @@ const getters = {
   },
   get_listar_bitaco(state) {
     return state.get_listar_bitaco;
+  },
+  get_report_gestio(state) {
+    return state.get_report_gestio;
   }
 };
 
