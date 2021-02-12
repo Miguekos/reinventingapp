@@ -119,15 +119,15 @@ export default {
       options_ti_modrep: [
         {
           name: "Tipo de Landing",
-          value: 1,
+          value: "1",
         },
         {
           name: "Landing / Zona",
-          value: 2,
+          value: "2",
         },
         {
           name: "Landing / Asesor / Zona",
-          value: 3,
+          value: "3",
         },
       ],
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
