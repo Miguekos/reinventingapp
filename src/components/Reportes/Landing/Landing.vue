@@ -66,11 +66,15 @@
               </q-input>
             </div>
             <div class="col-xs-12 col-sm-2 q-pa-xs">
-              <q-input
-                autofocus
-                dense
+              <q-select
                 filled
+                dense
                 v-model="ti_modrep"
+                :options="options_ti_modrep"
+                option-value="value"
+                option-label="name"
+                emit-value
+                map-options
                 label="Tipo de Reporte"
               />
             </div>
@@ -112,6 +116,20 @@ export default {
       cod_emp: "",
       cod_alm: "",
       nom_art: "",
+      options_ti_modrep: [
+        {
+          name: "Tipo de Landing",
+          value: 1,
+        },
+        {
+          name: "Landing / Zona",
+          value: 2,
+        },
+        {
+          name: "Landing / Asesor / Zona",
+          value: 3,
+        },
+      ],
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
     };
   },
