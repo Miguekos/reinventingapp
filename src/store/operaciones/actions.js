@@ -202,6 +202,24 @@ export async function call_servic_opera({ commit }, payload) {
   // commit("get_servic_opera", response.data)
 }
 
+export async function call_delete_servic_opera({ commit }, payload) {
+  const response = await axiosInstance.post(
+    `/operacflujo/del_servic_opera`,
+    payload
+  );
+  console.log(response.data);
+  return response.data;
+}
+
+export async function call_delete_materi_opera({ commit }, payload) {
+  const response = await axiosInstance.post(
+    `/operacflujo/del_materi_opera`,
+    payload
+  );
+  console.log(response.data);
+  return response.data;
+}
+
 export async function call_materi_opera({ commit }, payload) {
   const response = await axiosInstance.post(
     `/operacflujo/materi_opera`,

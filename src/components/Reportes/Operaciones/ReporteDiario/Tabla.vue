@@ -1,13 +1,14 @@
 <template>
   <div>
     <!--    {{ get_rep_kardex }}-->
+    <!--    {{ info }}-->
     <q-table
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       title="Resultado del Reporte Diario"
-      :data="info"
+      :data="dataTable"
       dense
       :filter="filter"
       row-key="name"
@@ -17,11 +18,7 @@
     >
       <template v-slot:header="props">
         <q-tr :props="props">
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ titulos(col.label) }}
           </q-th>
         </q-tr>
@@ -45,22 +42,36 @@
           {{ props.value }}
         </q-td>
       </template>
-      <template v-slot:body-cell-accion="props">
-        <q-td :props="props">
-          <q-btn size="xs" color="primary" label="Ver" />
-        </q-td>
-      </template>
     </q-table>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
+import { MixinDefault } from "../../../../mixins/mixin";
 export default {
-  props: ["info"],
+  props: {
+    info: {
+      type: Array,
+      default: () => []
+    }
+  },
+  mixins: [MixinDefault],
   name: "Tabla",
   computed: {
-    ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"])
+    ...mapState("reportes", ["dialogCrear", "dialogDetalleOrden"]),
+    dataTable() {
+      let data = [];
+      console.log("this.info.length", this.info.length);
+      for (let index = 0; index < this.info.length; index++) {
+        const element = this.info[index];
+        data.push({
+          ...this.ObjKeyRename(element, this.labels)
+        });
+      }
+      // console.log("asdasdasd", data);
+      return data;
+    }
   },
   data() {
     return {
@@ -78,48 +89,159 @@ export default {
       },
       columns: [
         {
-          name: "name",
-          required: true,
-          label: "Empresa",
+          name: "co_descri",
+          label: "Codigo",
           align: "left",
-          field: row => row.fe_regist,
-          format: val => `${val}`,
-          sortable: true
+          field: "co_descri"
         },
         {
-          name: "co_docide",
-          align: "center",
-          label: "Almacén",
-          field: "co_docide",
-          sortable: true
+          name: "no_descri",
+          label: "Descripcion",
+          align: "left",
+          field: "no_descri"
         },
         {
-          name: "no_razsoc",
-          label: "Código",
-          field: "no_razsoc",
-          sortable: true
-        },
-        { name: "no_ordcom", label: "Artículo", field: "no_ordcom" },
-        { name: "no_estado", label: "Cantidad", field: "no_estado" },
-        { name: "co_moneda", label: "Precio Unitario", field: "co_moneda" },
-        {
-          name: "im_baseim",
-          label: "Precio Total",
-          field: "im_baseim",
-          sortable: true
+          name: "fe_actual",
+          label: "Fecha",
+          align: "left",
+          field: "fe_actual"
         },
         {
-          name: "accion",
-          label: "Accion",
-          field: "accion",
-          sortable: true
+          name: "ca_rechaz",
+          label: "Cant. Rechazo",
+          align: "left",
+          field: "ca_rechaz"
+        },
+        {
+          name: "im_rechaz",
+          label: "Imp. Rechazo",
+          align: "left",
+          field: "im_rechaz"
+        },
+        {
+          name: "un_rechaz",
+          label: "Prom. Rechazo",
+          align: "left",
+          field: "un_rechaz"
+        },
+        {
+          name: "ca_penide",
+          label: "Cantidad pendiente",
+          align: "left",
+          field: "ca_penide"
+        },
+        {
+          name: "im_pendie",
+          label: "Imp. Pendiente",
+          align: "left",
+          field: "im_pendie"
+        },
+        {
+          name: "un_pendie",
+          label: "Prom. Pendiente",
+          align: "left",
+          field: "un_pendie"
+        },
+        {
+          name: "ca_autori",
+          label: "Cantidad autorizada",
+          align: "left",
+          field: "ca_autori"
+        },
+        {
+          name: "im_autori",
+          label: "Imp. Autorizado",
+          align: "left",
+          field: "im_autori"
+        },
+        {
+          name: "un_autori",
+          label: "Prom Autorizado",
+          align: "left",
+          field: "un_autori"
+        },
+        {
+          name: "ca_proces",
+          label: "Cant. Proceso",
+          align: "left",
+          field: "ca_proces"
+        },
+        {
+          name: "im_proces",
+          label: "Imp. Proceso",
+          align: "left",
+          field: "im_proces"
+        },
+        {
+          name: "un_proces",
+          label: "Prom. Proceso",
+          align: "left",
+          field: "un_proces"
+        },
+        {
+          name: "ca_cerrad",
+          label: "Cant. Cerrado",
+          align: "left",
+          field: "ca_cerrad"
+        },
+        {
+          name: "im_cerrad",
+          label: "Imp. Cerrado",
+          align: "left",
+          field: "im_cerrad"
+        },
+        {
+          name: "un_cerrad",
+          label: "Prom. Cerrado",
+          align: "left",
+          field: "un_cerrad"
+        },
+        {
+          name: "ca_totale",
+          label: "Cantidad total",
+          align: "left",
+          field: "ca_totale"
+        },
+        {
+          name: "im_totale",
+          label: "Imp. Total",
+          align: "left",
+          field: "im_totale"
+        },
+        {
+          name: "un_totale",
+          label: "Prom. Total",
+          align: "left",
+          field: "un_totale"
+        },
+        {
+          name: "ca_dispon",
+          label: "Cant. Disponible",
+          align: "left",
+          field: "ca_dispon"
+        },
+        {
+          name: "im_dispon",
+          label: "Imp. Disponible",
+          align: "left",
+          field: "im_dispon"
+        },
+        {
+          name: "un_dispon",
+          label: "Prom. Disponible",
+          align: "left",
+          field: "un_dispon"
         }
       ]
     };
   },
+
   methods: {
     titulos(string) {
       return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    },
+    asdasd(val) {
+      console.log(val);
     }
   }
 };

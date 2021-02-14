@@ -40,6 +40,9 @@
           <div v-if="!props.row.il_selecc">
             <q-checkbox size="30px" val="true" v-model="props.row.il_selecc" />
           </div>
+          <div v-else-if="props.row.il_selecc == true">
+            <q-checkbox size="30px" val="true" color="green" v-model="props.row.il_selecc" />
+          </div>
           <div v-else>
             {{ props.row.il_selecc }}
           </div>
@@ -106,24 +109,24 @@ export default {
           field: "no_client",
           sortable: true
         },
-        { name: "no_operac", label: "No_operac", field: "no_operac" },
-        { name: "co_plaveh", label: "Co_plaveh", field: "co_plaveh" },
-        { name: "no_marveh", label: "No_marmod", field: "no_marveh" },
+        { name: "no_operac", label: "Operacion", field: "no_operac" },
+        { name: "co_plaveh", label: "Placa", field: "co_plaveh" },
+        { name: "no_marveh", label: "Marca", field: "no_marveh" },
         {
           name: "co_barras",
-          label: "Co_barras",
+          label: "Codigo",
           field: "co_barras",
           sortable: true
         },
         {
           name: "no_articu",
-          label: "No_articu",
+          label: "Nombre",
           field: "no_articu",
           sortable: true
         },
         {
           name: "ca_articu",
-          label: "Ca_articu",
+          label: "Cant. Articulos",
           field: "ca_articu",
           sortable: true
         },
@@ -165,7 +168,7 @@ export default {
           if (element.il_selecc === true) {
             console.log("element", element);
             await this.call_insert_produc_ingsal({
-              co_person: "92",
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
               fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
               co_prikey: element.co_operac,
               co_articu: element.co_articu,
@@ -177,13 +180,13 @@ export default {
         }
         await this.call_listar_docume_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "OP",
           ti_ingsal: "2"
         });
         await this.call_listar_produc_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "OP",
           ti_ingsal: "2"
         });

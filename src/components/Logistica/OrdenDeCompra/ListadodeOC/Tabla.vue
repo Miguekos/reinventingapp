@@ -57,13 +57,26 @@
       </template>
       <template v-slot:body-cell-accion="props">
         <q-td :props="props">
-          <q-btn
-            size="xs"
-            round
-            icon="delete"
-            color="red"
-            @click="eliminar(props.row)"
-          />
+          <div class="row q-gutter-xs">
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="visibility"
+                color="info"
+                @click="verarchivos(props.row)"
+              />
+            </div>
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="delete"
+                color="red"
+                @click="eliminar(props.row)"
+              />
+            </div>
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -84,6 +97,15 @@
     <q-dialog v-model="upload">
       <q-card>
         <Upload @click="guardararcadj" />
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="visor">
+      <q-card>
+        <div v-for="item in arcadjs">
+          <a :href="item.url" target="_blank">{{ item.url }}</a>
+        </div>
+
+        <!--        {{ arcadjs }}-->
       </q-card>
     </q-dialog>
   </div>
@@ -111,6 +133,9 @@ export default {
   },
   data() {
     return {
+      arcadjs: "",
+      visor: false,
+      data_visor: "",
       upload: false,
       filter: "",
       tipo: 1,
@@ -203,8 +228,48 @@ export default {
       "call_listar_detall_ordcom",
       "call_delete_ordcom",
       "call_listar_ordcom",
-      "call_insert_arcadj"
+      "call_insert_arcadj",
+      "call_listar_arcadj_ordcom"
     ]),
+    async verarchivos(val) {
+      try {
+        let URLS = [];
+        console.log(val);
+        // co_ordcom
+        const archivo = await this.call_listar_arcadj_ordcom({
+          co_ordcom: val.co_ordcom
+        });
+        const array = archivo.operac;
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index];
+          console.log(element);
+          const conteo = `${element.co_arcadj}`;
+          const conteoNuevo = conteo.length;
+          console.log("conteo", conteo.length);
+          console.log("elemento", element);
+          if (conteoNuevo > 7) {
+            console.log(`${process.env.Imagen_URL}/files/${element.co_arcadj}`);
+            URLS.push({
+              url: `${process.env.Imagen_URL}/files/${element.co_arcadj}`
+            });
+          } else {
+            console.log(
+              `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            );
+            URLS.push({
+              url: `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            });
+          }
+        }
+        this.arcadjs = URLS;
+        this.visor = true;
+      } catch (e) {
+        console.log(e);
+        this.$q.notify({
+          message: "Intente en otro momento"
+        });
+      }
+    },
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("logisticas/dialogCrear", true);
@@ -240,7 +305,7 @@ export default {
             console.log("Eliminar", val);
             const responseEliminar = await this.call_delete_ordcom({
               co_ordcom: val.co_ordcom,
-              co_person: 92
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person
             });
             console.log(responseEliminar.res);
             if (responseEliminar.res === "ok") {

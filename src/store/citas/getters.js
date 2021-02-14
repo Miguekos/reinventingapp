@@ -2,6 +2,18 @@ import { date } from "quasar";
 
 let timeStamp = Date.now();
 
+export function colorDeCita(val) {
+  if (val === "1") {
+    return "orange";
+  } else if (val === "2") {
+    return "green";
+  } else if (val === "3") {
+    return "blue";
+  } else if (val === "4") {
+    return "red";
+  }
+}
+
 export function getCitas(state) {
   // co_citope: 15
   // co_docide: "44826152"
@@ -22,11 +34,12 @@ export function getCitas(state) {
   // console.log(formattedString);
   for (let index = 0; index < state.getCitas.length; index++) {
     const element = state.getCitas[index];
+    // console.log("Fecha de la tabla", element.co_plaveh, element.fe_progra);
     const fechaNueva = date.formatDate(
       element.fe_progra,
       "YYYY-MM-DDTHH:mm:ss"
     );
-    // console.log(fechaNueva);
+    // console.log("fechaNueva", fechaNueva);
     const fechaFin = date.addToDate(element.fe_progra, { hours: 1 });
     const fechaFinF = date.formatDate(fechaFin, "YYYY-MM-DDTHH:mm:ss");
     // console.log(fechaFinF);
@@ -54,7 +67,7 @@ export function getCitas(state) {
         dateTime: fechaFinF,
         timeZone: "America/Lima"
       },
-      color: "orange",
+      color: colorDeCita(element.ti_estcit),
       attendees: [
         {
           id: index,

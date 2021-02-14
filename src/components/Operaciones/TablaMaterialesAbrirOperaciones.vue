@@ -8,10 +8,10 @@
       dense
       :title="titulo"
       :data="info"
+      :columns="columns"
       row-key="name"
       :pagination="pagination"
       :hide-header="hideheader"
-      :hide-bottom="hidebottom"
     >
       <!-- <template v-slot:top-right>
         <q-btn
@@ -31,19 +31,19 @@ export default {
   props: {
     info: {
       type: Array,
-      default: function () {
+      default: function() {
         return [];
-      },
+      }
     },
     titulo: {
-      type: String,
+      type: String
     },
     hideheader: {
-      type: Boolean,
+      type: Boolean
     },
     hidebottom: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data() {
     return {
@@ -51,47 +51,132 @@ export default {
         sortBy: "desc",
         descending: false,
         page: 1,
-        rowsPerPage: 8,
+        rowsPerPage: 8
         // rowsNumber: xx if getting data from a server
       },
       columns: [
         {
-          name: "name",
-          required: true,
-          label: "Dessert (100g serving)",
+          name: "co_operac",
           align: "left",
-          field: (row) => row.name,
-          format: (val) => `${val}`,
-          sortable: true,
+          label: "Operacion",
+          field: "co_operac",
+          sortable: true
         },
         {
-          name: "calories",
+          name: "co_vehicu",
+          align: "left",
+          label: "Vehiculo",
+          field: "co_vehicu",
+          sortable: true
+        },
+        {
+          name: "co_plaveh",
+          align: "left",
+          label: "Placa",
+          field: "co_plaveh",
+          sortable: true
+        },
+        {
+          name: "co_opemat",
+          align: "left",
+          label: "co_opemat",
+          field: "co_opemat",
+          sortable: true
+        },
+        {
+          name: "no_articu",
+          align: "left",
+          label: "Descripcion",
+          field: "no_articu",
+          sortable: true
+        },
+        {
+          name: "co_materi",
+          align: "left",
+          label: "co_materi",
+          field: "co_materi",
+          sortable: true
+        },
+        {
+          name: "no_materi",
+          align: "left",
+          label: "Nombre",
+          field: "no_materi",
+          sortable: true
+        },
+        {
+          name: "ca_uniori",
+          align: "left",
+          label: "Cantidad",
+          field: "ca_uniori",
+          sortable: true
+        },
+        {
+          name: "im_preori",
+          align: "left",
+          label: "Precio Unitario",
+          field: "im_preori",
+          sortable: true
+        },
+        {
+          name: "im_totori",
+          align: "left",
+          label: "Precio Total",
+          field: "im_totori",
+          sortable: true
+        },
+        {
+          name: "ca_uniaju",
+          align: "left",
+          label: "Cantidad",
+          field: "ca_uniaju",
+          sortable: true
+        },
+        {
+          name: "im_preaju",
+          align: "left",
+          label: "Precio Unitario",
+          field: "im_preaju",
+          sortable: true
+        },
+        {
+          name: "im_totaju",
+          align: "left",
+          label: "Precio Total",
+          field: "im_totaju",
+          sortable: true
+        },
+        {
+          name: "no_estmat",
+          align: "left",
+          label: "Estado",
+          field: "no_estmat",
+          sortable: true
+        },
+        {
+          name: "il_costos",
           align: "right",
-          label: "Calories",
-          field: "calories",
-          sortable: true,
+          label: "Tipo de Servicio",
+          field: "il_costos",
+          sortable: true
         },
-      ],
-      data: [
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
-        },
+          name: "accion",
+          align: "right",
+          label: "Accion",
+          field: "accion",
+          sortable: true
+        }
       ],
+      data: []
     };
   },
   methods: {
     agregarServiciosMateriales() {
       console.log("Se preciono agregarServiciosMateriales");
       this.$emit("click");
-    },
-  },
+    }
+  }
 };
 </script>
 

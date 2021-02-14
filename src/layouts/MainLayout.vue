@@ -24,14 +24,12 @@
           flat
           dense
           round
-          size="sm"
           color="black"
           aria-label="Menu"
           @click="activarProfile"
         >
           <q-avatar>
-            <img width="50px" :src="fotoPerfil" />
-            <!--            <q-badge color="negative" floating>-->
+            <q-img :src="fotoPerfil" />
             <!--              4-->
             <!--            </q-badge>-->
           </q-avatar>
@@ -313,6 +311,107 @@
                     </q-item-section>
                   </q-item>
                 </q-expansion-item>
+
+                <q-expansion-item
+                  class="q-ma-sm navigation-item"
+                  expand-separator
+                  icon="receipt_long"
+                  label="Landing"
+                  :content-inset-level="0.5"
+                >
+                  <q-item
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    active-class="tab-active"
+                    v-ripple
+                    exact
+                    @click="URL('/reportes/landing')"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="description" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>Gestion Landing</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
+              </q-expansion-item>
+
+              <q-expansion-item
+                class="q-ma-sm navigation-item"
+                expand-separator
+                icon="chrome_reader_mode"
+                label="Landing"
+                :content-inset-level="0.5"
+              >
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/chapatumototaxi')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="electric_rickshaw" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Moto taxi</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/motolineal')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="two_wheeler" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Moto lineal</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/taxipropio')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="local_taxi" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Taxi propio</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  active-class="tab-active"
+                  v-ripple
+                  exact
+                  @click="URL('/landing/efectivoaltoque')"
+                >
+                  <q-item-section avatar>
+                    <q-icon name="local_atm" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label>Efectivo al toque</q-item-label>
+                  </q-item-section>
+                </q-item>
               </q-expansion-item>
 
               <q-item
@@ -437,7 +536,7 @@ const linksData = [
     title: "Vehiculos",
     caption: "github.com/quasarframework",
     icon: "directions_car",
-    link: "/vehiculos"
+    link: "/vehiculos",
   },
   // {
   //   title: "Personas",
@@ -449,7 +548,7 @@ const linksData = [
     title: "Citas",
     caption: "github.com/quasarframework",
     icon: "event",
-    link: "/citas"
+    link: "/citas",
   },
   // {
   //   title: "Materiales",
@@ -461,8 +560,8 @@ const linksData = [
     title: "Operaciones",
     caption: "github.com/quasarframework",
     icon: "rule",
-    link: "/operaciones"
-  }
+    link: "/operaciones",
+  },
   // {
   //   title: "Logistica",
   //   caption: "github.com/quasarframework",
@@ -485,14 +584,13 @@ export default {
       return formattedString;
     },
     fotoPerfil() {
-      // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.userLocal.co_fotper) {
-        return `https://api.reinventing.com.pe/files/${this.userLocal.co_fotper}`;
+        return `${process.env.Imagen_URL}/files/${this.userLocal.co_fotper}`;
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
     },
-    ...mapState("example", ["dialogIngresoVehicular", "UploadBasic"])
+    ...mapState("example", ["dialogIngresoVehicular", "UploadBasic"]),
   },
   components: {
     EssentialLink,
@@ -500,7 +598,7 @@ export default {
     Test: () => import("pages/Test"),
     DialogIngresoVehicular: () =>
       import("components/Vehiculos/IngresoVehicular"),
-    TagUploadBasic: () => import("components/Upload/UploadBasic")
+    TagUploadBasic: () => import("components/Upload/UploadBasic"),
   },
   data() {
     return {
@@ -512,11 +610,11 @@ export default {
         last_name: "",
         age: null,
         email: "",
-        phone: ""
+        phone: "",
       },
       dialogPerfil: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
     };
   },
   methods: {
@@ -548,12 +646,12 @@ export default {
         // icon: "favorite",
         color: "white",
         textColor: "blue-5",
-        position: "top"
+        position: "top",
       });
       this.$q.loading.hide();
       // }, 2000);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

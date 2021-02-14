@@ -52,14 +52,39 @@ const routes = [
       {
         path: "reportes/produccionoperaciones",
         component: () =>
-          import("components/Reportes/Operaciones/ProduccionOperaciones/ProduccionOperaciones")
+          import(
+            "components/Reportes/Operaciones/ProduccionOperaciones/ProduccionOperaciones"
+          )
       },
       {
         path: "reportes/seguimientomantenimiento",
         component: () =>
-          import("components/Reportes/Operaciones/SeguimientoMantenimiento/SeguimientoMantenimiento")
+          import(
+            "components/Reportes/Operaciones/SeguimientoMantenimiento/SeguimientoMantenimiento"
+          )
       },
-
+      {
+        path: "reportes/landing",
+        component: () => import("components/Reportes/Landing/Landing")
+      },
+      {
+        path: "landing/chapatumototaxi",
+        component: () =>
+          import("components/Landing/Chapatumototaxi/Chapatumototaxi")
+      },
+      {
+        path: "landing/motolineal",
+        component: () => import("components/Landing/Motolineal/Motolineal")
+      },
+      {
+        path: "landing/taxipropio",
+        component: () => import("components/Landing/Taxipropio/Taxipropio")
+      },
+      {
+        path: "landing/efectivoaltoque",
+        component: () =>
+          import("components/Landing/Efectivoaltoque/Efectivoaltoque")
+      }
     ]
   },
   {

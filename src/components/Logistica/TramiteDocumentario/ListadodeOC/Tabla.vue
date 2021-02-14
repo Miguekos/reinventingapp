@@ -57,13 +57,26 @@
       </template>
       <template v-slot:body-cell-accion="props">
         <q-td :props="props">
-          <q-btn
-            size="xs"
-            round
-            icon="delete"
-            color="red"
-            @click="eliminar(props.row)"
-          />
+          <div class="row q-gutter-xs">
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="visibility"
+                color="info"
+                @click="verarchivos(props.row)"
+              />
+            </div>
+            <div>
+              <q-btn
+                size="xs"
+                round
+                icon="delete"
+                color="red"
+                @click="eliminar(props.row)"
+              />
+            </div>
+          </div>
         </q-td>
       </template>
     </q-table>
@@ -84,6 +97,15 @@
     <q-dialog v-model="upload">
       <q-card>
         <Upload @click="guardararcadj" />
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="visor">
+      <q-card>
+        <div v-for="item in arcadjs">
+          <a :href="item.url" target="_blank">{{ item.url }}</a>
+        </div>
+
+        <!--        {{ arcadjs }}-->
       </q-card>
     </q-dialog>
   </div>
@@ -109,6 +131,8 @@ export default {
   },
   data() {
     return {
+      arcadjs: "",
+      visor: false,
       upload: false,
       filter: "",
       tipo: 1,
@@ -173,15 +197,15 @@ export default {
           sortable: true
         },
         {
-          name: "fe_autori",
+          name: "fe_solici",
           label: "Visado Solicitante",
-          field: "fe_autori",
+          field: "fe_solici",
           sortable: true
         },
         {
-          name: "fe_gerenc",
+          name: "fe_jefaut",
           label: "Visado Jefatura",
-          field: "fe_gerenc",
+          field: "fe_jefaut",
           sortable: true
         },
         {
@@ -206,8 +230,48 @@ export default {
       "call_listar_detall_tradoc",
       "call_delete_tradoc",
       "call_listar_tradoc",
-      "call_insert_arcadj"
+      "call_insert_arcadj",
+      "call_listar_arcadj_tradoc"
     ]),
+    async verarchivos(val) {
+      try {
+        let URLS = [];
+        console.log(val);
+        // co_tradoc
+        const archivo = await this.call_listar_arcadj_tradoc({
+          co_tradoc: val.co_tradoc
+        });
+        const array = archivo.operac;
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index];
+          console.log(element);
+          const conteo = `${element.co_arcadj}`;
+          const conteoNuevo = conteo.length;
+          console.log("conteo", conteo.length);
+          console.log("elemento", element);
+          if (conteoNuevo > 7) {
+            console.log(`${process.env.Imagen_URL}/files/${element.co_arcadj}`);
+            URLS.push({
+              url: `${process.env.Imagen_URL}/files/${element.co_arcadj}`
+            });
+          } else {
+            console.log(
+              `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            );
+            URLS.push({
+              url: `http://sistema.reinventing.com.pe/image?co_archiv=${element.co_arcadj}`
+            });
+          }
+        }
+        this.arcadjs = URLS;
+        this.visor = true;
+      } catch (e) {
+        console.log(e);
+        this.$q.notify({
+          message: "Intente en otro momento"
+        });
+      }
+    },
     async crearOC() {
       console.log("Crear O/C");
       this.$store.commit("tramites/dialogCrear", true);
@@ -217,7 +281,7 @@ export default {
         this.$q.loading.show();
         console.log("Se guardo");
         await this.call_insert_arcadj({
-          nu_tradoc: this.select_to_arca.co_tradoc,
+          co_tradoc: this.select_to_arca.co_tradoc,
           co_arcadj: this.$store.state.example.arcadj,
           ti_accion: "I"
         });
@@ -249,7 +313,7 @@ export default {
             console.log("Eliminar", val);
             const responseEliminar = await this.call_delete_tradoc({
               co_tradoc: val.co_tradoc,
-              co_person: 95
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person
             });
             if (responseEliminar.res === "ok") {
               await this.call_listar_tradoc({

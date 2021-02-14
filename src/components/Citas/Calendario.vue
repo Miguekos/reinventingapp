@@ -171,7 +171,7 @@ export default {
       this.dataCita = val;
       this.fixed = true;
     },
-    confirm() {
+    async confirm() {
       console.log(this.dataCita.attendees[0].infocita);
       this.$store.commit(
         "example/dataIngresoVehicular",

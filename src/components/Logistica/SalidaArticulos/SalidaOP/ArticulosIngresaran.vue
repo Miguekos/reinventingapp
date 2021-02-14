@@ -115,7 +115,7 @@ export default {
       this.$q.loading.show();
       console.log(val);
       await this.call_quitar_produc_agrega_ingsal({
-        co_person: "92",
+        co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
         fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_prikey: val.co_prikey,
         co_articu: val.co_articu,
@@ -125,7 +125,7 @@ export default {
       });
       await this.call_listar_produc_agrega_ingsal({
         fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-        co_person: "92",
+        co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
         il_unineg: "OP",
         ti_ingsal: "2"
       });

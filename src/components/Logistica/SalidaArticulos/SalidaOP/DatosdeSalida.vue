@@ -167,7 +167,7 @@ export default {
           console.log("element", element);
           await this.call_grabar_transa_ingsal({
             fe_regist: element.fe_regist,
-            co_person: "92",
+            co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
             il_unineg: "OP",
             ti_ingsal: "2",
             co_empres: "19",

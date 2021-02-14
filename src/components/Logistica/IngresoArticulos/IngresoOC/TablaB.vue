@@ -106,7 +106,7 @@ export default {
     ]),
     async eliminar() {
       await this.call_quitar_produc_agrega_ingsal({
-        co_person: "92",
+        co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
         fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
         co_prikey: "75",
         co_articu: null,
@@ -118,7 +118,7 @@ export default {
     async grabar() {
       await this.call_grabar_transa_ingsal({
         fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-        co_person: "92",
+        co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
         il_unineg: "OP",
         ti_ingsal: "2",
         co_empres: "19",

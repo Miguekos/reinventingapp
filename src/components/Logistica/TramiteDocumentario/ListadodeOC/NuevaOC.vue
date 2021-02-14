@@ -122,7 +122,7 @@
             <div class="col-12">
               <q-uploader
                 auto-upload
-                url="https://api.reinventing.com.pe/upload"
+                :url="urlimagen"
                 label="Adjuntar Archivo"
                 color="primary"
                 text-color="black"
@@ -167,6 +167,9 @@ export default {
       set(value) {
         this.$store.commit("main/foo", value);
       }
+    },
+    urlimagen() {
+      return `${process.env.Imagen_URL}/upload`;
     }
   },
   name: "CreaVehiculos",
@@ -227,7 +230,7 @@ export default {
         message: response
       });
       console.log(response);
-      // this.$store.commit("example/arcadj", response);
+      this.$store.commit("example/arcadj", response);
     },
     filterFn(val, update, abort) {
       let asd = [];
@@ -266,7 +269,7 @@ export default {
       this.loadboton = true;
       try {
         const responseService = await this.call_insert_tradoc({
-          pn_regist: 95,
+          pn_regist: this.$q.localStorage.getAll().UserDetalle.co_person,
           pn_solici: `${this.solicitante}`,
           co_perjur: `${this.proveedor}`,
           co_moneda: `${this.moneda}`,
@@ -274,7 +277,7 @@ export default {
           fe_tradoc: `${this.fechadetramite}`,
           il_conigv: `${this.conigv}`,
           ti_docume: `${this.tipodedocumento}`,
-          co_arcadj: `${this.co_arcadj}`
+          co_arcadj: `${this.$store.state.example.arcadj}`
         });
         console.log("responseService", responseService);
         if (responseService.res == "ok") {

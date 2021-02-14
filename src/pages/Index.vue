@@ -55,7 +55,7 @@ export default {
     fotoPerfil() {
       // https://cdn.quasar.dev/img/boy-avatar.png
       if (this.userLocal.co_fotper) {
-        return `https://api.reinventing.com.pe/files/${this.userLocal.co_fotper}`;
+        return `${process.env.Imagen_URL}/files/${this.userLocal.co_fotper}`;
       } else {
         return `https://cdn.quasar.dev/img/boy-avatar.png`;
       }
@@ -67,6 +67,7 @@ export default {
     };
   },
   created() {
+    console.log(`${process.env.Imagen_URL}`);
     this.$store.commit("example/location", "");
   }
 };

@@ -109,30 +109,34 @@ export default {
           field: "no_razsoc",
           sortable: true
         },
-        { name: "no_ordtra", label: "Tramite Documentario", field: "no_ordtra" },
-        { name: "co_barras", label: "Co_barras", field: "co_barras" },
-        { name: "no_articu", label: "No_articu", field: "no_articu" },
+        {
+          name: "no_ordtra",
+          label: "Tramite Documentario",
+          field: "no_ordtra"
+        },
+        { name: "co_barras", label: "Codigo", field: "co_barras" },
+        { name: "no_articu", label: "Nombre", field: "no_articu" },
         {
           name: "co_unimed",
-          label: "Co_unimed",
+          label: "Unidad de Medida",
           field: "co_unimed",
           sortable: true
         },
         {
           name: "ca_articu",
-          label: "Ca_articu",
+          label: "Can. Artículo",
           field: "ca_articu",
           sortable: true
         },
         {
           name: "ca_ingres",
-          label: "Ca_ingres",
+          label: "Can. Ingresado",
           field: "ca_ingres",
           sortable: true
         },
         {
           name: "ca_pendie",
-          label: "Ca_pendie",
+          label: "Can. Pendiente",
           field: "ca_pendie",
           sortable: true
         },
@@ -161,7 +165,7 @@ export default {
           console.log("element", element);
           if (element.ingresa) {
             await this.call_insert_produc_ingsal({
-              co_person: "92",
+              co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
               fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
               co_prikey: element.co_ordtra,
               co_articu: element.co_articu,
@@ -173,13 +177,13 @@ export default {
         }
         await this.call_listar_docume_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "TD",
           ti_ingsal: "1"
         });
         await this.call_listar_produc_agrega_ingsal({
           fe_regist: date.formatDate(timeStamp, "YYYY-MM-DD"),
-          co_person: "92",
+          co_person: this.$q.localStorage.getAll().UserDetalle.co_person,
           il_unineg: "TD",
           ti_ingsal: "1"
         });

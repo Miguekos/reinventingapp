@@ -150,6 +150,14 @@ const actions = {
     const response = await axiosInstance.post(`/ordcom/insert_arcadj`, payload);
     return response.data;
     // commit("get_update_tradoc", response.data);
+  },
+  async call_listar_arcadj_ordcom({ commit }, payload) {
+    const response = await axiosInstance.post(
+      `/ordcom/listar_arcadj_ordcom`,
+      payload
+    );
+    return response.data;
+    // commit("get_listar_arcadj_ordcom", response.data);
   }
 };
 
