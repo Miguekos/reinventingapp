@@ -247,3 +247,15 @@ import { MixinDefault } from "../../../../mixins/mixin";
             </q-th>
           </q-tr>
         </template>
+
+
+
+
+#para buildear desarrollo -> ruta: /usr/local/dockerapps/reinventingapp
+docker-compose -f docker-compose_dev.yml up -d --build
+
+
+#para buildear produccion -> /usr/local/dockerapps/pro_reinventing
+docker-compose -f docker-compose_pro.yml build
+docker-compose -f docker-compose_pro.yml down
+docker-compose -f docker-compose_pro.yml up -d
