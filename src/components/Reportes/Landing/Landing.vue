@@ -2,10 +2,10 @@
   <div class="q-pa-md">
     <div class="row" align="center">
       <div class="col-2"></div>
-      <div class="col-8 q-pb-md">
+      <div class="col-md-10 col-xs-12 q-pb-md">
         <q-form @submit="buscarOperaciones">
           <div class="row">
-            <div class="col-xs-12 col-sm-4 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-input
                 clearable
                 filled
@@ -35,7 +35,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-12 col-sm-4 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-input
                 clearable
                 filled
@@ -65,7 +65,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-12 col-sm-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-3 q-pa-xs">
               <q-select
                 filled
                 dense
@@ -78,13 +78,13 @@
                 label="Tipo de Reporte"
               />
             </div>
-            <div class="col-xs-12 col-sm-2 q-pa-xs">
+            <div class="col-xs-12 col-sm-1 q-pa-xs">
               <q-btn size="md" color="red" type="submit" icon-right="search" />
             </div>
           </div>
         </q-form>
       </div>
-      <div class="col-2"></div>
+      <div class="col-0"></div>
     </div>
     <div>
       <!-- TablaServicios -->
