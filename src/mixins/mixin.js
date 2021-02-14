@@ -5,6 +5,12 @@ const MixinDefault = {
   data() {
     return {
       labels: {
+        no_asesor : "Asesor",
+        no_zongeo : "Zona Geográfica",
+        ti_landin : "código Tipo",
+        ca_precal: "Cant. Precalificados",
+        ca_singes: "Cant. Sin Gestión",
+        ca_totges: "Cant. Total",
         no_coment: "Comentario",
         no_estlla: "Est. llamada",
         no_estdoc: "Est. Documento",
